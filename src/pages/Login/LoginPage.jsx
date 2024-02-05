@@ -3,7 +3,7 @@ import logo from '../../assets/img/neocafe-logo.png'
 import bg from '../../assets/img/login-bg.jpg'
 import styles from './styles.module.scss'
 
-const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubmit, values}) => {
+const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubmit, values, error, errors, touched}) => {
   return (
     <div className={styles.root}>
       <div>
@@ -14,16 +14,20 @@ const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubm
             <form onSubmit={handleSubmit}>
               <input 
               type="email" 
+              className={error ? styles.error : styles.input}
               placeholder='Электронная почта' 
               onChange={handleChange}
               onBlur={handleBlur}
               value={values && values.email}
               id='email'
-              autoComplete='off' 
-              required
+              autoComplete='off'               
               />
+              
+              {errors.email && touched.email && <p className={styles.errors}>{errors.email}</p>}
+
               <input 
               type="password" 
+              className={error ? styles.error : styles.input}
               placeholder='Пароль'
               onChange={handleChange} 
               onBlur={handleBlur}
@@ -32,6 +36,8 @@ const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubm
               id='password'
               required
               />
+              {errors.password && touched.password && <p className={styles.errors}>{errors.password}</p>}
+
               <button type="submit" disabled={isSubmitting ? "disabled" : ""} className={styles.btn}>Отправить</button>
             </form>
           </div>

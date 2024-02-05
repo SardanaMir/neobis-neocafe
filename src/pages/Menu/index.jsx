@@ -111,9 +111,17 @@ const onShowSizeChange = (current, pageSize) => {
 }
 
 const Menu = () => {
+    const handleOpenModal = () => openModal({
+        name: 'addCategory', 
+        props:{
+            onChange: () => {},
+            title: 'Добавить категорию'
+    }})
+
   return (
     <div className={styles.root}>
         <div className={styles.wrapper}>
+            {/* header таблицы */}
             <header className={styles.header}>
                 <p>Наименование</p>
                 <div className={styles.flex}>
@@ -127,7 +135,7 @@ const Menu = () => {
                 <p>Стоимость</p>
                 <p>Филиал</p>
             </header>
-
+            {/* popup */}
             <div className={styles.popup}>
                 <div className={styles.popupWrapper}>
                     <div className={styles.flex}>
@@ -148,7 +156,7 @@ const Menu = () => {
                     </div>
                 </div>
             </div>
-
+            {/* тело таблицы */}
             {data.map(item => (
             <div className={styles.itemWrapper}>
                 <p>{item.name}</p>
@@ -159,6 +167,7 @@ const Menu = () => {
                 <img src={images.action} alt="действия" />
             </div>
             ))}
+            {/* пагинация */}
             <div className={styles.pagination}>
                 <Pagination
                     showSizeChanger

@@ -1,33 +1,9 @@
 import React from 'react'
 import logo from '../../assets/img/neocafe-logo.png'
 import bg from '../../assets/img/login-bg.jpg'
-import { useFormik } from 'formik';
 import styles from './styles.module.scss'
 
-const Login = () => {
-
-  const onSubmit = async () =>{
-    console.log(values.email, values.password)
-    try{
-
-    }catch(err){
-      console.log('error')
-    }
-  }
-
-  const {
-    values,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-} = useFormik({
-    initialValues: {
-    email: "",
-    password: "",
-    },
-    onSubmit,
-  });
+const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubmit, values}) => {
   return (
     <div className={styles.root}>
       <div>
@@ -41,7 +17,7 @@ const Login = () => {
               placeholder='Электронная почта' 
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.email}
+              value={values && values.email}
               id='email'
               autoComplete='off' 
               required
@@ -51,22 +27,22 @@ const Login = () => {
               placeholder='Пароль'
               onChange={handleChange} 
               onBlur={handleBlur}
-              value={values.password}
+              value={values && values.password}
               autoComplete='off' 
               id='password'
               required
               />
-              <button type="submit" disabled={isSubmitting} className={styles.btn}>Отправить</button>
+              <button type="submit" disabled={isSubmitting ? "disabled" : ""} className={styles.btn}>Отправить</button>
             </form>
           </div>
         </div>
       </div>
 
       <div className={styles.box}>
-        <img className={styles.img} src={bg} alt="2 cups of coffee" />
+        <img className={styles.img} src={bg} alt="3 cups of coffee" />
       </div>
     </div>
   )
 }
 
-export default Login
+export default LoginPage

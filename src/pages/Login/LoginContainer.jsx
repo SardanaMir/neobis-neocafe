@@ -1,0 +1,62 @@
+import React, { useState } from 'react'
+import { useFormik } from 'formik';
+import * as yup from "yup";
+import LoginPage from './LoginPage'
+
+const LoginContainer = () => {
+  const [error, setError] = useState(false);
+
+  const basicSchema = yup.object().shape({
+    email: yup
+    .string()
+    .email("Введите e-mail")
+    .required("Введите e-mail"),
+  
+    password: yup
+    .string()
+    .min(5, 'Минимум 5 символов')
+    .required("Введите пароль"),
+  });
+
+  const onSubmit = async () =>{
+    console.log(values.email, values.password)
+    try{
+      setError(true)
+ 
+    }catch(err){
+      setError(true)
+    }
+  }
+  const {
+    values,
+    isSubmitting,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    errors,
+    touched
+  } = useFormik({
+    initialValues: {
+    email: "",
+    password: "",
+    },
+    onSubmit,
+    validationSchema: basicSchema
+  });
+    
+  return (
+    <LoginPage 
+    onSubmit={onSubmit} 
+    isSubmitting={isSubmitting} 
+    handleBlur={handleBlur}
+    handleChange={handleChange}
+    handleSubmit={handleSubmit}
+    values={values}
+    error={error}
+    errors={errors}
+    touched={touched}
+    />
+  )
+}
+
+export default LoginContainer

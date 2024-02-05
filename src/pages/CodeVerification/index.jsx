@@ -1,9 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
 import logo from '../../assets/img/neocafe-logo.png'
 import bg from '../../assets/img/login-bg.jpg'
+import OtpInput from 'react-otp-input';
 import styles from './styles.module.scss'
 
 const CodeVerification = () => {
+  const [otp, setOtp] = useState();
+  
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    console.log(otp)
+    try{
+
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <div className={styles.root}>
@@ -12,11 +24,21 @@ const CodeVerification = () => {
         <div className={styles.container}>
           <div className={styles.wrapper}>
             <h2 className={styles.title}>Код подтверждения</h2>
-            <form>
-              <input type="text" />
-              <button className={styles.btn}>Войти</button>
-              <p className={styles.text}>Отправить повторно</p>
+            <form className={styles.form} onSubmit={handleSubmit}>
+            <OtpInput
+              inputStyle={styles.inputStyle}
+              containerStyle={styles.containerStyle}
+              value={otp}
+              onChange={setOtp}
+              numInputs={4}
+              renderSeparator={<span></span>}
+              renderInput={(props) => <input {...props} />}
+              inputType='number'
+              skipDefaultStyles
+            />
+              <button type="submit" className={styles.btn}>Войти</button>
             </form>
+            <p className={styles.text}>Отправить повторно</p>
           </div>
         </div>
       </div>

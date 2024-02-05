@@ -117,7 +117,7 @@ const Menu = () => {
             <header className={styles.header}>
                 <p>Наименование</p>
                 <div className={styles.flex}>
-                    <p>Категория</p>
+                    <p className={styles.category}>Категория</p>
                     <img src={images.arrowDown} alt="стрелка вниз" />
                 </div>
                 <div className={styles.flex}>
@@ -127,9 +127,28 @@ const Menu = () => {
                 <p>Стоимость</p>
                 <p>Филиал</p>
             </header>
-            <div className={styles.popup}>
 
+            <div className={styles.popup}>
+                <div className={styles.popupWrapper}>
+                    <div className={styles.flex}>
+                        <p>Категория</p>
+                        <img src={images.arrowUp} alt="стрелка вверх" />
+                    </div>
+                    <div>Кофе</div>
+                    <div>Выпечка</div>
+                    <div>Коктейли</div>
+                    <div>Десерты</div>
+                    <div className={styles.flex}>
+                        <div>Чай</div>
+                        <img src={images.trash} alt="удалить" />
+                    </div>
+                    <div className={styles.flex}>
+                        <div className={styles.add}>Добавить</div>
+                        <img src={images.plus} alt="плюс" />
+                    </div>
+                </div>
             </div>
+
             {data.map(item => (
             <div className={styles.itemWrapper}>
                 <p>{item.name}</p>

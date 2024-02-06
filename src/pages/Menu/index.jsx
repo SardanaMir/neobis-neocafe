@@ -1,6 +1,8 @@
 import React from 'react'
 import images from '../../assets/images.js'
 import { Pagination } from 'antd';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../redux/slices/modalSlice.js';
 import styles from './style.module.scss'
 
 const data = [
@@ -111,12 +113,18 @@ const onShowSizeChange = (current, pageSize) => {
 }
 
 const Menu = () => {
-    const handleOpenModal = () => openModal({
-        name: 'addCategory', 
-        props:{
-            onChange: () => {},
-            title: 'Добавить категорию'
-    }})
+    const dispatch = useDispatch();
+
+    const handleOpenModal = () => {
+      dispatch(openModal({
+        modalType: 'addCategory',
+        modalProps: {
+        //   onChange: () => {},
+          title: 'Новая категория',
+          subtitle: 'Наименование',
+        },
+      }));
+    };
 
   return (
     <div className={styles.root}>
@@ -150,15 +158,15 @@ const Menu = () => {
                         <div>Чай</div>
                         <img src={images.trash} alt="удалить" />
                     </div>
-                    <div className={styles.flex}>
+                    <div onClick={handleOpenModal} className={styles.flex}>
                         <div className={styles.add}>Добавить</div>
-                        <img src={images.plus} alt="плюс" />
+                        <img  src={images.plus} alt="плюс" />
                     </div>
                 </div>
             </div>
             {/* тело таблицы */}
-            {data.map(item => (
-            <div className={styles.itemWrapper}>
+            {data.map((item, index) => (
+            <div className={styles.itemWrapper} key={index}>
                 <p>{item.name}</p>
                 <p>{item.category}</p>
                 <p>{item.ingredients}</p>

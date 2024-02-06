@@ -1,0 +1,140 @@
+.root{
+    display: flex;
+    background-color: #fcfcfc;
+    justify-content: space-between;
+
+}
+.container{
+    display: flex;
+    align-items: center;
+    padding: 0 100px;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 534px;
+    align-items: center;
+    margin-top: 50px;
+}
+.input{
+    width: calc(100% - 10px);
+    height: 66px;
+    padding-left: 10px;
+    border-radius: 20px;
+    border: none;
+    background: rgb(235, 239, 242);
+    margin-top: 32px;
+    &:focus{
+        outline: none;
+    }
+}
+.logo{
+    margin-left: 32px;
+    margin-top: 32px;
+}
+.btn{
+    width: 100%;
+    height: 70px;
+    padding: 19px 158px 19px 158px;
+    border-radius: 20px;
+    background: rgba(53, 83, 107);
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600; 
+    margin-top: 48px; 
+    cursor: pointer; 
+}
+.title {
+    font-size: 72px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0%;
+    line-height: 72px;
+}
+.img{
+    height: 100vh;
+}
+.box{
+    padding: 10px;
+}
+.error{
+    width: calc(100% - 10px);
+    height: 66px;
+    padding-left: 10px;
+    color: rgb(244, 86, 86);
+    box-sizing: border-box;
+    border: 1px solid rgb(244, 86, 86);
+    border-radius: 20px;
+    background: rgb(235, 239, 242);
+    margin-top: 32px;
+    &:focus{
+        outline: none;
+    }
+}
+.text{
+    color: rgb(95, 99, 102);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 72px;
+    text-align: center;
+    text-decoration-line: underline;
+    margin-top: 24px;
+    cursor: pointer;
+}
+.inputStyle{
+    width: 66px;
+    height: 66px;
+    border-radius: 10px;
+    background: rgb(235, 239, 242);
+    border: none;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+    color: rgb(244, 86, 86);
+    &:focus{
+        outline: none;
+    }
+}
+.inputStyleError{
+    width: 66px;
+    height: 66px;
+    border-radius: 10px;
+    background: rgb(235, 239, 242);
+    border: none;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+    &:focus{
+        outline: none;
+    }
+}
+.containerStyle{
+    justify-content: center;
+    gap: 12px;
+}
+.form{
+    margin-top: 50px;
+    position: relative;
+}
+.errors{
+    position: absolute;
+    top: 255px;
+    color: rgb(244, 86, 86);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 100%;
+    text-align: left;
+    margin-top: 20px;
+}
+.textErr{
+    color: rgb(244, 86, 86);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 72px;
+    text-align: center;
+    text-decoration-line: underline;
+    margin-top: 24px;
+    cursor: pointer;
+}
+

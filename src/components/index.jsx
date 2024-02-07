@@ -1,13 +1,15 @@
 import React from 'react'; // Необходим импорт React
 import { useDispatch, useSelector } from 'react-redux';
 import AddCategoryModal from "./Modals/AddCategoryModal";
+import DeleteCategory from './Modals/DeleteCategory'
 
 const Modals = () => {
     const { isOpen, modalType, modalProps } = useSelector((state) => state.modal);
     const dispatch = useDispatch();
 
     const ModalsMap = {
-        addCategory: AddCategoryModal
+        addCategory: AddCategoryModal,
+        deleteCategory: DeleteCategory
     }
     const CurrentModal = modalType ? ModalsMap[modalType] : null;
 

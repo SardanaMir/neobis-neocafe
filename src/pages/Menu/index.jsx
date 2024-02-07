@@ -125,7 +125,16 @@ const Menu = () => {
         },
       }));
     };
-
+    const handleDeleteCategory = () => {
+        dispatch(openModal({
+          modalType: 'deleteCategory',
+          modalProps: {
+          //   onChange: () => {},
+            title: 'Удаление',
+            subtitle: 'Вы действительно хотите удалить категорию “Чай” ?',
+          },
+        }));
+    };
   return (
     <div className={styles.root}>
         <div className={styles.wrapper}>
@@ -156,7 +165,7 @@ const Menu = () => {
                     <div>Десерты</div>
                     <div className={styles.flex}>
                         <div>Чай</div>
-                        <img src={images.trash} alt="удалить" />
+                        <img onClick={handleDeleteCategory} src={images.trash} alt="удалить" />
                     </div>
                     <div onClick={handleOpenModal} className={styles.flex}>
                         <div className={styles.add}>Добавить</div>

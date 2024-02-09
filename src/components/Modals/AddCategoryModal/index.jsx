@@ -1,51 +1,29 @@
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
-import { useFormik } from 'formik';
-import * as yup from "yup";
+import { basicSchema } from '../../../schema';
 import { closeModal } from '../../../redux/slices/modalSlice';
+import { values, isSubmitting, handleBlur, handleChange, handleSubmit, errors, touched } from '../../../FormFile';
 import styles from './style.module.scss'
 
 const AddCategoryModal = (props) => {
   const dispatch = useDispatch();
-  const [error, setError] = useState(false);
 
   const handleOpenModal = () => {
     dispatch(closeModal());
   };
 
-  const basicSchema = yup.object().shape({
-    newCategory: yup
-    .string()
-    .min(5, 'Минимум 5 букв')
-    .max(100, "Максимум 100 букв")
-    .required("Введите категорию")
-  });
-
-  const onSubmit = () =>{
-    console.log(values.newCategory)
-    try{
-      // setError(true)
-    }catch(err){
-      setError(true)
-    }
-  }
-  
-  const {
-    values,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    errors,
-    touched
-  } = useFormik({
-    initialValues: {
-    newCategory: "",
-    },
-    onSubmit,
-    validationSchema: basicSchema
-  });
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    basicSchema.validate(values.newCategory, { abortEarly: false })
+    .then(() => {
+      console.log('Валидация успешна');
+      dispatch(closeModal());
+      //добавить новую категорию
+    })
+    .catch(errors => {
+      console.log('Ошибки валидации:', errors);
+    });
+  };
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
@@ -56,11 +34,11 @@ const AddCategoryModal = (props) => {
           <input 
           className={styles.input} 
           type="text" 
-          onChange={handleChange}
+          onChange={handleChange} 
           onBlur={handleBlur}
-          placeholder='Введите название категории'
+          placeholder={props.placeholder}
           value={values.newCategory}
-          id='new category'
+          id='single input'
           autoComplete='off' 
           />
           <div className={styles.flex}>
@@ -69,7 +47,6 @@ const AddCategoryModal = (props) => {
           </div>
         </form>
       </div>
-      {console.log('render add category', props)}
     </div>
   )
 }

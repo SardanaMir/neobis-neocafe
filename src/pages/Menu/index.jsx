@@ -3,6 +3,8 @@ import images from '../../assets/images.js'
 import { Pagination } from 'antd';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../redux/slices/modalSlice.js';
+import { useFormik } from 'formik';
+import * as yup from "yup";
 import styles from './style.module.scss'
 
 const data = [
@@ -119,12 +121,13 @@ const Menu = () => {
       dispatch(openModal({
         modalType: 'addCategory',
         modalProps: {
-        //   onChange: () => {},
           title: 'Новая категория',
           subtitle: 'Наименование',
+          placeholder: 'Введите название категории',
         },
       }));
     };
+
     const handleDeleteCategory = () => {
         dispatch(openModal({
           modalType: 'deleteCategory',

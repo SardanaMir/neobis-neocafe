@@ -5,6 +5,7 @@ import plus from './img/plus.svg';
 import loginBg from './img/login-bg.jpg';
 import logo from './img/neocafe-logo.png';
 import trash from './img/trash.svg';
+import bell from './img/Bell.svg';
 
 const images = {
   action,
@@ -13,7 +14,8 @@ const images = {
   loginBg,
   logo,
   plus,
-  trash
+  trash,
+  bell
 };
 
 export default images;

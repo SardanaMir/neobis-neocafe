@@ -1,0 +1,19 @@
+select,
+option {
+    appearance: none; /* Убрать стандартный вид в Firefox и Safari */
+    -webkit-appearance: none; /* Убрать стандартный вид в Chrome */
+  width: 487px;
+  height: 66px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border: 1px solid rgb(205, 211, 221);
+  border-radius: 10px;
+  background: rgb(235, 239, 242);
+  color: rgb(23, 23, 23);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer; 
+
+}
+
+

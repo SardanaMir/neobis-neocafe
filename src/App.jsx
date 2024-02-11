@@ -5,12 +5,14 @@ import EditItem from './components/Modals/EditItem'
 import DropDown from './components/DropDown'
 import Menu from './pages/Menu'
 import './App.css'
+import AddNewItem from './components/Modals/AddNewItem'
+import AddNewEmployee from './components/Modals/AddNewEmployee'
 
 function App() {
 
   return (
     <>
-      <EditItem/>
+      <AddNewEmployee/>
     </>
   )
 }

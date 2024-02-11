@@ -12,6 +12,5 @@ export const {
     initialValues: {
         newCategory: "",
     },
-    onSubmit,
     validationSchema: basicSchema
 });

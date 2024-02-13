@@ -10,7 +10,7 @@ export const {
     touched
 } = useFormik({
     initialValues: {
-        newCategory: "",
+        // newCategory: "",
     },
     validationSchema: basicSchema
 });

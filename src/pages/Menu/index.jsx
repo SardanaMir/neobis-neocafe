@@ -140,7 +140,6 @@ const Menu = () => {
       openModal({
         modalType: "deleteCategory",
         modalProps: {
-          //   onChange: () => {},
           title: "Удаление",
           subtitle: "Вы действительно хотите удалить категорию “Чай” ?",
         },

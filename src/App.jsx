@@ -7,12 +7,14 @@ import Menu from './pages/Menu'
 import './App.css'
 import AddNewItem from './components/Modals/AddNewItem'
 import AddNewEmployee from './components/Modals/AddNewEmployee'
+import AddNewCategory from './components/Modals/AddNewCategory'
+// import AddCategoryModal from './components/Modals/AddCategoryModal'
 
 function App() {
 
   return (
     <>
-      <AddNewEmployee/>
+      <Menu/>
     </>
   )
 }

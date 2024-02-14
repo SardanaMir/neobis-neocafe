@@ -1,10 +1,13 @@
 import React from "react";
 import { components } from "../../Buttons";
 import { useFormik } from "formik";
+import { closeModal } from "../../../redux/slices/modalSlice";
 import { basicSchema } from "../../../schema";
 import styles from "./styles.module.scss";
+import { useDispatch } from "react-redux";
 
 const AddNewCategory = ({ title, subtitle, placeholder }) => {
+  const dispatch = useDispatch();
   const { values, errors, touched, isSubmitting, handleBlur, handleChange } =
     useFormik({
       initialValues: {
@@ -17,14 +20,22 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
     e.preventDefault();
     console.log(values.newCategory);
   };
-
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>{title}</h2>
+        <div className={styles.titleWrapper}>
+          <h2 className={styles.title}>{title}</h2>
+          <div className={styles.close} onClick={handleClose}>
+            &times;
+          </div>
+        </div>
         <h3 className={styles.subtitle}>{subtitle}</h3>
         <form onSubmit={handleSubmit}>
           <input
+            className={styles.input}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.newCategory}
@@ -33,7 +44,10 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
             placeholder={placeholder}
           />
           <div className={styles.btnGroup}>
-            <components.WhiteButton title={"Отмена"} />
+            <components.WhiteButton
+              title={"Отмена"}
+              handleClose={handleClose}
+            />
             <components.BlueButton
               type="submit"
               disbled={isSubmitting}

@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteCategory from "./Modals/DeleteCategory";
-import AddNewEmployee from "./Modals/AddNewEmployee";
-import AddNewCategory from "./Modals/AddNewCategory";
+import DeleteCategory from "./DeleteCategory";
+import AddNewEmployee from "./AddNewEmployee";
+import AddNewCategory from "./AddNewCategory";
 const Modals = () => {
 
   const { isOpen, modalType, modalProps } = useSelector((state) => state.modal);

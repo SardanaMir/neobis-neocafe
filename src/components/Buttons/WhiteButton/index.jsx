@@ -4,7 +4,9 @@ import styles from "./style.module.scss";
 const WhiteButton = (props) => {
   return (
     <>
-      <button className={styles.root}>{props.title}</button>
+      <button className={styles.root} onClick={props.handleClose}>
+        {props.title}
+      </button>
     </>
   );
 };

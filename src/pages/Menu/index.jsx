@@ -164,30 +164,7 @@ const Menu = () => {
           <p>Филиал</p>
         </header>
         {/* popup */}
-        <div className={styles.popup}>
-          <div className={styles.popupWrapper}>
-            <div className={styles.flex}>
-              <p>Категория</p>
-              <img src={images.arrowUp} alt="стрелка вверх" />
-            </div>
-            <div>Кофе</div>
-            <div>Выпечка</div>
-            <div>Коктейли</div>
-            <div>Десерты</div>
-            <div className={styles.flex}>
-              <div>Чай</div>
-              <img
-                onClick={handleDeleteCategory}
-                src={images.trash}
-                alt="удалить"
-              />
-            </div>
-            <div onClick={handleOpenModal} className={styles.flex}>
-              <div className={styles.add}>Добавить</div>
-              <img src={images.plus} alt="плюс" />
-            </div>
-          </div>
-        </div>
+
         {/* тело таблицы */}
         {data.map((item, index) => (
           <div className={styles.itemWrapper} key={index}>

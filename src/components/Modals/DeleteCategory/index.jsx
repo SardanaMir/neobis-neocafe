@@ -1,23 +1,27 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../../redux/slices/modalSlice';
+import {components} from '../../Buttons'
 import styles from './style.module.scss';
 
 const DeleteCategory = (props) => {
     const dispatch = useDispatch();
 
-    const handleOpenModal = () => {
+    const handleCloseModal = () => {
         dispatch(closeModal());
     };
+    const deleteCategory = () =>{
+        console.log('удалить категорию')
+    }
   return (
     <div className={styles.root}>
         <div className={styles.wrapper}>
             <h2 className={styles.title}>{props.title}</h2>
-            <div onClick={handleOpenModal} class={styles.close}>&times;</div>
+            <div onClick={handleCloseModal} className={styles.close}>&times;</div>
             <h3 className={styles.subtitle}>{props.subtitle}</h3>
             <div className={styles.flex}>
-                <button className={styles.btnCancel}>Да</button>
-                <button className={styles.btnAdd}>Нет</button>
+                <components.WhiteButton title={'Да'} deleteCategory={deleteCategory}/>
+                <components.BlueButton title={'Нет'} handleCloseModal={handleCloseModal}/>
             </div>
         </div>
     </div>  

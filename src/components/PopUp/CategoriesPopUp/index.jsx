@@ -1,22 +1,46 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../../redux/slices/modalSlice.js";
 import images from "../../../assets/images.js";
 import styles from "./styles.module.scss";
-const CategoriesPopUp = ({handleCategoryClick, setPopUpOpen, handleOpenModal}) => {
+
+const CategoriesPopUp = ({
+  setPopUpOpen,
+  handleOpenModal,
+}) => {
   const [highlightedCategory, setHighlightedCategory] = useState(null);
+  const dispatch = useDispatch();
+
   const categories = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
-  const handleDeleteCategory = () => {
-    console.log("удалить позицию");
+
+  const handleDeleteCategory = (index) => {
+    console.log("удалить позицию", index);
+    dispatch(
+      openModal({
+        modalType: "deleteCategory",
+        modalProps: {
+          title: "Удаление",
+          subtitle: `Вы действительно хотите удалить категорию '${categories[index]}' ?`,
+        },
+      })
+    );
   };
-  const handleAdd = () =>{
-    console.log('вызов модалки добавить категорию')
-    handleOpenModal()
-  }
+
+  const handleAdd = () => {
+    console.log("вызов модалки добавить категорию");
+    handleOpenModal();
+  };
   return (
     <div className={styles.popup}>
       <div className={styles.popupWrapper}>
         <div className={styles.categoryWrapper}>
           <p>Категория</p>
-          <img onClick={() => setPopUpOpen(false)}src={images.arrowUp} alt="стрелка вверх" />
+          <img
+            className={styles.arrowUp}
+            onClick={() => setPopUpOpen(false)}
+            src={images.arrowUp}
+            alt="стрелка вверх"
+          />
         </div>
         {categories.map((category, index) => (
           <div
@@ -25,7 +49,13 @@ const CategoriesPopUp = ({handleCategoryClick, setPopUpOpen, handleOpenModal}) =
             onMouseEnter={() => setHighlightedCategory(index)}
             onMouseLeave={() => setHighlightedCategory(null)}
           >
-            <p className={highlightedCategory === index ? styles.highlighted : ""}>{category}</p>
+            <p
+              className={
+                highlightedCategory === index ? styles.highlighted : ""
+              }
+            >
+              {category}
+            </p>
 
             {highlightedCategory === index && (
               <img

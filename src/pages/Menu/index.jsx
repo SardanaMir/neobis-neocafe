@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useFormik } from "formik";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice.js";
 import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
+import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
 
 const data = [
   {
@@ -122,7 +123,9 @@ const onShowSizeChange = (current, pageSize) => {
 
 const Menu = () => {
   const dispatch = useDispatch();
-  const [isPopUpOpen, setPopUpOpen] = useState(false); // Состояние для отображения PopUp
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
   const tableHead = [
     "Наименование",
@@ -131,6 +134,7 @@ const Menu = () => {
     "Стоимость",
     "Филиал",
   ];
+
   const handleOpenModal = () => {
     dispatch(
       openModal({
@@ -144,20 +148,23 @@ const Menu = () => {
     );
   };
 
-  const handleDeleteCategory = () => {
-    dispatch(
-      openModal({
-        modalType: "deleteCategory",
-        modalProps: {
-          title: "Удаление",
-          subtitle: "Вы действительно хотите удалить категорию “Чай” ?",
-        },
-      })
-    );
+  const handleCategoryClick = () => {
+    setPopUpOpen(!isPopUpOpen);
+  };
+  const handleActionClick = (e) => {
+    setPopupPosition({ x: e.clientX, y: e.clientY });
+    console.log(popupPosition);
+    setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
-  const handleCategoryClick = () => {
-    setPopUpOpen(!isPopUpOpen); // Переключение состояния отображения PopUp
+  const handlePopUpClose = () => {
+    setActionsPopUpOpen(false);
+  };
+  const handleEditModalOpen = () => {
+    console.log("edit modal open");
+  };
+  const handleDeleteModalOpen = () => {
+    console.log("delete modal open");
   };
   return (
     <div className={styles.root}>
@@ -191,7 +198,12 @@ const Menu = () => {
             <p>{item.ingredients}</p>
             <p>{item.price}</p>
             <p>{item.branch}</p>
-            <img src={images.action} alt="действия" />
+            <img
+              className={styles.actionImg}
+              onClick={handleActionClick}
+              src={images.action}
+              alt="действия"
+            />
           </div>
         ))}
         {/* пагинация */}
@@ -206,9 +218,17 @@ const Menu = () => {
         {/* Всплывающее окно для категорий */}
         {isPopUpOpen && (
           <CategoriesPopUp
-            handleCategoryClick={handleCategoryClick}
             setPopUpOpen={setPopUpOpen}
             handleOpenModal={handleOpenModal}
+          />
+        )}
+        {isActionsPopUpOpen && (
+          <EditDeletePopUp
+            x={popupPosition.x}
+            y={popupPosition.y}
+            closePopUp={handlePopUpClose}
+            handleEditModalOpen={handleEditModalOpen}
+            handleDeleteModalOpen={handleDeleteModalOpen}
           />
         )}
       </div>

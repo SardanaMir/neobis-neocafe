@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import images from "../../../assets/images.js";
 import styles from "./styles.module.scss";
-const CategoriesPopUp = () => {
+const CategoriesPopUp = ({handleCategoryClick, setPopUpOpen, handleOpenModal}) => {
   const [highlightedCategory, setHighlightedCategory] = useState(null);
   const categories = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
   const handleDeleteCategory = () => {
@@ -9,13 +9,14 @@ const CategoriesPopUp = () => {
   };
   const handleAdd = () =>{
     console.log('вызов модалки добавить категорию')
+    handleOpenModal()
   }
   return (
     <div className={styles.popup}>
       <div className={styles.popupWrapper}>
-        <div className={styles.flex}>
+        <div className={styles.categoryWrapper}>
           <p>Категория</p>
-          <img src={images.arrowUp} alt="стрелка вверх" />
+          <img onClick={() => setPopUpOpen(false)}src={images.arrowUp} alt="стрелка вверх" />
         </div>
         {categories.map((category, index) => (
           <div

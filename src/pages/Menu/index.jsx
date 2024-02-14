@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice.js";
+import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
 
 const data = [
@@ -121,7 +122,15 @@ const onShowSizeChange = (current, pageSize) => {
 
 const Menu = () => {
   const dispatch = useDispatch();
+  const [isPopUpOpen, setPopUpOpen] = useState(false); // Состояние для отображения PopUp
 
+  const tableHead = [
+    "Наименование",
+    "Категория",
+    "Состав блюд и граммовка",
+    "Стоимость",
+    "Филиал",
+  ];
   const handleOpenModal = () => {
     dispatch(
       openModal({
@@ -146,25 +155,34 @@ const Menu = () => {
       })
     );
   };
+
+  const handleCategoryClick = () => {
+    setPopUpOpen(!isPopUpOpen); // Переключение состояния отображения PopUp
+  };
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
         {/* header таблицы */}
         <header className={styles.header}>
-          <p>Наименование</p>
-          <div className={styles.flex}>
-            <p className={styles.category}>Категория</p>
-            <img src={images.arrowDown} alt="стрелка вниз" />
-          </div>
-          <div className={styles.flex}>
-            <p>Состав блюд и граммовка</p>
-            <img src={images.arrowDown} alt="стрелка вниз" />
-          </div>
-          <p>Стоимость</p>
-          <p>Филиал</p>
+          {tableHead.map((name, index) => (
+            <div
+              key={index}
+              className={
+                name === "Категория" || name === "Филиал" ? styles.flex : null
+              }
+              onClick={name === "Категория" ? handleCategoryClick : null}
+            >
+              <p>{name}</p>
+              {(name === "Категория" || name === "Филиал") && (
+                <img
+                  className={styles.arrowDown}
+                  src={images.arrowDown}
+                  alt="стрелка вниз"
+                />
+              )}
+            </div>
+          ))}
         </header>
-        {/* popup */}
-
         {/* тело таблицы */}
         {data.map((item, index) => (
           <div className={styles.itemWrapper} key={index}>
@@ -185,6 +203,14 @@ const Menu = () => {
             total={data.length}
           />
         </div>
+        {/* Всплывающее окно для категорий */}
+        {isPopUpOpen && (
+          <CategoriesPopUp
+            handleCategoryClick={handleCategoryClick}
+            setPopUpOpen={setPopUpOpen}
+            handleOpenModal={handleOpenModal}
+          />
+        )}
       </div>
     </div>
   );

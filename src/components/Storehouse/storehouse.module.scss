@@ -167,21 +167,5 @@ th:last-child {
 }
 
 
-// Paginaton 
-
-.pagination {
-  li {
-    width: 40px;
-    height: 40px;
-  }
-
-  .ant-pagination-item-active {
-    color: red !important;
-    background-color: red !important;
-  }
-  .ant-pagination-options {
-    display: none;
-  }
-}
  
 

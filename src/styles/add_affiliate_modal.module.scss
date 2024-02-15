@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap');
+
+.affiliate_modal {
+    width: 551px;
+    max-height: 1543px;
+    border-radius: 30px;
+    border: none;
+    background-color: rgb(213, 30, 30);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0;
+
+    h3 {
+        width: 487px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+        color: rgba(42, 52, 64, 1);
+    }
+
+    p {
+        width: 487px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 20px;
+        color: rgba(42, 52, 64, 1);
+        margin-top: 23px;
+    }
+}
+
+
+.btns {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+
+.add__img {
+    width: 487px;
+    height: 208px;
+    border-radius: 12px;
+    border: none;
+    background-color: rgba(235, 239, 242, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    .div {
+        width: 455px;
+        height: 176px;
+        border-radius: 8px;
+        border: 1px dashed rgba(91, 126, 154, 1);
+        background-color: rgba(255, 255, 255, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+            width: 90px;
+            height: 90px;
+            margin-top: 10px;
+        }
+
+        p {
+            width: 263px;
+            height: 42px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: rgba(42, 52, 64, 1);
+            text-align: center;
+            margin-top: 16px;
+
+            span {
+                text-decoration:underline;
+                color: rgba(244, 115, 86, 1);
+            }
+        }
+    }
+}
+
+.inp_span {
+    width: 487px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: rgba(91, 126, 154, 1);
+    margin-top: 20px;
+    margin-bottom: 3px;
+}
+
+.affiliate_modal_inps {
+    width: 487px;
+    height: 64px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgba(235, 239, 242, 1);
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: rgba(95, 99, 102, 1);
+    padding-left: 17px;
+}
+
+.timetable {
+    width: 487px;
+    height: 447px;
+    margin-top: 15px;
+
+    hr {
+        width: 487px;
+        height: 0;
+        border: 1px solid rgb(42, 52, 64);
+    }
+
+    .timetable_title {
+        width: 487px;
+        height: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: rgba(42, 52, 64, 1);
+        }
+    }
+}

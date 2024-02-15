@@ -1,126 +1,179 @@
-.root{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+.root {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
-.wrapper{
-    position: relative;
-    width: 600px;
-    min-height: 285px;
-    border-radius: 20px;
-    background: rgb(255, 255, 255);
-    box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 30px;
-    p{
-        font-weight: 400;
-        color: rgb(91, 126, 154);
-    }
-}
-.container{
-
-}
-.close{
-    position: absolute;
-    top: 0;
-    right: 16px;
-    cursor: pointer;
-    font-size: 40px;
-}
-.title{
-    color: rgb(42, 52, 64);
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 36px;
-    letter-spacing: 0%;
-    text-align: left;
-}
-.subtitle{
-    color: rgb(42, 52, 64);
-    font-size: 20px;
+.wrapper {
+  position: relative;
+  width: 600px;
+  min-height: 285px;
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  // overflow-y: auto;
+  max-height: 90vh;
+  overflow: auto;
+  p {
     font-weight: 400;
-    line-height: 30px;
-    letter-spacing: 0%;
-    text-align: left;
-    margin-top: 24px;
+    color: rgb(91, 126, 154);
+    margin-top: 15px;
+  }
 }
-.btnCancel{
-    width: 260px;
-    height: 56px;
-    left: 32px;
-    top: 246px;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 2px solid rgb(53, 83, 107);
-    border-radius: 10px;    
-    background-color: rgba(0, 0, 0, 0);
-    color: rgb(53, 83, 107);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: 0%;
-    cursor: pointer;
+.container {
 }
-.btnAdd{
-    width: 260px;
-    height: 56px;
-    left: 308px;
-    right: 32px;
-    top: 246px;
-    bottom: 32px;
-    padding: 10px;
-    border-radius: 10px;
-    background: rgb(53, 83, 107);
-    color: rgb(255, 255, 255);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: 0%;
-    border: none;
-    cursor: pointer;
+.close {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  cursor: pointer;
+  font-size: 40px;
 }
-.flex{
-    display: flex;
-    justify-content: space-between;
-    // margin-top: 50px;
+.title {
+  color: rgb(42, 52, 64);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: 0%;
+  text-align: left;
 }
-.upload{
-    width: 504px;
-    height: 176px;
-    display: block;
-    margin: 0 auto;
-    margin-top: 16px;
-    left: 16px;
-    top: 16px;
-    box-sizing: border-box;
-    border: 1px dashed rgb(91, 126, 154);
-    border-radius: 8px;
-    background: rgb(255, 255, 255);
+.subtitle {
+  color: rgb(42, 52, 64);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: 0%;
+  text-align: left;
+  margin-top: 25px;
 }
-input{
-    width: 100%;
-    height: 35px;
-    left: 0;
-    right: 0;
-    top: 24px;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    border-radius: 5px;
-    padding-left: 15px;
-    background: rgb(235, 239, 242);
-    border: none;
-    &:focus{
-        outline: none;
-    }
+.flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
-.priceInput{
-    width: 250px;
+.btnWrapper {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+.upload {
+  width: 504px;
+  height: 176px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 16px;
+  left: 16px;
+  top: 16px;
+  box-sizing: border-box;
+  border: 1px dashed rgb(91, 126, 154);
+  border-radius: 8px;
+  background: rgb(255, 255, 255);
+}
+input,
+.textarea {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 10px;
+  padding: 15px;
+  background: rgb(235, 239, 242);
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+textarea {
+  height: 130px;
+}
+.priceInput,
+.categoryWrapper {
+  width: 230px;
+}
+.scrollableContent {
+  max-height: 70vh;
+  overflow: auto;
+}
+.imagePicker {
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+.uploadArea {
+  cursor: pointer;
+}
+.uploadIconWrapper {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.upload {
+  display: none;
+}
+.measureWrapper {
+  min-width: 10px;
+}
+.addBtn, .minusBtn{
+  padding: 16px;
+  background: rgb(42, 52, 64);
+  color: rgb(254, 254, 254);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 100%;
+  border: none;
+  cursor: pointer;
+}
+.addBtn{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.minusBtn{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.btnGroup{
+    width: 252px;
+    height: 54px;
+    margin: 20px 0;
+}
+// .imagePickerWrapper{
+//     border-radius: 12px;
+//     background: rgb(235, 239, 242);
+// }
+/* Стилизация для всех браузеров */
+::-webkit-scrollbar {
+  width: 5px; /* ширина для вертикального скроллбара */
+  height: 5px; /* высота для горизонтального скроллбара */
+}
+
+/* Обработка ползунка (ручки скроллбара) */
+::-webkit-scrollbar-thumb {
+  background: #e6e6e6; /* цвет ползунка */
+  border-radius: 10px; /* скругление углов */
+}
+
+/* Обработка ползунка при наведении */
+::-webkit-scrollbar-thumb:hover {
+  background: #e6e6e6; /* цвет ползунка при наведении */
+}
+
+/* Стилизация фона скроллбара (дорожки) */
+::-webkit-scrollbar-track {
+  background: #e6e6e6; /* цвет фона дорожки */
+  border-radius: 10px; /* скругление углов */
+}
+
+/* Стилизация для Firefox */
+* {
+  scrollbar-width: thin; /* "auto" или "thin" */
+  scrollbar-color: #888 #f1f1f1; /* ползунок и фон */
 }

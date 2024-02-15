@@ -17,6 +17,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 30px;
+    p{
+        font-weight: 400;
+        color: rgb(91, 126, 154);
+        margin-top: 15px;
+    }
+}
+.container{
+
 }
 .close{
     position: absolute;
@@ -35,29 +43,13 @@
 }
 .subtitle{
     color: rgb(42, 52, 64);
+        // font-family: Poppins;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 30px;
     letter-spacing: 0%;
     text-align: left;
-    margin-top: 24px;
-}
-.input{
-    width: calc(100% - 10px);
-    height: 64px;
-    left: 32px;
-    right: 32px;
-    top: 134px;
-    bottom: 136px;
-    border-radius: 10px;
-    border: none;
-    /* Grey */
-    background: rgb(235, 239, 242);
-    padding-left: 10px;
-    margin-top: 12px;
-    &:focus{
-        outline: none;
-    }
+    margin-top: 25px;
 }
 .btnCancel{
     width: 260px;
@@ -93,10 +85,64 @@
     letter-spacing: 0%;
     border: none;
     cursor: pointer;
-
 }
 .flex{
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+}
+.btnWrapper{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+.upload{
+    width: 504px;
+    height: 176px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 16px;
+    left: 16px;
+    top: 16px;
+    box-sizing: border-box;
+    border: 1px dashed rgb(91, 126, 154);
+    border-radius: 8px;
+    background: rgb(255, 255, 255);
+}
+input{
+    width: 100%;
+    height: 45px;
+    left: 0;
+    right: 0;
+    top: 24px;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 5px;
+    padding-left: 15px;
+    background: rgb(235, 239, 242);
+    border: none;
+    &:focus{
+        outline: none;
+    }
+}
+.priceInput{
+    width: 230px;
+}
+.addBtn{
+    width: 252px;
+    height: 54px;
+    left: 32px;
+    right: 316px;
+    top: 786px;
+    bottom: 134px;
+    padding: 16px;
+    border-radius: 10px;
+    background: rgb(42, 52, 64);
+    color: rgb(254, 254, 254);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 100%;
+    margin-top: 20px;
 }

@@ -14,7 +14,6 @@ const CategoriesPopUp = ({
   const [highlightedCategory, setHighlightedCategory] = useState(null);
   const dispatch = useDispatch();
   const categoriesData = useSelector(state => state.categories.categories)
-  console.log('categoriesData', categoriesData)
 
   useEffect(() => {
     if (!categoriesData.length) {
@@ -23,18 +22,18 @@ const CategoriesPopUp = ({
   }, []);
 
   const handleDeleteCategory = (index) => {
-    console.log("удалить позицию", index);
     dispatch(
       openModal({
         modalType: "deleteCategory",
         modalProps: {
           title: "Удаление",
           subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index]}' ?`,
-          category: categoriesData[index]
+          category: categoriesData[index],
+          action: 'deleteCategory'
         },
       })
     );
-    // dispatch(removeCategory(categoriesData[index]))
+    dispatch(removeCategory(categoriesData[index]))
   };
 
   const handleAdd = () => {

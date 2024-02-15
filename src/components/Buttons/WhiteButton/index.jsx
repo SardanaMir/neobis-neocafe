@@ -2,17 +2,11 @@ import React from "react";
 import styles from "./style.module.scss";
 
 const WhiteButton = (props) => {
-  const handleClick = () => {
-    if (props.handleClose) {
-      props.handleClose();
-    }
-    if (props.deleteCategory) {
-      props.deleteCategory();
-    }
-  };
+  console.log('white button', props)
+
   return (
     <>
-      <button className={styles.root} onClick={handleClick}>
+      <button className={styles.root} onClick={props.handleClick}>
         {props.title}
       </button>
     </>

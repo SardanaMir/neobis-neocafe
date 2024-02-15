@@ -143,6 +143,7 @@ const Menu = () => {
           title: "Новая категория",
           subtitle: "Наименование",
           placeholder: "Введите название категории",
+          action: 'addCategory'
         },
       })
     );
@@ -174,19 +175,20 @@ const Menu = () => {
     );
     setActionsPopUpOpen(false)
   };
+  //удалить позицию из меню
   const handleDeleteModalOpen = () => {
     console.log("delete modal open");
     dispatch(
       openModal({
-        // modalType: "editItem",
+        modalType: "deleteCategory",
         modalProps: {
-          // title: "Новая категория",
-          // subtitle: "Наименование",
-          // placeholder: "Введите название категории",
+          title: "Удаление позиции",
+          subtitle: `Вы действительно хотите удалить данную позицию?`,
+          action: 'deleteItem'
         },
       })
     );
-    setActionsPopUpOpen(false)
+    // setActionsPopUpOpen(false)
   };
   return (
     <div className={styles.root}>

@@ -5,13 +5,15 @@ import EditItem from './components/Modals/EditItem'
 import DropDown from './components/DropDown'
 import Menu from './pages/Menu'
 import './App.css'
+import Header from './components/Header/Header'
+import Storehouse from './components/Storehouse/Storehouse'
 
 function App() {
 
   return (
-    <>
-      <Menu/>
-    </>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <Storehouse />
+    </div>
   )
 }
 

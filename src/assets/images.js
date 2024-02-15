@@ -8,6 +8,7 @@ import trash from "./img/trash.svg";
 import blackTrash from "./img/black-trash.svg";
 import pen from './img/pen.svg'
 import uploadIcon from './img/uploadIcon.svg'
+import bell from './img/Bell.svg';
 
 const images = {
   action,
@@ -19,7 +20,8 @@ const images = {
   trash,
   blackTrash,
   pen,
-  uploadIcon
+  uploadIcon,
+  bell
 };
 
 export default images;

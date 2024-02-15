@@ -10,13 +10,15 @@ import AddNewEmployee from './components/Modals/AddNewEmployee'
 import AddNewCategory from './components/Modals/AddNewCategory'
 import CategoriesPopUp from './components/PopUp/CategoriesPopUp'
 // import AddCategoryModal from './components/Modals/AddCategoryModal'
+import Header from './components/Header/Header'
+import Storehouse from './components/Storehouse/Storehouse'
 
 function App() {
 
   return (
-    <>
-      <Menu/>
-    </>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <Storehouse />
+    </div>
   )
 }
 

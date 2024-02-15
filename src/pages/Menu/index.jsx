@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useFormik } from "formik";
+import Header from "../../components/Header/Header.jsx";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
@@ -143,7 +144,7 @@ const Menu = () => {
           title: "Новая категория",
           subtitle: "Наименование",
           placeholder: "Введите название категории",
-          action: 'addCategory'
+          action: "addCategory",
         },
       })
     );
@@ -173,7 +174,7 @@ const Menu = () => {
         },
       })
     );
-    setActionsPopUpOpen(false)
+    setActionsPopUpOpen(false);
   };
   //удалить позицию из меню
   const handleDeleteModalOpen = () => {
@@ -184,79 +185,82 @@ const Menu = () => {
         modalProps: {
           title: "Удаление позиции",
           subtitle: `Вы действительно хотите удалить данную позицию?`,
-          action: 'deleteItem'
+          action: "deleteItem",
         },
       })
     );
     // setActionsPopUpOpen(false)
   };
   return (
-    <div className={styles.root}>
-      <div className={styles.wrapper}>
-        {/* header таблицы */}
-        <header className={styles.header}>
-          {tableHead.map((name, index) => (
-            <div
-              key={index}
-              className={
-                name === "Категория" || name === "Филиал" ? styles.flex : null
-              }
-              onClick={name === "Категория" ? handleCategoryClick : null}
-            >
-              <p>{name}</p>
-              {(name === "Категория" || name === "Филиал") && (
-                <img
-                  className={styles.arrowDown}
-                  src={images.arrowDown}
-                  alt="стрелка вниз"
-                />
-              )}
+    <>
+    <Header/>
+      <div className={styles.root}>
+        <div className={styles.wrapper}>
+          {/* header таблицы */}
+          <header className={styles.header}>
+            {tableHead.map((name, index) => (
+              <div
+                key={index}
+                className={
+                  name === "Категория" || name === "Филиал" ? styles.flex : null
+                }
+                onClick={name === "Категория" ? handleCategoryClick : null}
+              >
+                <p>{name}</p>
+                {(name === "Категория" || name === "Филиал") && (
+                  <img
+                    className={styles.arrowDown}
+                    src={images.arrowDown}
+                    alt="стрелка вниз"
+                  />
+                )}
+              </div>
+            ))}
+          </header>
+          {/* тело таблицы */}
+          {data.map((item, index) => (
+            <div className={styles.itemWrapper} key={index}>
+              <p>{item.name}</p>
+              <p>{item.category}</p>
+              <p>{item.ingredients}</p>
+              <p>{item.price}</p>
+              <p>{item.branch}</p>
+              <img
+                className={styles.actionImg}
+                onClick={handleActionClick}
+                src={images.action}
+                alt="действия"
+              />
             </div>
           ))}
-        </header>
-        {/* тело таблицы */}
-        {data.map((item, index) => (
-          <div className={styles.itemWrapper} key={index}>
-            <p>{item.name}</p>
-            <p>{item.category}</p>
-            <p>{item.ingredients}</p>
-            <p>{item.price}</p>
-            <p>{item.branch}</p>
-            <img
-              className={styles.actionImg}
-              onClick={handleActionClick}
-              src={images.action}
-              alt="действия"
+          {/* пагинация */}
+          <div className={styles.pagination}>
+            <Pagination
+              showSizeChanger
+              onShowSizeChange={onShowSizeChange}
+              defaultCurrent={3}
+              total={data.length}
             />
           </div>
-        ))}
-        {/* пагинация */}
-        <div className={styles.pagination}>
-          <Pagination
-            showSizeChanger
-            onShowSizeChange={onShowSizeChange}
-            defaultCurrent={3}
-            total={data.length}
-          />
+          {/* Всплывающее окно для категорий */}
+          {isPopUpOpen && (
+            <CategoriesPopUp
+              setPopUpOpen={setPopUpOpen}
+              handleOpenModal={handleOpenModal}
+            />
+          )}
+          {isActionsPopUpOpen && (
+            <EditDeletePopUp
+              x={popupPosition.x}
+              y={popupPosition.y}
+              closePopUp={handlePopUpClose}
+              handleEditModalOpen={handleEditModalOpen}
+              handleDeleteModalOpen={handleDeleteModalOpen}
+            />
+          )}
         </div>
-        {/* Всплывающее окно для категорий */}
-        {isPopUpOpen && (
-          <CategoriesPopUp
-            setPopUpOpen={setPopUpOpen}
-            handleOpenModal={handleOpenModal}
-          />
-        )}
-        {isActionsPopUpOpen && (
-          <EditDeletePopUp
-            x={popupPosition.x}
-            y={popupPosition.y}
-            closePopUp={handlePopUpClose}
-            handleEditModalOpen={handleEditModalOpen}
-            handleDeleteModalOpen={handleDeleteModalOpen}
-          />
-        )}
       </div>
-    </div>
+    </>
   );
 };
 

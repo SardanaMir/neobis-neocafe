@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styles from './style.module.scss'
 
-const List = () => {
-  const options = ['Бармен', 'Официант'];
+const List = (props) => {
+  // const options = ['Бармен', 'Официант'];
   const [selectedRole, setSelectedRole] = useState('');
 
   const handleChange = (event) => {
@@ -12,8 +12,8 @@ const List = () => {
   return (
     <div>
       <select value={selectedRole} onChange={handleChange}>
-        <option value="" disabled hidden>Выберите роль</option>
-        {options.map((option, index) => (
+        <option value="" disabled hidden>{props.values}</option>
+        {props.options.map((option, index) => (
           <option key={index} value={option}>{option}</option>
         ))}
       </select>

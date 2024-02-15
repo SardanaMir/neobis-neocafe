@@ -2,16 +2,16 @@ select,
 option {
   appearance: none; /* Убрать стандартный вид в Firefox и Safari */
   -webkit-appearance: none; /* Убрать стандартный вид в Chrome */
-  width: 487px;
-  height: 45px;
+  width: 100%;
+  height: 50px;
   padding: 0 15px;
   box-sizing: border-box;
-  // border: 1px solid rgb(205, 211, 221);
   border: none;
   border-radius: 10px;
   background: rgb(235, 239, 242);
-  color: rgb(23, 23, 23);
+  color: rgb(42, 52, 64);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+
 }

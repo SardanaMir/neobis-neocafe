@@ -7,6 +7,7 @@ import logo from "./img/neocafe-logo.png";
 import trash from "./img/trash.svg";
 import blackTrash from "./img/black-trash.svg";
 import pen from './img/pen.svg'
+import uploadIcon from './img/uploadIcon.svg'
 
 const images = {
   action,
@@ -18,6 +19,7 @@ const images = {
   trash,
   blackTrash,
   pen,
+  uploadIcon
 };
 
 export default images;

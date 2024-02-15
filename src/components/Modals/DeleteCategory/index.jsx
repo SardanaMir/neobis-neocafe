@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux';
 import { closeModal } from '../../../redux/slices/modalSlice';
 import {components} from '../../Buttons'
 import styles from './style.module.scss';
+import { removeCategory } from '../../../redux/slices/categoriesSlice';
 
 const DeleteCategory = (props) => {
+    console.log('DeleteCategory', props)
     const dispatch = useDispatch();
 
     const handleCloseModal = () => {
@@ -12,6 +14,9 @@ const DeleteCategory = (props) => {
     };
     const deleteCategory = () =>{
         console.log('удалить категорию')
+        dispatch(removeCategory(props.category))
+        dispatch(closeModal());
+
     }
   return (
     <div className={styles.root}>

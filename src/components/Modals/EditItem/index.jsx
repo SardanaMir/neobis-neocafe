@@ -1,14 +1,26 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import DropDown from "../../DropDown";
+import { closeModal } from "../../../redux/slices/modalSlice";
 import { components } from "../../Buttons";
 
 import styles from "./style.module.scss";
 
 const EditItem = () => {
+  const dispatch = useDispatch();
+  
+  const handleClose = () =>{
+    dispatch(closeModal());
+  }
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Редактирование</h2>
+        <div>
+          <h2 className={styles.title}>Редактирование</h2>
+          <div className={styles.close} onClick={handleClose}>
+            &times;
+          </div>
+        </div>
         <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
         {/* <div className={styles.upload}>upload</div> */}
         <h3 className={styles.subtitle}>Наименование, категория и стоимость</h3>
@@ -44,9 +56,7 @@ const EditItem = () => {
             </div>
           </div>
           <div className={styles.btnWrapper}>
-            <components.WhiteButton
-              title={"Отмена"}
-            />
+            <components.WhiteButton title={"Отмена"} />
             <components.BlueButton title={"Сохранить"} type="submit" />
           </div>
         </form>

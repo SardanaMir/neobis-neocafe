@@ -1,10 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { components } from "../../Buttons";
 import { useFormik } from "formik";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { basicSchema } from "../../../schema";
 import styles from "./styles.module.scss";
-import { useDispatch } from "react-redux";
+import { addCategory } from "../../../redux/slices/categoriesSlice";
 
 const AddNewCategory = ({ title, subtitle, placeholder }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values.newCategory);
+    dispatch(addCategory(values.newCategory))
+    dispatch(closeModal());
   };
   const handleClose = () => {
     dispatch(closeModal());

@@ -162,9 +162,31 @@ const Menu = () => {
   };
   const handleEditModalOpen = () => {
     console.log("edit modal open");
+    dispatch(
+      openModal({
+        modalType: "editItem",
+        modalProps: {
+          // title: "Новая категория",
+          // subtitle: "Наименование",
+          // placeholder: "Введите название категории",
+        },
+      })
+    );
+    setActionsPopUpOpen(false)
   };
   const handleDeleteModalOpen = () => {
     console.log("delete modal open");
+    dispatch(
+      openModal({
+        // modalType: "editItem",
+        modalProps: {
+          // title: "Новая категория",
+          // subtitle: "Наименование",
+          // placeholder: "Введите название категории",
+        },
+      })
+    );
+    setActionsPopUpOpen(false)
   };
   return (
     <div className={styles.root}>

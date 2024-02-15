@@ -16,7 +16,6 @@ const EditDeletePopUp = ({ x, y, closePopUp, handleDeleteModalOpen, handleEditMo
         closePopUp();
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

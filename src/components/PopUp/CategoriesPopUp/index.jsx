@@ -1,17 +1,26 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../redux/slices/modalSlice.js";
 import images from "../../../assets/images.js";
 import styles from "./styles.module.scss";
+import { setCategories, removeCategory } from "../../../redux/slices/categoriesSlice.js";
 
 const CategoriesPopUp = ({
   setPopUpOpen,
   handleOpenModal,
 }) => {
+  const categoriesArr = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
+
   const [highlightedCategory, setHighlightedCategory] = useState(null);
   const dispatch = useDispatch();
+  const categoriesData = useSelector(state => state.categories.categories)
+  console.log('categoriesData', categoriesData)
 
-  const categories = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
+  useEffect(() => {
+    if (!categoriesData.length) {
+      dispatch(setCategories(categoriesArr));
+    }
+  }, []);
 
   const handleDeleteCategory = (index) => {
     console.log("удалить позицию", index);
@@ -20,10 +29,12 @@ const CategoriesPopUp = ({
         modalType: "deleteCategory",
         modalProps: {
           title: "Удаление",
-          subtitle: `Вы действительно хотите удалить категорию '${categories[index]}' ?`,
+          subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index]}' ?`,
+          category: categoriesData[index]
         },
       })
     );
+    // dispatch(removeCategory(categoriesData[index]))
   };
 
   const handleAdd = () => {
@@ -42,7 +53,7 @@ const CategoriesPopUp = ({
             alt="стрелка вверх"
           />
         </div>
-        {categories.map((category, index) => (
+        {categoriesData.map((category, index) => (
           <div
             key={index}
             className={styles.flex}

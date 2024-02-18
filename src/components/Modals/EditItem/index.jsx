@@ -15,26 +15,36 @@ const EditItem = () => {
   const [image, setImage] = useState(null);
   // const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }]);
 
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    setFieldValue,
-  } = useFormik({
-    initialValues: {
-      itemName: "",
-      description: "",
-      category: "",
-      price: "",
-      ingredients: [{ name: "", quantity: "" }],
-      currency: "сом",
-      image: null,
-    },
-    // validationSchema: basicSchema,
-  });
+  // const {
+  //   values,
+  //   errors,
+  //   touched,
+  //   isSubmitting,
+  //   handleBlur,
+  //   handleChange,
+  //   setFieldValue,
+  // } = useFormik({
+  //   initialValues: {
+  //     itemName: "",
+  //     description: "",
+  //     category: "",
+  //     price: "",
+  //     ingredients: [{ name: "", quantity: "" }],
+  //     currency: "сом",
+  //     image: null,
+  //   },
+  //   // validationSchema: basicSchema,
+  // });
+
+  const [values, setValues] =[{
+    itemName: "Капучино",
+    description: "ароматный кофейный напиток, который состоит из эспрессо, горячего молока и молочной пенки. ",
+    category: "Кофе",
+    price: "150",
+    ingredients: [{ name: "Кофе", quantity: "10" }],
+    currency: "сом",
+    image: null,
+  }]
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -68,6 +78,10 @@ const EditItem = () => {
         setFieldValue('ingredients', newIngredients);
     }
 };
+const handleChange = (event) =>{
+  const { name, value } = event.target;
+  setValues([{ ...values, [name]: value}]);
+}
 
   return (
     <div className={styles.root}>
@@ -80,7 +94,7 @@ const EditItem = () => {
         </div>
         <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
 
-        <div className={styles.imagePickerWrapper}>
+        {/* <div className={styles.imagePickerWrapper}>
           <div class={styles.imagePicker}>
             <input
               type="file"
@@ -103,14 +117,14 @@ const EditItem = () => {
               )}
             </label>
           </div>
-        </div>
+        </div> */}
 
         <h3 className={styles.subtitle}>Наименование, категория и стоимость</h3>
         <form onSubmit={handleSubmit}>
           <p>Наименование</p>
           <input
             onChange={handleChange}
-            onBlur={handleBlur}
+            // onBlur={handleBlur}
             value={values.itemName}
             id="itemName"
             type="text"
@@ -118,7 +132,7 @@ const EditItem = () => {
           <p>Описание</p>
           <textarea
             onChange={handleChange}
-            onBlur={handleBlur}
+            // onBlur={handleBlur}
             value={values.description}
             className={styles.textarea}
             id="description"
@@ -140,7 +154,7 @@ const EditItem = () => {
               <div className={styles.flex}>
                 <input
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   value={values.price}
                   className={styles.priceInput}
                   type="text"
@@ -169,7 +183,7 @@ const EditItem = () => {
                     newIngredients[index].name = e.target.value;
                     setFieldValue("ingredients", newIngredients);
                   }}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className={styles.priceInput}
                   type="text"
                   id="ingredients"
@@ -185,7 +199,7 @@ const EditItem = () => {
                       newIngredients[index].quantity = e.target.value;
                       setFieldValue("ingredients", newIngredients);
                     }}
-                    onBlur={handleBlur}
+                    // onBlur={handleBlur}
                     className={styles.priceInput}
                     type="text"
                     id="quantity"
@@ -206,7 +220,7 @@ const EditItem = () => {
           <div className={styles.btnWrapper}>
             <components.WhiteButton title={"Отмена"} />
             <components.BlueButton
-              disabled={isSubmitting}
+              // disabled={isSubmitting}
               title={"Сохранить"}
               type="submit"
             />

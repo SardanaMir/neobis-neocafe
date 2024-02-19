@@ -1,7 +1,21 @@
-/* *{
+*{
     margin: 0;
     padding: 0;
-} */
+    box-sizing: border-box;
+}
+
+.app {
+    display: flex;
+    justify-content: center;
+}
+
+.layout {
+    max-width: 1440px;
+    height: 1024px;
+    background: rgb(245, 245, 245);
+    overflow: hidden;
+  }
+  
 ::placeholder {
     font-family: 'Poppins', sans-serif;
 }

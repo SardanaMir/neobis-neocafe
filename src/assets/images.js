@@ -9,6 +9,11 @@ import blackTrash from "./img/black-trash.svg";
 import pen from './img/pen.svg'
 import uploadIcon from './img/uploadIcon.svg'
 import bell from './img/Bell.svg';
+import menu from './img/menu.svg';
+import archive from './img/archive.svg';
+import branch from './img/branch.svg';
+import group from './img/group.svg';
+import neocafe from './img/neocafe.svg';
 
 const images = {
   action,
@@ -18,10 +23,17 @@ const images = {
   logo,
   plus,
   trash,
-  blackTrash,
-  pen,
-  uploadIcon,
-  bell
+  bell,
+  neocafe,
+  menu,
+  archive,
+  branch,
+  group,
+  neocafe
+  // blackTrash,
+  // pen,
+  // uploadIcon,
+  // bell
 };
 
 export default images;

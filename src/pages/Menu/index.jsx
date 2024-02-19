@@ -193,7 +193,6 @@ const Menu = () => {
   };
   return (
     <>
-    <Header/>
       <div className={styles.root}>
         <div className={styles.wrapper}>
           {/* header таблицы */}

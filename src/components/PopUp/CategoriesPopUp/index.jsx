@@ -8,7 +8,9 @@ import { setCategories, removeCategory } from "../../../redux/slices/categoriesS
 const CategoriesPopUp = ({
   setPopUpOpen,
   handleOpenModal,
+  data
 }) => {
+  console.log('CategoriesPopUp', data)
   const categoriesArr = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
 
   const [highlightedCategory, setHighlightedCategory] = useState(null);

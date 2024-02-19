@@ -20,6 +20,7 @@ import CategoriesPopUp from "./components/PopUp/CategoriesPopUp";
 // import AddCategoryModal from './components/Modals/AddCategoryModal'
 import Header from "./components/Header/Header";
 import Storehouse from "./components/Storehouse/Storehouse";
+import Staff from "./pages/Staff";
 
 function App() {
   const navigate = useNavigate();
@@ -46,8 +47,9 @@ function App() {
           >
 
           </div> */}
-          <Route path="/" element={<Menu />} />
+          <Route path="/menu" element={<Menu />} />
           <Route path="/storehouse" element={<Storehouse />} />
+          <Route path="/" element={<Staff />} />
 
         </>
       ) : (

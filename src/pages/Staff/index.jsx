@@ -109,7 +109,7 @@ const Staff = () => {
     console.log("edit modal open");
     dispatch(
       openModal({
-        modalType: "editItem",
+        modalType: "addNewEmployee",
         modalProps: {
           // title: "Новая категория",
           // subtitle: "Наименование",
@@ -136,7 +136,6 @@ const Staff = () => {
   };
   return (
     <>
-    <Header/>
       <div className={styles.root}>
         <div className={styles.wrapper}>
           {/* header таблицы */}

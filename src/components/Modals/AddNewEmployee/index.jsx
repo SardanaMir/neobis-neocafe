@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { components } from "../../Buttons";
+import { closeModal } from "../../../redux/slices/modalSlice";
 import { useFormik } from "formik";
 import List from "../../List";
+import images from "../../../assets/images";
 import styles from "./style.module.scss";
 
 const AddNewEmployee = () => {
@@ -23,6 +26,7 @@ const AddNewEmployee = () => {
   ];
 
   const [workSchedule, setWorkSchedule] = useState({});
+  const dispatch = useDispatch();
 
   const { values, errors, touched, isSubmitting, handleBlur, handleChange } =
     useFormik({
@@ -79,10 +83,18 @@ const AddNewEmployee = () => {
       },
     }));
   };
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Новый сотрудник</h2>
+        <div>
+          <h2 className={styles.title}>Новый сотрудник</h2>
+          <div className={styles.close} onClick={handleClose}>
+            &times;
+          </div>
+        </div>
         <h3 className={styles.subtitle}>Личные данные</h3>
         <form onSubmit={handleSubmit}>
           <div className={styles.scrollableContent}>

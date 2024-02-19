@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useFormik } from "formik";
 import Header from "../../components/Header/Header.jsx";
+import { useSelector } from "react-redux";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
@@ -32,90 +33,90 @@ const data = [
     price: "140 сом",
     branch: "Центральный",
   },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
+  // {
+  //   name: "Американо",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Капучино",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Американо",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Капучино",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Раф",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Капучино",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Раф",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Капучино",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Американо",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Капучино",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Раф",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
+  // {
+  //   name: "Американо",
+  //   category: "Кофе",
+  //   ingredients: "кофе 10гр",
+  //   price: "140 сом",
+  //   branch: "Центральный",
+  // },
 ];
 
 const onShowSizeChange = (current, pageSize) => {
@@ -193,7 +194,7 @@ const Menu = () => {
   };
   return (
     <>
-    <Header/>
+    <Header title={'Меню'} />
       <div className={styles.root}>
         <div className={styles.wrapper}>
           {/* header таблицы */}
@@ -221,7 +222,7 @@ const Menu = () => {
           {data.map((item, index) => (
             <div className={styles.itemWrapper} key={index}>
               <p>{item.name}</p>
-              <p>{item.category}</p>
+              <p className={styles.category}>{item.category}</p>
               <p>{item.ingredients}</p>
               <p>{item.price}</p>
               <p>{item.branch}</p>

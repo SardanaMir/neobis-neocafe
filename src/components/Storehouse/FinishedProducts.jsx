@@ -22,7 +22,7 @@ const FinishedProducts = () => {
             <th>Филиал</th>
           </tr>
         </thead>
-        <hr className={styles.table_line}/>
+        <span className={styles.table_line}/>
         <tbody>
             <tr>
               <td><span>№1</span>Капучино</td>
@@ -31,7 +31,7 @@ const FinishedProducts = () => {
               <td>20.09.2024</td>
               <td>NeoCafe Ala-Too Square <img src={vertical} alt="Error :(" className={styles.tableIcon}/></td>
             </tr>
-          <hr className={styles.list_line} />
+          <span className={styles.list_line} />
         </tbody>
       </table>
     </>

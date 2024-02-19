@@ -1,7 +1,7 @@
 .root{
     background: rgb(235, 239, 242);
     height: 100%;
-    margin-top: 25px;
+    // margin-top: 25px;
 }
 .header{
     display: grid;
@@ -19,7 +19,7 @@
 .wrapper{
     display: block;
     margin: 0 auto;
-    width:  1171px;
+    width:  1085px;
 }
 p{
     color: rgb(42, 52, 64);
@@ -44,7 +44,7 @@ p{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1171px;
+    width: 1085px;
     height: 124px;
     background: white;
     border-bottom-left-radius: 20px;

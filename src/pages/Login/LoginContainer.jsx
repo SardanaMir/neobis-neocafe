@@ -1,37 +1,39 @@
-import React, { useState } from 'react'
-import { useFormik } from 'formik';
-import {Link, useNavigate} from 'react-router-dom';
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import { Link, useNavigate } from "react-router-dom";
+// import { getCookie, setCookie } from "../../utils";
+import { setAuthTokenToCookie } from "../../utils";
 import * as yup from "yup";
-import {login} from '../../api'
-import LoginPage from './LoginPage'
+import { login } from "../../api";
+import LoginPage from "./LoginPage";
 
 const LoginContainer = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const basicSchema = yup.object().shape({
-    email: yup
-    .string()
-    .email("Введите e-mail")
-    .required("Введите e-mail"),
-  
+    email: yup.string().email("Введите e-mail").required("Введите e-mail"),
+
     password: yup
-    .string()
-    .min(5, 'Минимум 5 символов')
-    .required("Введите пароль"),
+      .string()
+      .min(5, "Минимум 5 символов")
+      .required("Введите пароль"),
   });
 
-  const onSubmit = async () =>{
-    const adminData = {"username": values.email, "password": values.password}
-    console.log(data)
-    try{
-      const res = await login(adminData)
-      navigate('/');
-      console.log(res) 
-    }catch(err){
-      setError(true)
+  const onSubmit = async () => {
+    const adminData = { username: values.username, password: values.password };
+    console.log(adminData);
+    try {
+      const res = await login(adminData);
+      setAuthTokenToCookie(res.access);
+      navigate("/");
+      setError(false);
+      console.log(res);
+    } catch (err) {
+      setError(true);
     }
-  }
+  };
   const {
     values,
     isSubmitting,
@@ -39,29 +41,34 @@ const LoginContainer = () => {
     handleChange,
     handleSubmit,
     errors,
-    touched
+    touched,
   } = useFormik({
     initialValues: {
-    email: "",
-    password: "",
+      username: "",
+      password: "",
     },
     onSubmit,
-    validationSchema: basicSchema
+    // validationSchema: basicSchema,
   });
-    
-  return (
-    <LoginPage 
-    onSubmit={onSubmit} 
-    isSubmitting={isSubmitting} 
-    handleBlur={handleBlur}
-    handleChange={handleChange}
-    handleSubmit={handleSubmit}
-    values={values}
-    error={error}
-    errors={errors}
-    touched={touched}
-    />
-  )
-}
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
 
-export default LoginContainer
+  };
+  return (
+    <LoginPage
+      passwordVisible={passwordVisible}
+      togglePasswordVisibility={togglePasswordVisibility}
+      onSubmit={onSubmit}
+      isSubmitting={isSubmitting}
+      handleBlur={handleBlur}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      values={values}
+      error={error}
+      errors={errors}
+      touched={touched}
+    />
+  );
+};
+
+export default LoginContainer;

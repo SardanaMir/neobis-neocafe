@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik';
+import {Link, useNavigate} from 'react-router-dom';
 import * as yup from "yup";
+import {login} from '../../api'
 import LoginPage from './LoginPage'
 
 const LoginContainer = () => {
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const basicSchema = yup.object().shape({
     email: yup
@@ -19,10 +22,12 @@ const LoginContainer = () => {
   });
 
   const onSubmit = async () =>{
-    console.log(values.email, values.password)
+    const adminData = {"username": values.email, "password": values.password}
+    console.log(data)
     try{
-      setError(true)
- 
+      const res = await login(adminData)
+      navigate('/');
+      console.log(res) 
     }catch(err){
       setError(true)
     }

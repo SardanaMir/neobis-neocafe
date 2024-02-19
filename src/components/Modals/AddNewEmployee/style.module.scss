@@ -17,7 +17,7 @@
   transform: translate(-50%, -50%);
   padding: 30px;
   overflow-y: auto;
-  p {
+  p, label {
     font-weight: 400;
     color: rgb(91, 126, 154);
     margin-top: 15px;
@@ -43,47 +43,13 @@
 .subtitle {
   color: rgb(42, 52, 64);
   // font-family: Poppins;
+  // font-family: Nunito;
   font-size: 20px;
   font-weight: 600;
   line-height: 30px;
   letter-spacing: 0%;
   text-align: left;
   margin-top: 25px;
-}
-.btnCancel {
-  width: 260px;
-  height: 56px;
-  left: 32px;
-  top: 246px;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 2px solid rgb(53, 83, 107);
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0);
-  color: rgb(53, 83, 107);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0%;
-  cursor: pointer;
-}
-.btnAdd {
-  width: 260px;
-  height: 56px;
-  left: 308px;
-  right: 32px;
-  top: 246px;
-  bottom: 32px;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgb(53, 83, 107);
-  color: rgb(255, 255, 255);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0%;
-  border: none;
-  cursor: pointer;
 }
 .flex {
   display: flex;
@@ -154,7 +120,11 @@ input {
   align-items: center;
 }
 .scrollableContent {
-    max-height: 70vh;
-    overflow: auto;
-  }
-  
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.divider {
+  width: 100%;
+  border: 1px solid rgb(42, 52, 64);
+}

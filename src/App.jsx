@@ -49,7 +49,7 @@ function App() {
           </div> */}
           <Route path="/menu" element={<Menu />} />
           <Route path="/storehouse" element={<Storehouse />} />
-          <Route path="/" element={<Staff />} />
+          <Route path="/" element={<AddNewEmployee />} />
 
         </>
       ) : (

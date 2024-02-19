@@ -5,13 +5,13 @@ const List = (props) => {
   // const options = ['Бармен', 'Официант'];
   const [selectedRole, setSelectedRole] = useState('');
 
-  const handleChange = (event) => {
-    setSelectedRole(event.target.value);
+  const handleSelect = (event) => {
+    props.onSelect(event.target.value);
   };
 
   return (
     <div>
-      <select value={selectedRole} onChange={handleChange}>
+      <select value={selectedRole} onChange={handleSelect}>
         <option value="" disabled hidden>{props.values}</option>
         {props.options.map((option, index) => (
           <option key={index} value={option}>{option}</option>

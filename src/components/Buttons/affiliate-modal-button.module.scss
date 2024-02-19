@@ -28,3 +28,32 @@
     background-color: rgba(53, 83, 107, 1) !important;
     color: rgba(255, 255, 255, 1) !important;
 }
+
+.storehouse__btn_blue {
+    width: 260px;
+    height: 56px;
+    border-radius: 10px;
+    border: 1px solid rgba(53, 83, 107, 1);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: rgba(53, 83, 107, 1);
+    background-color: transparent;
+}
+
+.storehouse__btn_white {
+    width: 260px;
+    height: 56px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(53, 83, 107, 1);
+}
+
+.storehouse__btn_white:hover {
+    background-color: rgba(53, 83, 107, 1) !important;
+    color: rgba(255, 255, 255, 1) !important;
+}

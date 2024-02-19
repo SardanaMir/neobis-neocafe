@@ -67,7 +67,9 @@
   }
 
   .main_line {
+    position: absolute;
     width: 1171px;
+    height: 0px;
     border: 1px solid rgba(234, 234, 234, 1);
   }
 
@@ -151,7 +153,9 @@ th:last-child {
 }
 
 .table_line {
+  position: absolute;
   width: 1171px;
+  height: 0px;
   border: 1px solid rgba(53, 83, 107, 1);
 }
 
@@ -163,6 +167,9 @@ th:last-child {
 }
 
 .list_line {
+  position: absolute;
+  width: 1171px;
+  height: 0px;
   border: 1px solid rgba(235, 239, 242, 1);
 }
 

@@ -17,3 +17,19 @@ export const AffiliateModalPrimaryButton = (props) => {
         </Button>
       )
   };
+
+  export const StorehouseModalWhiteButton = (props) => {
+    return (
+      <Button className={styles.storehouse__btn_blue} {...props}>
+          {props.children}
+      </Button>
+    )
+  };
+  
+  export const StorehouseModalPrimaryButton = (props) => {
+      return (
+          <Button className={styles.storehouse__btn_white} {...props}>
+              {props.children}
+          </Button>
+        )
+    };

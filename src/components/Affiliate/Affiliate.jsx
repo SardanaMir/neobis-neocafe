@@ -6,6 +6,7 @@ import styles from './affiliate.module.scss'
 
 const Affiliate = () => {
     const [current, setCurrent] = useState(3);
+    
     const onChange = (page) => {
       console.log(page);
       setCurrent(page);

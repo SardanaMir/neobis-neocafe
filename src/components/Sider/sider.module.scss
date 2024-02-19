@@ -36,11 +36,6 @@
       border-radius: 12px;
     }
 
-    .links:active {
-      border-radius: 12px;
-      background: rgb(244, 115, 86);
-    }
-
     .links_exit {
       width: 157px;
       height: 48px;
@@ -54,6 +49,11 @@
     }
 
     .links:hover, .links_exit:hover {
+      border-radius: 12px;
+      background: rgb(244, 115, 86);
+    }
+
+    .links:active {
       border-radius: 12px;
       background: rgb(244, 115, 86);
     }

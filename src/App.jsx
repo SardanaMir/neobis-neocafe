@@ -3,17 +3,26 @@ import LoginContainer from './pages/Login/LoginContainer'
 import CodeVerification from './pages/CodeVerification'
 import Menu from './pages/Menu'
 import './App.css'
-import Header from './components/Header/Header'
 import Affiliate from './components/Affiliate/Affiliate'
-import AddAffiliateModal from './components/Modals/AddCategoryModal/AddAffiliateModal'
 import Main from './pages/Main/Main'
+import { Router } from 'react-router-dom'
+import { Layout } from 'antd'
+import Sider from './components/Sider/Sider';
+import Header from './components/Header/Header';
+import Content from './components/Content/Content';
+import styles from './pages/Main/main.module.scss'
 
 function App() {
-
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
-      <Main />
-    </div>
+      <div className='app'>
+        <Layout className='layout'>
+          <Sider />
+          <Layout>
+            <Header />
+            <Content />
+          </Layout>
+        </Layout>
+      </div>
   )
 }
 

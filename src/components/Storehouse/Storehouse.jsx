@@ -44,7 +44,7 @@ const Storehouse = () => {
       {
         activeTab === 2 ? <div className={styles.line__third_active}></div> : ""
       }
-      <hr className={styles.main_line} />
+      <span className={styles.main_line} />
       <div className={styles.content}>
         {tabs[activeTab]?.content}
       </div>

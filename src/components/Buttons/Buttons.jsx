@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import styles from './affiliate-modal-button.module.scss'
+import styles from './buttons.module.scss'
 
 export const AffiliateModalWhiteButton = (props) => {
   return (

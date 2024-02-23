@@ -23,11 +23,11 @@ const Content = () => {
         <Route path='/storehouse' element={<ProtectedRoute element={<Storehouse />} path='/' />} />
         <Route path='/affiliates' element={<ProtectedRoute element={<Affiliate />} path='/' />}/>
         <Route path='/staff' element={<ProtectedRoute element={<Staff />} path='/' />} /> */}
-        {/* <Route path='/' element={<Menu />} />
+        <Route path='/' element={<Menu />} />
         <Route path='/storehouse' element={<Storehouse />} />
         <Route path='/affiliates' element={<Affiliate />}/>
-        <Route path='/staff' element={<Staff />} /> */}
-        <Route path='/' element={<LoginContainer />} /> 
+        <Route path='/staff' element={<Staff />} />
+        {/* <Route path='/' element={<LoginContainer />} />  */}
       </Routes>
     </Layout.Content>
   )

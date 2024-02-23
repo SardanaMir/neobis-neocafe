@@ -3,19 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../../redux/slices/modalSlice.js";
 import images from "../../../assets/images.js";
 import styles from "./styles.module.scss";
-import { setCategories, removeCategory } from "../../../redux/slices/categoriesSlice.js";
+import {
+  setCategories,
+  removeCategory,
+} from "../../../redux/slices/categoriesSlice.js";
 
-const CategoriesPopUp = ({
-  setPopUpOpen,
-  handleOpenModal,
-  data
-}) => {
-  console.log('CategoriesPopUp', data)
+const CategoriesPopUp = ({ setPopUpOpen, handleOpenModal, data }) => {
   const categoriesArr = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
-
   const [highlightedCategory, setHighlightedCategory] = useState(null);
   const dispatch = useDispatch();
-  const categoriesData = useSelector(state => state.categories.categories)
+  const categoriesData = useSelector((state) => state.categories.categories);
 
   useEffect(() => {
     if (!categoriesData.length) {
@@ -31,11 +28,11 @@ const CategoriesPopUp = ({
           title: "Удаление",
           subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index]}' ?`,
           category: categoriesData[index],
-          action: 'deleteCategory'
+          action: "deleteCategory",
         },
       })
     );
-    dispatch(removeCategory(categoriesData[index]))
+    dispatch(removeCategory(categoriesData[index]));
   };
 
   const handleAdd = () => {
@@ -44,15 +41,16 @@ const CategoriesPopUp = ({
   };
   return (
     <div className={styles.popup}>
-      <div className={styles.popupWrapper}>
-        <div className={styles.categoryWrapper}>
-          <p>Категория</p>
-          <img
-            className={styles.arrowUp}
-            onClick={() => setPopUpOpen(false)}
-            src={images.arrowUp}
-            alt="стрелка вверх"
-          />
+      <div className={styles.popup__wrapper}>
+        <div className={styles.popup__head}>
+          <div className={styles.flex}>
+            <div>Категория</div>
+            <img
+              onClick={() => setPopUpOpen(false)}
+              src={images.arrowUp}
+              alt="стрелка вверх"
+            />
+          </div>
         </div>
         {categoriesData.map((category, index) => (
           <div
@@ -68,7 +66,6 @@ const CategoriesPopUp = ({
             >
               {category}
             </p>
-
             {highlightedCategory === index && (
               <img
                 onClick={() => handleDeleteCategory(index)}
@@ -78,9 +75,11 @@ const CategoriesPopUp = ({
             )}
           </div>
         ))}
-        <div className={styles.flex} onClick={handleAdd}>
-          <div className={styles.add}>Добавить</div>
-          <img src={images.plus} alt="плюс" />
+        <div>
+          <div colSpan="2" className={styles.flex} onClick={handleAdd}>
+            <button className={styles.add}>Добавить</button>
+            <img src={images.plus} alt="плюс" />
+          </div>
         </div>
       </div>
     </div>

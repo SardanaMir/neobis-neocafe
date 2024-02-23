@@ -9,11 +9,16 @@ import { openModal } from "../../redux/slices/modalSlice.js";
 import BranchesPopUp from "../../components/PopUp/BranchesPopUp";
 import styles from "./styles.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
-
+import { PlusOutlined } from "@ant-design/icons";
+import bell from "../../assets/img/Bell.svg";
+import searchIcon from "../../assets/img/Vector.svg";
+import { Layout } from "antd";
 const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -21,6 +26,8 @@ const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -28,6 +35,8 @@ const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -35,6 +44,8 @@ const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -42,6 +53,8 @@ const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -49,6 +62,8 @@ const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -56,6 +71,8 @@ const data = [
   {
     name: "Мария",
     role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
     phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
@@ -74,6 +91,8 @@ const Staff = () => {
   const tableHead = [
     "Имя",
     "Должность",
+    "Логин",
+    "Пароль",
     "Выберите филиал",
     "Телефон",
     "График работы",
@@ -134,19 +153,47 @@ const Staff = () => {
     );
     // setActionsPopUpOpen(false)
   };
+  const handleOpenProductModal = (e) => {
+    console.log(e.target);
+    dispatch(
+      openModal({
+        modalType: "addNewEmployee",
+      })
+    );
+  };
   return (
     <>
+      <Layout.Header className={styles.header}>
+        <h2>Сотрудники</h2>
+        <div className={styles.header__list}>
+          <img src={searchIcon} alt="Error :(" className={styles.btn_search} />
+          <input type="search" placeholder="Поиск" />
+          <button onClick={handleOpenProductModal}>
+            Создать <PlusOutlined className={styles.btn_plus} />
+          </button>
+          <img
+            src={bell}
+            alt="Error"
+            width={52}
+            className={styles.header__icon}
+          />
+        </div>
+      </Layout.Header>{" "}
       <div className={styles.root}>
         <div className={styles.wrapper}>
           {/* header таблицы */}
-          <header className={styles.header}>
+          <header className={styles.theader}>
             {tableHead.map((name, index) => (
               <div
                 key={index}
                 className={
-                  name === "Выберите филиал" || name === "Филиал" ? styles.flex : null
+                  name === "Выберите филиал" || name === "Филиал"
+                    ? styles.flex
+                    : null
                 }
-                onClick={name === "Выберите филиал" ? handleCategoryClick : null}
+                onClick={
+                  name === "Выберите филиал" ? handleCategoryClick : null
+                }
               >
                 <p>{name}</p>
                 {(name === "Выберите филиал" || name === "Филиал") && (
@@ -164,6 +211,8 @@ const Staff = () => {
             <div className={styles.itemWrapper} key={index}>
               <p>{item.name}</p>
               <p>{item.role}</p>
+              <p>{item.login}</p>
+              <p>{item.password}</p>
               <p>{item.branch}</p>
               <p>{item.phoneNumber}</p>
               <p>{item.schedule}</p>
@@ -203,7 +252,7 @@ const Staff = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Staff
+export default Staff;

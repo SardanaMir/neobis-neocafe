@@ -33,16 +33,16 @@ function App() {
     //     element={isAuth ? <ProtectedPage /> : <Navigate to="/login" />}
     //   />
     // </Routes>
-    // <div className="app">
-    //   <Layout className="layout">
-    //     <Sider />
-    //     <Layout>
-    //       <Header />
-    //       <Content />
-    //     </Layout>
-    //   </Layout>
-    // </div>
-    <LoginContainer/>
+    <div className="app">
+      <Layout className="layout">
+        <Sider />
+        <Layout>
+          {/* <Header /> */}
+          <Content />
+        </Layout>
+      </Layout>
+    </div>
+    // <LoginContainer/>
   );
 }
 

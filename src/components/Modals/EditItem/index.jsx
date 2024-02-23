@@ -94,7 +94,7 @@ const handleChange = (event) =>{
         </div>
         <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
 
-        {/* <div className={styles.imagePickerWrapper}>
+        <div className={styles.imagePickerWrapper}>
           <div class={styles.imagePicker}>
             <input
               type="file"
@@ -117,7 +117,7 @@ const handleChange = (event) =>{
               )}
             </label>
           </div>
-        </div> */}
+        </div>
 
         <h3 className={styles.subtitle}>Наименование, категория и стоимость</h3>
         <form onSubmit={handleSubmit}>

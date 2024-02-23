@@ -1,24 +1,64 @@
-import { useState } from 'react'
-import { Router } from 'react-router-dom'
-import { Layout } from 'antd'
-import Sider from './components/Sider/Sider';
-import Header from './components/Header/Header';
-import Content from './components/Content/Content';
-import './App.css'
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
+import LoginContainer from "./pages/Login/LoginContainer";
+import { Layout } from "antd";
+import Sider from "./components/Sider/Sider";
+import Header from "./components/Header/Header";
+import Content from "./components/Content/Content";
+import "./App.css";
 
 function App() {
+  const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.user.isAuth);
+
+  // useEffect(() => {
+  //   if (!isAuth) {
+  //     navigate("/login");
+  //   }
+  // }, [isAuth]);
+
   return (
-      <div className='app'>
-        <Layout className='layout'>
-          <Sider />
-          <Layout>
-            <Header />
-            <Content />
-          </Layout>
+    // <Routes>
+    //   <Route path="/login" element={<LoginContainer />} />
+    //   {/* Добавляем защищенный маршрут */}
+    //   <Route
+    //     path="/protected"
+    //     element={isAuth ? <ProtectedPage /> : <Navigate to="/login" />}
+    //   />
+    // </Routes>
+    <div className="app">
+      <Layout className="layout">
+        <Sider />
+        <Layout>
+          {/* <Header /> */}
+          <Content />
         </Layout>
-      </div>
-  )
+      </Layout>
+    </div>
+    // <LoginContainer/>
+  );
 }
+
+// const ProtectedPage = () => {
+//   return (
+//     <div className="app">
+//       <Layout className="layout">
+//         <Sider />
+//         <Layout>
+//           <Header />
+//           <Content />
+//         </Layout>
+//       </Layout>
+//     </div>
+//   );
+// };
 // import React, { useState, useEffect } from "react";
 // import {
 //   BrowserRouter as Router,

@@ -15,7 +15,7 @@ const Sider = () => {
         <NavLink to="/" className={styles.links} ><img src={menu} alt="Error :(" className={styles.sider_icon} />Меню</NavLink>
         <NavLink to="/storehouse" className={styles.links}><img src={archive} alt="Error :(" className={styles.sider_icon} />Склад</NavLink>
         <NavLink to="/affiliates" className={styles.links}><img src={branch} alt="Error :(" className={styles.sider_icon} />Филиалы</NavLink>
-        <NavLink to="#" className={styles.links}><img src={group} alt="Error :(" className={styles.sider_icon} />Сотрудники</NavLink>
+        <NavLink to="/staff" className={styles.links}><img src={group} alt="Error :(" className={styles.sider_icon} />Сотрудники</NavLink>
     </div>
     <NavLink to="#" className={styles.links_exit}><img src={exit} alt="Error :(" className={styles.sider_icon} />Выйти</NavLink>
   </Layout.Sider>

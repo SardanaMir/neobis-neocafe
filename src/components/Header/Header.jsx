@@ -10,7 +10,8 @@ import { useDispatch } from 'react-redux';
 const Header = () => {
   const dispatch = useDispatch()
 
-  const handleOpenProductModal = () => {
+  const handleOpenProductModal = (e) => {
+    console.log(e.target)
     dispatch(openModal({
       modalType: 'addProductModal'
     }))

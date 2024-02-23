@@ -2,13 +2,17 @@
     background: rgb(235, 239, 242);
     height: 100%;
     margin-top: 25px;
-    img{
-        cursor: pointer;
+    p{
+        color: rgb(42, 52, 64);
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 120%;
+        text-align: center;
     }
 }
 .theader{
     display: grid;
-    grid-template-columns: repeat(5, 1fr) 50px;
+    grid-template-columns: repeat(7, 1fr) 50px;
     align-items: center;
     justify-items: center;
     max-width: 1171px;
@@ -22,31 +26,25 @@
 .wrapper{
     display: block;
     margin: 0 auto;
-    max-width:  1171px;
+    width:  1085px;
 }
-p{
-    color: rgb(42, 52, 64);
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 120%;
-    letter-spacing: 0%;
-    text-align: left;
-}
+
 .itemWrapper{
-    max-width: 1171px;
+    max-width: 1200px;
     height: 88px;
     border-bottom: 1px solid rgb(235, 239, 242);
     background: white;
     display: grid;
-    grid-template-columns: repeat(5, 1fr) 50px;
+    grid-template-columns: repeat(7, 1fr) 50px;
     align-items: center;
     justify-items: center;
 }
+
 .pagination{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1171px;
+    max-width: 1200px;
     height: 124px;
     background: white;
     border-bottom-left-radius: 20px;
@@ -55,13 +53,54 @@ p{
 .flex{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+}
+.popup{
+    /* Frame 299 */
+    position: absolute;
+    width: 125px;
+    height: 270px;
+    left: 335px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px;
+    /* Grey */
+    background: rgb(235, 239, 242);
+    padding: 10px 25px;
+    div, li{
+        font-size: 15px;
+        font-weight: 600;   
+    }
 }
 .category{
     position: relative;
 }
-
-
+.popupWrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+}
+.categories{
+    display: flex;
+    flex-direction: column;
+}
+li{
+    font-size: 15px;
+    font-weight: 600;   
+}
+.add{
+    color: rgb(91, 126, 154);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 120%;
+    letter-spacing: 0%;
+    text-align: left;
+}
+.arrowDown, .actionImg{
+    cursor: pointer;
+}
 .header {
     max-width: 1219px;
     height: 100px;
@@ -70,7 +109,7 @@ p{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0;
+
     h2 {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;

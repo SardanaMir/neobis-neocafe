@@ -1,0 +1,23 @@
+.actionWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgb(91, 126, 154);
+  padding: 10px; 
+  // border-bottom: 1px solid #f0f0f0; 
+  background-color: white;
+  cursor: pointer; 
+  color: rgb(42, 52, 64);
+  border-radius: 10px;
+}
+.root{
+  border: 1px solid rgb(91, 126, 154);
+  width: 170px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+  border-radius: 10px;
+}
+.actionWrapper:last-child {
+  border-bottom: none;
+}
+
+

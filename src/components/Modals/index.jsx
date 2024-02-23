@@ -18,6 +18,7 @@ const Modals = () => {
     addCategory: AddNewCategory,
     addNewItem: AddNewItem,
     editItem: EditItem,
+    
   };
   const CurrentModal = modalType ? ModalsMap[modalType] : null;
 

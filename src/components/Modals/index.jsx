@@ -22,6 +22,7 @@ const Modals = () => {
     editItem: EditItem,
     addAffiliateModal: AddAffiliateModal,
     addProductModal: AddProductModal,
+    
   };
   const CurrentModal = modalType ? ModalsMap[modalType] : null;
 

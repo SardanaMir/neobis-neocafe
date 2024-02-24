@@ -31,7 +31,7 @@ const Affiliate = () => {
           <thead>
             <tr className={styles.affiliate_tr}>
             <span>№</span>
-              <th className={styles.name_cafe}>Название кофейни</th>
+              <th className={styles.name_cafe} onClick={handleOpenModal}>Название кофейни</th>
               <th className={styles.address_th}>Адрес</th>
               <th className={styles.time_work_th}>Время работы</th>
             </tr>

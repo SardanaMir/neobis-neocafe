@@ -77,3 +77,13 @@ form{
     color: rgb(189, 189, 189);
     margin-top: 5px;
 }
+.visible{
+    position: absolute;
+    top: 27px;
+    right: 26px;
+    cursor: pointer;
+    // padding: 4px;
+}
+.passwordWrapper{
+    position: relative;
+}

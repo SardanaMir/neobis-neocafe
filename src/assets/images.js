@@ -29,11 +29,11 @@ const images = {
   archive,
   branch,
   group,
-  neocafe
-  // blackTrash,
-  // pen,
-  // uploadIcon,
-  // bell
+  neocafe,
+  blackTrash,
+  pen,
+  uploadIcon,
+  bell
 };
 
 export default images;

@@ -6,150 +6,108 @@ import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice.js";
-import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
-import styles from "./style.module.scss";
+import BranchesPopUp from "../../components/PopUp/BranchesPopUp";
+import styles from "./styles.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
 import { PlusOutlined } from "@ant-design/icons";
 import bell from "../../assets/img/Bell.svg";
 import searchIcon from "../../assets/img/Vector.svg";
 import { Layout } from "antd";
-
 const data = [
   {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
   {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
   {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
   {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
   {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
   {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
   {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
     branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
   },
 ];
 
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
 };
-
-const Menu = () => {
+const Staff = () => {
   const dispatch = useDispatch();
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
   const tableHead = [
-    "Наименование",
-    "Категория",
-    "Состав блюд и граммовка",
-    "Стоимость",
-    "Филиал",
+    "Имя",
+    "Должность",
+    "Логин",
+    "Пароль",
+    "Выберите филиал",
+    "Телефон",
+    "График работы",
   ];
 
   const handleOpenModal = () => {
     dispatch(
       openModal({
-        modalType: "addCategory",
-        modalProps: {
-          title: "Новая категория",
-          subtitle: "Наименование",
-          placeholder: "Введите название категории",
-          action: "addCategory",
-        },
+        modalType: "addNewEmployee",
+        // modalProps: {
+        //   title: "Новая категория",
+        //   subtitle: "Наименование",
+        //   placeholder: "Введите название категории",
+        //   action: "addCategory",
+        // },
       })
     );
   };
@@ -170,7 +128,7 @@ const Menu = () => {
     console.log("edit modal open");
     dispatch(
       openModal({
-        modalType: "editItem",
+        modalType: "addNewEmployee",
         modalProps: {
           // title: "Новая категория",
           // subtitle: "Наименование",
@@ -187,8 +145,8 @@ const Menu = () => {
       openModal({
         modalType: "deleteCategory",
         modalProps: {
-          title: "Удаление позиции",
-          subtitle: `Вы действительно хотите удалить данную позицию?`,
+          title: "Удаление сотрудника",
+          subtitle: `Вы действительно хотите удалить данного сотрудника?`,
           action: "deleteItem",
         },
       })
@@ -199,7 +157,7 @@ const Menu = () => {
     console.log(e.target);
     dispatch(
       openModal({
-        modalType: "addNewItem",
+        modalType: "addNewEmployee",
       })
     );
   };
@@ -208,17 +166,21 @@ const Menu = () => {
       <div className={styles.root}>
         <div className={styles.wrapper}>
           {/* header таблицы */}
-          <div className={styles.theader}>
+          <header className={styles.theader}>
             {tableHead.map((name, index) => (
               <div
                 key={index}
                 className={
-                  name === "Категория" || name === "Филиал" ? styles.flex : null
+                  name === "Выберите филиал" || name === "Филиал"
+                    ? styles.flex
+                    : null
                 }
-                onClick={name === "Категория" ? handleCategoryClick : null}
+                onClick={
+                  name === "Выберите филиал" ? handleCategoryClick : null
+                }
               >
                 <p>{name}</p>
-                {(name === "Категория" || name === "Филиал") && (
+                {(name === "Выберите филиал" || name === "Филиал") && (
                   <img
                     className={styles.arrowDown}
                     src={images.arrowDown}
@@ -227,15 +189,17 @@ const Menu = () => {
                 )}
               </div>
             ))}
-          </div>
+          </header>
           {/* тело таблицы */}
           {data.map((item, index) => (
             <div className={styles.itemWrapper} key={index}>
               <p>{item.name}</p>
-              <p>{item.category}</p>
-              <p>{item.ingredients}</p>
-              <p>{item.price}</p>
+              <p>{item.role}</p>
+              <p>{item.login}</p>
+              <p>{item.password}</p>
               <p>{item.branch}</p>
+              <p>{item.phoneNumber}</p>
+              <p>{item.schedule}</p>
               <img
                 className={styles.actionImg}
                 onClick={handleActionClick}
@@ -255,7 +219,7 @@ const Menu = () => {
           </div>
           {/* Всплывающее окно для категорий */}
           {isPopUpOpen && (
-            <CategoriesPopUp
+            <BranchesPopUp
               setPopUpOpen={setPopUpOpen}
               handleOpenModal={handleOpenModal}
             />
@@ -275,4 +239,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Staff;

@@ -4,7 +4,7 @@ import styles from './buttons.module.scss'
 
 export const AffiliateModalWhiteButton = (props) => {
   return (
-    <Button className={styles.affiliate__btn_blue} {...props}>
+    <Button className={styles.affiliate__btn_white} {...props}>
         {props.children}
     </Button>
   )
@@ -12,7 +12,7 @@ export const AffiliateModalWhiteButton = (props) => {
 
 export const AffiliateModalPrimaryButton = (props) => {
     return (
-        <Button className={styles.affiliate__btn_white} {...props}>
+        <Button className={styles.affiliate__btn_blue} {...props}>
             {props.children}
         </Button>
       )
@@ -20,7 +20,7 @@ export const AffiliateModalPrimaryButton = (props) => {
 
   export const StorehouseModalWhiteButton = (props) => {
     return (
-      <Button className={styles.storehouse__btn_blue} {...props}>
+      <Button className={styles.storehouse__btn_white} {...props}>
           {props.children}
       </Button>
     )
@@ -28,7 +28,7 @@ export const AffiliateModalPrimaryButton = (props) => {
   
   export const StorehouseModalPrimaryButton = (props) => {
       return (
-          <Button className={styles.storehouse__btn_white} {...props}>
+          <Button className={styles.storehouse__btn_blue} {...props}>
               {props.children}
           </Button>
         )

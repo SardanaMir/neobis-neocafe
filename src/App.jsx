@@ -1,21 +1,25 @@
 import { useState } from 'react'
-import { Router } from 'react-router-dom'
+import { Route, Router, Routes } from 'react-router-dom'
 import { Layout } from 'antd'
 import Sider from './components/Sider/Sider';
 import Header from './components/Header/Header';
 import Content from './components/Content/Content';
+import LoginPage from './pages/Login/LoginPage';
 import './App.css'
+import PrivateRouter from './router/PrivateRouter';
+import Menu from './pages/Menu';
+import MainPage from './pages/Main/MainPage';
+import CodeVerification from './pages/CodeVerification';
 
 function App() {
   return (
       <div className='app'>
-        <Layout className='layout'>
-          <Sider />
-          <Layout>
-            <Header />
-            <Content />
-          </Layout>
-        </Layout>
+        <Routes>
+          <Route element={<PrivateRouter />} >
+            <Route path='/*' element={<MainPage />} />
+          </Route>
+          <Route path='/login' element={<LoginPage />} />
+        </Routes>
       </div>
   )
 }

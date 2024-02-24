@@ -23,7 +23,7 @@ const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubm
               autoComplete='off'               
               />
               
-              {errors.email && touched.email && <p className={styles.errors}>{errors.email}</p>}
+              {errors?.email && touched?.email && <p className={styles.errors}>{errors?.email}</p>}
 
               <input 
               type="password" 
@@ -31,12 +31,12 @@ const LoginPage = ({onSubmit, isSubmitting, handleBlur, handleChange, handleSubm
               placeholder='Пароль'
               onChange={handleChange} 
               onBlur={handleBlur}
-              value={values && values.password}
+              value={values && values?.password}
               autoComplete='off' 
               id='password'
               required
               />
-              {errors.password && touched.password && <p className={styles.errors}>{errors.password}</p>}
+              {errors?.password && touched?.password && <p className={styles.errors}>{errors?.password}</p>}
 
               <button type="submit" disabled={isSubmitting ? "disabled" : ""} className={styles.btn}>Отправить</button>
             </form>

@@ -5,16 +5,13 @@ import styles from './content.module.scss'
 import Menu from '../../pages/Menu'
 import Storehouse from '../../components/Storehouse/Storehouse'
 import Affiliate from '../../components/Affiliate/Affiliate'
+import MainRoutes from '../../router/MainRoutes'
 
 
 const Content = () => {
   return (
     <Layout.Content className={styles.content}>
-      <Routes>
-        <Route path='/' element={<Menu />} />
-        <Route path='/storehouse' element={<Storehouse />} />
-        <Route path='/affiliates' element={<Affiliate />} />
-      </Routes>
+      <MainRoutes />
     </Layout.Content>
   )
 }

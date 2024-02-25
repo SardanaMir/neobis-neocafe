@@ -52,8 +52,8 @@ const LoginPage = ({
               />
               {errors?.password && touched?.password && <p className={styles.errors}>{errors?.password}</p>}
 
-              {errors.email && touched.email && (
-                <p className={styles.errors}>{errors.email}</p>
+              {errors?.email && touched.email && (
+                <p className={styles.errors}>{errors?.email}</p>
               )}
               <div className={styles.passwordWrapper}>
                 <input
@@ -75,8 +75,8 @@ const LoginPage = ({
                 />
               </div>
 
-              {errors.password && touched.password && (
-                <p className={styles.errors}>{errors.password}</p>
+              {errors?.password && touched.password && (
+                <p className={styles.errors}>{errors?.password}</p>
               )}
 
               <button

@@ -1,10 +1,76 @@
 import React, { useState } from 'react';
-import { Space, Table, Tag } from 'antd';
+import { Pagination, Space, Table, Tag } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../redux/slices/modalSlice';
 import vertical from '../../assets/img/vertical.svg'
 import styles from './affiliate.module.scss'
+
+const data = [
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+];
 
 const Affiliate = () => {
     const [current, setCurrent] = useState(3);
@@ -22,6 +88,10 @@ const Affiliate = () => {
           modalProps: {},
         })
       );
+    };
+
+    const onShowSizeChange = (current, pageSize) => {
+      console.log(current, pageSize);
     };
   
   
@@ -46,6 +116,13 @@ const Affiliate = () => {
             </tr>
           </tbody>
         </table>
+        <Pagination
+              showSizeChanger
+              onShowSizeChange={onShowSizeChange}
+              defaultCurrent={3}
+              total={data.length}
+              className={styles.affiliate_pagination}
+        />
       </div>
     )
 };

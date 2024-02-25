@@ -1,18 +1,85 @@
 import React, { useState } from 'react';
-import { Space, Table, Tag } from 'antd';
+import { Pagination, Space, Table, Tag } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 import vertical from '../../assets/img/vertical.svg'
 import styles from './storehouse.module.scss'
 
+const data = [
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+];
+
+
 const FinishedProducts = () => {
-  const [current, setCurrent] = useState(3);
-  const onChange = (page) => {
-    console.log(page);
-    setCurrent(page);
+
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
   };
+  
   return (
-    <>
-    <table className={styles.table}>
+    <div className={styles.con}>
+      <table className={styles.table}>
         <thead>
           <tr className={styles.first_tr}>
             <th><span>№</span>Наименование</th>
@@ -34,7 +101,14 @@ const FinishedProducts = () => {
           <span className={styles.list_line} />
         </tbody>
       </table>
-    </>
+      <Pagination
+        showSizeChanger
+        onShowSizeChange={onShowSizeChange}
+        defaultCurrent={3}
+        total={data.length}
+        className={styles.pagination}
+      />
+    </div>
   )
 };
 

@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import necafe from '../../assets/img/neocafe.svg'
 import menu from '../../assets/img/menu.svg';
 import archive from '../../assets/img/archive.svg';
@@ -9,7 +9,8 @@ import exit from '../../assets/img/exit.svg';
 import styles from './sider.module.scss'
 
 const Sider = () => {
-  
+  const location = useLocation()
+
   return <Layout.Sider width={221} className={styles.sider}>
     <img src={necafe} alt="neocafe" className={styles.necafe} />
     <div className={styles.list_menu}>

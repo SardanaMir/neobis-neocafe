@@ -9,6 +9,30 @@
     background-color: rgba(255, 255, 255, 1);
 }
 
+.con {
+  width: 100%;
+  max-width: 1171px;
+  height: 792px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+
+  ul {
+    li:last-child {
+      display: none;
+    }
+  }
+}
+
+.pagination {
+  width: 100%;
+  max-width: 440px;
+  height: 60px;
+  text-align: center;
+}
+
   .tabs {
     width: 100%;
     max-width: 750px;
@@ -99,8 +123,9 @@
 
 ////////////////////////////
 .table {
-  border-collapse: collapse;
-  width: 50%;
+  width: 100%;
+  max-width: 1171px;
+  height: 528px;
 }
 
 tr {
@@ -194,7 +219,3 @@ th:last-child {
   height: 0px;
   border: 1px solid rgba(235, 239, 242, 1);
 }
-
-
- 
-

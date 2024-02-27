@@ -1,32 +1,23 @@
-import { PlusOutlined } from '@ant-design/icons';
-import bell from '../../assets/img/Bell.svg'
-import searchIcon from '../../assets/img/Vector.svg'
-import styles from './header.module.scss'
-import { Layout } from 'antd';
-import { openModal } from '../../redux/slices/modalSlice';
-import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import MenuHeader from './MenuHeader';
+import StorehouseHeader from './StorehouseHeader';
+import AffiliatesHeader from './AffiliatesHeader';
+import StaffHeader from './StaffHeader';
 
 
 const Header = () => {
-  const dispatch = useDispatch()
+  const location = useLocation() 
 
-  const handleOpenProductModal = (e) => {
-    console.log(e.target)
-    dispatch(openModal({
-      modalType: 'addProductModal'
-    }))
+
+  if(location.pathname === '/menu') {
+    return <MenuHeader />
+  }else if (location.pathname === '/storehouse') {
+    return <StorehouseHeader />
+  }else if (location.pathname === '/affiliates') {
+    return <AffiliatesHeader />
+  }else if (location.pathname === '/staff') {
+    return <StaffHeader />
   }
-  return (
-    <Layout.Header className={styles.header}>
-        <h2>Меню</h2>
-        <div className={styles.header__list}>
-            <img src={searchIcon} alt="Error :(" className={styles.btn_search} />
-            <input type="search" placeholder='Поиск' />
-            <button onClick={handleOpenProductModal}>Создать <PlusOutlined className={styles.btn_plus} /></button>
-            <img src={bell} alt="Error" width={52} className={styles.header__icon} />
-        </div>
-    </Layout.Header>
-  )
 };
 
 export default Header;

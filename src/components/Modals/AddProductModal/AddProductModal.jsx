@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux'
 import { CloseOutlined } from "@ant-design/icons";
-import { closeModal } from '../../redux/slices/modalSlice';
-import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../Buttons/AffiliateModalButton";
-import styles from '../../styles/add_product.modal.module.scss'
+import { closeModal } from '../../../redux/slices/modalSlice';
+import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../../Buttons/Buttons";
+import styles from '../../../styles/add_product.modal.module.scss'
 import { Select } from 'antd';
 import InputMask from 'react-input-mask';
 

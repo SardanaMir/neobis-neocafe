@@ -10,6 +10,7 @@ import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
 import { PlusOutlined } from "@ant-design/icons";
+import { getMenu } from "../../api/index.js";
 import bell from "../../assets/img/Bell.svg";
 import searchIcon from "../../assets/img/Vector.svg";
 import { Layout } from "antd";
@@ -137,10 +138,10 @@ const Menu = () => {
     "Категория",
     "Состав блюд и граммовка",
     "Стоимость",
-    "Филиал",
+    // "Филиал",
   ];
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async () => {
     dispatch(
       openModal({
         modalType: "addCategory",
@@ -152,6 +153,8 @@ const Menu = () => {
         },
       })
     );
+    const res = await getMenu();
+    console.log('getmenu', res)
   };
 
   const handleCategoryClick = () => {
@@ -159,7 +162,7 @@ const Menu = () => {
   };
   const handleActionClick = (e) => {
     setPopupPosition({ x: e.clientX, y: e.clientY });
-    console.log(popupPosition);
+    console.log({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
@@ -251,7 +254,7 @@ const Menu = () => {
               <p>{item.category}</p>
               <p>{item.ingredients}</p>
               <p>{item.price}</p>
-              <p>{item.branch}</p>
+              {/* <p>{item.branch}</p> */}
               <img
                 className={styles.actionImg}
                 onClick={handleActionClick}

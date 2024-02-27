@@ -1,36 +1,88 @@
-import axios from 'axios';
+import axios from "axios";
 
-const URL = 'https://helsinki-backender.org.kg/';
+const URL = "https://helsinki-backender.org.kg/";
 
 const API = axios.create({
-    baseURL: URL,
-    headers: {
-      "Content-Type" : 'application/json',
-    }
+  baseURL: URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-API.interceptors.request.use(async (config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+// API.interceptors.request.use(async (config) => {
+//   const token = localStorage.getItem('accessToken');
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// }, (error) => {
+//   return Promise.reject(error);
+// });
 
-  
-API.interceptors.response.use(response => {
-  return response;
-}, error => {
-  if (error.response.status === 401) { 
-    console.log(error)
-  }
-  return Promise.reject(error);
-});
+// API.interceptors.response.use(response => {
+//   return response;
+// }, error => {
+//   if (error.response.status === 401) {
+//     console.log(error)
+//   }
+//   return Promise.reject(error);
+// });
+// API.interceptors.request.use(
+//   async (config) => {
+//     const cookies = document.cookie
+//       .split("; ")
+//       .reduce((cookieObject, currentCookie) => {
+//         const [name, value] = currentCookie.split("=");
+//         cookieObject[name] = value;
+//         return cookieObject;
+//       }, {});
 
-export const login = async (data) =>{
-    const res = await API.post('users/login/admin/', data)
-    return res.data
-}
+//     const token = cookies.accessToken;
 
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
+// API.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (error) => {
+//     if (error.response.status === 401) {
+//       console.log(error);
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+export const login = async (data) => {
+  const res = await API.post("users/login/admin/", data);
+  return res.data;
+};
+export const getMenu = async () => {
+  const res = await API.get("menu/menus/");
+  return res;
+};
+export const createNewItem = async (data) => {
+  const res = await API.post("menu/menus/", data);
+  return res;
+};
+
+export const createNewCategory = async (data) => {
+  const res = await API.post("menu/categories/", data);
+  return res;
+};
+export const getAllCategories = async () => {
+  const res = await API.get("menu/categories/");
+  return res;
+};
+export const deleteCategory = async (data) => {
+  const res = await API.get("menu/categories/", data);
+  return res;
+};

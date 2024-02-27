@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { components } from "../../Buttons";
 import { useFormik } from "formik";
+import { createNewCategory, getAllCategories } from "../../../api";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { basicSchema } from "../../../schema";
 import styles from "./styles.module.scss";
@@ -9,20 +10,29 @@ import { addCategory } from "../../../redux/slices/categoriesSlice";
 
 const AddNewCategory = ({ title, subtitle, placeholder }) => {
   const dispatch = useDispatch();
-  const { values, errors, touched, isSubmitting, handleBlur, handleChange } =
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log(values.newCategory);
+    const res = await createNewCategory({name : values.newCategory})
+    console.log('createNewCategory res', res);
+    const categories = await getAllCategories()
+    console.log('categories', categories)
+    dispatch(addCategory(values.newCategory))
+    dispatch(closeModal());
+
+  };
+  
+  const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
         newCategory: "",
       },
       validationSchema: basicSchema,
+      onSubmit: onSubmit,
     });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(values.newCategory);
-    dispatch(addCategory(values.newCategory))
-    dispatch(closeModal());
-  };
+
   const handleClose = () => {
     dispatch(closeModal());
   };
@@ -45,6 +55,7 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
             type="text"
             id="newCategory"
             placeholder={placeholder}
+            name='newCategory'
           />
           <div className={styles.btnGroup}>
             <components.WhiteButton

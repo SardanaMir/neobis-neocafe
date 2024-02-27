@@ -36,9 +36,24 @@ const LoginPage = ({
                 id="username"
                 autoComplete="off"
               />
+              
+              {errors?.email && touched?.email && <p className={styles.errors}>{errors?.email}</p>}
 
-              {errors.email && touched.email && (
-                <p className={styles.errors}>{errors.email}</p>
+              <input 
+              type="password" 
+              className={error ? styles.error : styles.input}
+              placeholder='Пароль'
+              onChange={handleChange} 
+              onBlur={handleBlur}
+              value={values && values?.password}
+              autoComplete='off' 
+              id='password'
+              required
+              />
+              {errors?.password && touched?.password && <p className={styles.errors}>{errors?.password}</p>}
+
+              {errors?.email && touched.email && (
+                <p className={styles.errors}>{errors?.email}</p>
               )}
               <div className={styles.passwordWrapper}>
                 <input
@@ -60,8 +75,8 @@ const LoginPage = ({
                 />
               </div>
 
-              {errors.password && touched.password && (
-                <p className={styles.errors}>{errors.password}</p>
+              {errors?.password && touched.password && (
+                <p className={styles.errors}>{errors?.password}</p>
               )}
 
               <button

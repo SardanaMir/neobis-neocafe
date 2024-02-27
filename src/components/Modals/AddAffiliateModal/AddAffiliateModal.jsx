@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import InputMask from "react-input-mask";
 import { CloseOutlined } from "@ant-design/icons";
-import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../Buttons/AffiliateModalButton";
-import outlineImg from '../../assets/img/outline.svg'
-import { closeModal } from "../../redux/slices/modalSlice";
-import styles from '../../styles/add_affiliate_modal.module.scss'
+import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../../Buttons/Buttons";
+import outlineImg from '../../../assets/img/outline.svg'
+import { closeModal } from "../../../redux/slices/modalSlice";
+import styles from '../../../styles/add_affiliate_modal.module.scss'
 
 const AddAffiliateModal = () => {
   const [timeMonStart, setMonTimeStart] = useState('11:00 ')

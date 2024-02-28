@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { CloseOutlined } from "@ant-design/icons";
 import { closeModal } from '../../../redux/slices/modalSlice';
@@ -5,45 +6,19 @@ import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../../
 import styles from '../../../styles/add_product.modal.module.scss'
 import { Select } from 'antd';
 import InputMask from 'react-input-mask';
+import DropdownStoreHouse from '../../Dropdown/Dropdown';
+import DropDownCount from '../../DropDown/DropDownCount';
 
 
 const AddProductModal = () => {
+  const [selected, setSelected] = useState('Выберите категорию')
+  const [selectedCount, setSelectedCount] = useState('мл')
     const dispatch = useDispatch()
 
     const handleCloseModal = () => {
       dispatch(closeModal())
     }
 
-    
-    const options = [
-      { value: 'мл', label: 'мл' },
-      { value: 'г', label: 'г' },
-      { value: 'кг', label: 'кг' },
-      { value: 'ш', label: 'ш' },
-      { value: 'л', label: 'л' },
-    ];
-    const formatChars = {
-      'P': '[PK]',
-      '0': '[02468]'
-    };
-
-  const optionsAddProductCategory = [
-    { value: 'готовая продукция', label: <p className={styles.labels}>Готовая продукция</p>},
-    { value: 'сырье', label: <p className={styles.labels}>Сырье</p>}
-  ]
-
-    const handleChange = (value) => {
-      console.log(value);
-    };
-    const handleChangeCategory = (value) => {
-      console.log(value);
-    }
-
-    
-
-
-
-    const defaultValue = options[0];
 
   return (
     <div className={styles.container}>
@@ -59,29 +34,12 @@ const AddProductModal = () => {
               <span className={styles.count_span}>Кол-во (в гр, мл, л, кг)</span>
               <div className={styles.select}>
                 <input type="number" placeholder='Количество' />
-                <Select
-                style={{border: 'none', background: 'red'}}
-                  defaultValue={{
-                    value: 'мл',
-                    label: 'мл',
-                  }}
-                  className={styles.selectDown}
-                  onChange={handleChange}
-                  options={options}
-                />
+                <DropDownCount selectedCount={selectedCount} setSelectedCount={setSelectedCount} />
               </div>
             </div>
             <div className={styles.add__product_category}>
               <span className={styles.category__span}>Категория</span>
-              <Select
-                  defaultValue={{
-                    value: 'Выберите категорию',
-                    label: 'Выберите категорию',
-                  }}
-                  className={styles.category}
-                  onChange={handleChangeCategory}
-                  options={optionsAddProductCategory}
-                />
+                <DropdownStoreHouse selected={selected} setSelected={setSelected} />
             </div>
             <div className={styles.add__product_limit}>
               <span className={styles.limit_span}>Минимальный лимит</span>
@@ -89,7 +47,6 @@ const AddProductModal = () => {
             </div>
             <div className={styles.add__product_date}>
               <span className={styles.data_span}>Дата прихода</span>
-              {/* <input type="number" placeholder='' /> */}
               <InputMask
                 mask='99.99.9999'
                 placeholder='dd.mm.yyyy'>
@@ -101,7 +58,7 @@ const AddProductModal = () => {
             </div>
           </div>
           <div className={styles.btns}>
-            <StorehouseModalWhiteButton>Отмена</StorehouseModalWhiteButton>
+            <StorehouseModalWhiteButton onClick={handleCloseModal}>Отмена</StorehouseModalWhiteButton>
             <StorehouseModalPrimaryButton>Сохранить</StorehouseModalPrimaryButton>
         </div>
         </div>

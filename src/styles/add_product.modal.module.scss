@@ -37,6 +37,7 @@
         }
 
         .add__product_p {
+            width: 100%;
             max-width: 413px;
             max-height: 24px;
             color: rgb(42, 52, 64);
@@ -53,11 +54,13 @@
             align-items: center;
 
             .add__product_count {
+                width: 100%;
                 max-width: 252px;
                 margin-top: 16px;
 
                 .select {
-                    width: 252px;
+                    width: 100%;
+                    max-width: 252px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -84,13 +87,8 @@
                 }
 
                 input {
-                    position: static;
                     width: 171px;
                     height: 64px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: flex-start;
-                    align-items: center;
                     padding: 24px 16px 24px 16px;
                     border-radius: 10px;
                     background: rgb(235, 239, 242);
@@ -102,27 +100,11 @@
                     font-weight: 400;     
                 }
 
-                .selectDown {
-                    width: 73px !important;
-                    height: 66px !important;
-                    text-align: center;
-                    border-radius: 10px;
-                    background: rgb(235, 239, 242) !important;
-                    color: rgb(0, 0, 0);
-                    font-family: Poppins;
-                    font-size: 16px;
-                    font-weight: 400;
-                    border: none !important;
-                    outline: none;
-                }
-                .selectDown:hover {
-                    border: none !important;
-                } 
-
             }
 
 
             .add__product_category {
+                width: 100%;
                 max-width: 252px;
                 max-height: 90px;
                 margin-top: 16px;
@@ -135,28 +117,6 @@
                     text-align: left;
                 }
 
-                .category {
-                    width: 253px;
-                    height: 66px;
-                    border-radius: 10px;
-                    background: rgb(235, 239, 242);
-                    padding: 24px 16px 24px 7px;
-                    
-                    span {
-                        font-size: 18px;
-                        color: rgb(23, 23, 23) !important;
-                    }
-
-                    div {
-                        font-family: Nunito;
-                        font-size: 18px;
-                        font-weight: 600;
-                        text-align: left;
-                        background-color: rgb(235, 239, 242);
-                        border: none;
-                        outline: none;
-                    }
-                }
             }
 
             .add__product_limit {

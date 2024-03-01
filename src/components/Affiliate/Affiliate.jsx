@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, Space, Table, Tag } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../redux/slices/modalSlice';
 import vertical from '../../assets/img/vertical.svg'
-import styles from './affiliate.module.scss'
 import CategoriesPopUp from '../PopUp/CategoriesPopUp';
 import EditDeletePopUp from '../PopUp/EditDeletePopUp';
 import DropDown from '../DropDown';
 import DropdownStoreHouse from '../Dropdown/Dropdown';
+import { getBranches } from '../../redux/slices/branchesSlice'; 
+import styles from './affiliate.module.scss'
 
 const data = [
   {
@@ -80,6 +81,8 @@ const Affiliate = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+
+  // const { data_branches } = useSelector(state => state.branches)
   const dispatch = useDispatch()
 
     
@@ -96,20 +99,19 @@ const Affiliate = () => {
     setActionsPopUpOpen(false);
   };
 
-    const handleOpenModal = () => {
-      dispatch(
-        openModal({
-          modalType: "addAffiliateModal",
-          modalProps: {},
-        })
-      );
-    };
+  const handleOpenModal = () => {
+    dispatch(
+      openModal({
+        modalType: "addAffiliateModal",
+        modalProps: {},
+      })
+    );
+  };
 
     const handleEditModalOpen = () => {
-      console.log("edit modal open");
       dispatch(
         openModal({
-          modalType: "editItem",
+          modalType: "editAffiliateModal",
           modalProps: {},
         })
       );
@@ -117,7 +119,6 @@ const Affiliate = () => {
     };
 
     const handleDeleteModalOpen = () => {
-      console.log("delete modal open");
       dispatch(
         openModal({
           modalType: "deleteCategory",
@@ -133,6 +134,10 @@ const Affiliate = () => {
     const onShowSizeChange = (current, pageSize) => {
       console.log(current, pageSize);
     };
+
+    useEffect(() => {
+      dispatch(getBranches())
+    }, []);
   
   
     return (

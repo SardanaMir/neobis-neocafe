@@ -2,19 +2,18 @@ import { useState } from 'react';
 import iconDown from '../../assets/img/CaretDown.svg'
 import styles from "./dropdown.module.scss";
 
-const DropdownStoreHouse = ({ category, setCategory }) => {
+const DropDownLimit = ({ limit_unit, setLimitUnit }) => {
     const [isActive, setIsActive] = useState(false)
-
-    const options  = ['Готовые продукты', 'Сырье']
+    const options  = ['мл', 'гр', 'кл', 'шт', 'литр']
 
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown_count}>
         <div 
             className={isActive ? styles.activeSelect : styles.dropdown_btn}
             onClick={e => setIsActive(!isActive)}
             >
-                {category}
-            <img src={iconDown} alt="Error :(" className={isActive ? styles.activeBtn : ''} />
+                {limit_unit}
+            <img src={iconDown} alt="Error :(" width={22} className={isActive ? styles.activeBtn : ''} />
         </div>
         {
             isActive && (
@@ -25,7 +24,7 @@ const DropdownStoreHouse = ({ category, setCategory }) => {
                             key={index}
                             className={styles.dropdown_item} 
                             onClick={e => {
-                                setCategory(option)
+                                setLimitUnit(option)
                                 setIsActive(false)
                             }}
                         > 
@@ -40,4 +39,4 @@ const DropdownStoreHouse = ({ category, setCategory }) => {
   )
 };
 
-export default DropdownStoreHouse;
+export default DropDownLimit;

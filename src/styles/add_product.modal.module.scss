@@ -11,9 +11,10 @@
     overflow: hidden; 
 
     .add__product {
-        position: absolute;
-        width: 600px;
-        height: 697px;
+        width: 100%;
+        max-width: 600px;
+        height: 100%;
+        max-height: 697px;
         border-radius: 30px;
         background: rgb(254, 254, 254);
         padding: 32px;
@@ -120,10 +121,14 @@
             }
 
             .add__product_limit {
+                width: 100%;
                 max-width: 252px;
                 max-height: 90px;
                 margin-top: 16px;
-
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
                 .limit_span {
                     color: rgb(91, 126, 154);
                     font-family: Poppins;

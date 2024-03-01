@@ -2,9 +2,9 @@ import { useState } from 'react';
 import iconDown from '../../assets/img/CaretDown.svg'
 import styles from "./dropdown.module.scss";
 
-const DropDownCount = ({ selectedCount, setSelectedCount }) => {
+const DropDownCount = ({ quantity_unit, setQuantityUnit }) => {
     const [isActive, setIsActive] = useState(false)
-    const options  = ['мл', 'г', 'кг', 'ш', 'л']
+    const options  = ['мл', 'гр', 'кл', 'шт', 'литр']
 
   return (
     <div className={styles.dropdown_count}>
@@ -12,7 +12,7 @@ const DropDownCount = ({ selectedCount, setSelectedCount }) => {
             className={isActive ? styles.activeSelect : styles.dropdown_btn}
             onClick={e => setIsActive(!isActive)}
             >
-                {selectedCount}
+                {quantity_unit}
             <img src={iconDown} alt="Error :(" width={22} className={isActive ? styles.activeBtn : ''} />
         </div>
         {
@@ -24,7 +24,7 @@ const DropDownCount = ({ selectedCount, setSelectedCount }) => {
                             key={index}
                             className={styles.dropdown_item} 
                             onClick={e => {
-                                setSelectedCount(option)
+                                setQuantityUnit(option)
                                 setIsActive(false)
                             }}
                         > 

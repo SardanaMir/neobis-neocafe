@@ -25,6 +25,7 @@ export const setProudct = createAsyncThunk('storage/setProudct', async (data) =>
     const { handleCloseModal } = data
     const response = await axios.post(`${API}/storage/`, data);
     handleCloseModal()
+    window.location.reload();
     return response.data;
   } catch (error) {
     console.log(error);
@@ -34,6 +35,18 @@ export const setProudct = createAsyncThunk('storage/setProudct', async (data) =>
 export const getOneProductById = createAsyncThunk('storage/getOneProductById', async (id) => {
   try {
     const response = await axios.get(`${API}/storage/${id}/`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const deleteProduct = createAsyncThunk('storage/deleteProduct', async ({ id, handleCloseModal }) => {
+  try {
+    console.log(id);
+    const response = await axios.delete(`${API}/storage/${id}/`);
+    handleCloseModal()
+    window.location.reload();
     return response.data;
   } catch (error) {
     console.log(error);
@@ -58,6 +71,12 @@ const storageSlice = createSlice({
       })
       .addCase(getOneProductById.fulfilled, (state, action) => {
         state.storage_product = action.payload
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        toast.error('Продукт не был удалён!')
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        toast.warning('Продукт удалён')
       })
   }
   

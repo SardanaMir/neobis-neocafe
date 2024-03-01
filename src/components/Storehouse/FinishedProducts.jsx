@@ -44,9 +44,10 @@ const FinishedProducts = () => {
       openModal({
         modalType: "deleteCategory",
         modalProps: {
-          title: "Удаление позиции",
-          subtitle: `Вы действительно хотите удалить данную позицию?`,
-          action: "deleteItem",
+          title: "Удаление продукта",
+          subtitle: `Вы действительно хотите удалить этот продукт?`,
+          action: "deleteProductInStorhouse",
+          id: id,
         },
       })
     );
@@ -72,6 +73,7 @@ const FinishedProducts = () => {
       })
     );
   };
+
 
   useEffect(() => {
     dispatch(getProducts())

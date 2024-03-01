@@ -4,6 +4,7 @@ import { closeModal } from '../../../redux/slices/modalSlice';
 import {components} from '../../Buttons'
 import styles from './style.module.scss';
 import { removeCategory } from '../../../redux/slices/categoriesSlice';
+import { deleteProduct } from '../../../redux/slices/storageSlice';
 
 const DeleteCategory = (props) => {
     const dispatch = useDispatch();
@@ -19,12 +20,17 @@ const DeleteCategory = (props) => {
     const deleteItem = () =>{
         console.log('удалить позицию');
         dispatch(closeModal());
+    }
 
+    const deleteProductInStorhouse = () =>{
+        const id = props.id
+        dispatch(deleteProduct({ id, handleCloseModal }));
     }
 
     const actions = {
         deleteCategory: deleteCategory,
         deleteItem: deleteItem,
+        deleteProductInStorhouse: deleteProductInStorhouse
     };
 
     const handleClick = actions[props.action];

@@ -4,143 +4,138 @@ import Header from "../../components/Header/Header.jsx";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice.js";
 import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
 import { PlusOutlined } from "@ant-design/icons";
+import { getMenu, getAllCategories } from "../../api/index.js";
 import bell from "../../assets/img/Bell.svg";
 import searchIcon from "../../assets/img/Vector.svg";
 import { Layout } from "antd";
-
+import {
+  setCategories,
+  removeCategory,
+} from "../../redux/slices/categoriesSlice.js";
+import {
+  setItems,
+} from "../../redux/slices/itemsSlice.js";
 const data = [
   {
+    id: 'item01',
     name: "Капучино",
     category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "10",
+        measure: "гр",
+      },
+    ],
+    price: 140,
+    currency: "сом",
+    description:
+      "классический напиток, который покорил сердца ценителей кофе по всему миру. Этот напиток известен своей простотой и в то же время насыщенным вкусом. Кофе Американо приготавливается путем добавления горячей воды к одному или двум эспрессо, что придает напитку более нежный вкус без утраты силы и аромата эспрессо.",
   },
   {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
+    id: 'item02',
     name: "Раф",
     category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "15",
+        measure: "гр",
+      },
+      {
+        name: "Молоко",
+        quantity: "100",
+        measure: "мл",
+      },
+      {
+        name: "Сироп",
+        quantity: "20",
+        measure: "мл",
+      },
+    ],
+    price: 160,
+    currency: "сом",
+    description: "Нежный напиток с молочной пенкой...",
   },
   {
-    name: "Капучино",
+    id: 'item03',
+    name: "Латте",
     category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "15",
+        measure: "гр",
+      },
+      {
+        name: "Молоко",
+        quantity: "150",
+        measure: "мл",
+      },
+    ],
+    price: 150,
+    currency: "сом",
+    description: "Ароматный кофейный напиток с молоком...",
   },
   {
-    name: "Раф",
+    id: 'item04',
+    name: "Эспрессо",
     category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Раф",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
-  },
-  {
-    name: "Американо",
-    category: "Кофе",
-    ingredients: "кофе 10гр",
-    price: "140 сом",
-    branch: "Центральный",
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measure: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
   },
 ];
 
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
 };
-
+const categoriesData = [{name: 'Кофе', id: "cat02"}, {name: 'Чай', id: "cat02"}]
 const Menu = () => {
   const dispatch = useDispatch();
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-
+  const items = useSelector(state => state.items.items);
+  const [idInfo, setIdInfo] = useState()
   const tableHead = [
+    "№",
     "Наименование",
     "Категория",
     "Состав блюд и граммовка",
     "Стоимость",
-    "Филиал",
   ];
 
-  const handleOpenModal = () => {
+  // Первичный рендер
+  useEffect(() => {
+    dispatch(setItems(data))
+
+    const fetchData = async () => {
+      try {
+        // const categoriesData = await getAllCategories();
+        dispatch(setCategories(categoriesData));
+        console.log("getAllCategories", categoriesData.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleOpenModal = async () => {
     dispatch(
       openModal({
         modalType: "addCategory",
@@ -153,13 +148,17 @@ const Menu = () => {
       })
     );
   };
-
+  const handleClick = (id, e) =>{
+    console.log('id', id);
+    setIdInfo(id)
+    handleActionClick(e)
+  }
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
   const handleActionClick = (e) => {
     setPopupPosition({ x: e.clientX, y: e.clientY });
-    console.log(popupPosition);
+    console.log({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
@@ -171,17 +170,12 @@ const Menu = () => {
     dispatch(
       openModal({
         modalType: "editItem",
-        modalProps: {
-          // title: "Новая категория",
-          // subtitle: "Наименование",
-          // placeholder: "Введите название категории",
-        },
       })
     );
     setActionsPopUpOpen(false);
   };
   //удалить позицию из меню
-  const handleDeleteModalOpen = () => {
+  const handleDeleteModalOpen = (id) => {
     console.log("delete modal open");
     dispatch(
       openModal({
@@ -190,10 +184,10 @@ const Menu = () => {
           title: "Удаление позиции",
           subtitle: `Вы действительно хотите удалить данную позицию?`,
           action: "deleteItem",
+          id: idInfo
         },
       })
     );
-    // setActionsPopUpOpen(false)
   };
   const handleOpenProductModal = (e) => {
     console.log(e.target);
@@ -213,7 +207,11 @@ const Menu = () => {
               <div
                 key={index}
                 className={
-                  name === "Категория" || name === "Филиал" ? styles.flex : null
+                  name === "Категория" || name === "Филиал"
+                    ? styles.flex
+                    : name === "№"
+                    ? styles.numbering
+                    : null
                 }
                 onClick={name === "Категория" ? handleCategoryClick : null}
               >
@@ -229,16 +227,24 @@ const Menu = () => {
             ))}
           </div>
           {/* тело таблицы */}
-          {data.map((item, index) => (
-            <div className={styles.itemWrapper} key={index}>
+          {items.map((item, index) => (
+            <div className={styles.itemWrapper} key={item.id}>
+              <p className={styles.numbering}>№ {index + 1}</p>
               <p>{item.name}</p>
               <p>{item.category}</p>
-              <p>{item.ingredients}</p>
-              <p>{item.price}</p>
-              <p>{item.branch}</p>
+              <p>
+                {item.ingredients.map(
+                  (ingredient, index) =>
+                    ` ${ingredient.name} ${ingredient.quantity}${ingredient.measure};`
+                )}
+              </p>
+              <p>
+                {item.price} {item.currency}
+              </p>
               <img
                 className={styles.actionImg}
-                onClick={handleActionClick}
+                // onClick={handleActionClick}
+                onClick={(e) => handleClick(item.id, e)}
                 src={images.action}
                 alt="действия"
               />

@@ -12,22 +12,23 @@ const LoginContainer = () => {
   const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const basicSchema = yup.object().shape({
-    email: yup.string().email("Введите e-mail").required("Введите e-mail"),
+  // const basicSchema = yup.object().shape({
+  //   email: yup.string().email("Введите e-mail").required("Введите e-mail"),
 
-    password: yup
-      .string()
-      .min(5, "Минимум 5 символов")
-      .required("Введите пароль"),
-  });
+  //   password: yup
+  //     .string()
+  //     .min(5, "Минимум 5 символов")
+  //     .required("Введите пароль"),
+  // });
 
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    // e.preventDefault()
     const adminData = { username: values.username, password: values.password };
     console.log(adminData);
     try {
       const res = await login(adminData);
       setAuthTokenToCookie(res.access);
-      navigate("/");
+      navigate("/menu");
       setError(false);
       console.log(res);
     } catch (err) {

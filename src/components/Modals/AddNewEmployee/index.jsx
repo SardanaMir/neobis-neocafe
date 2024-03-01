@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { components } from "../../Buttons";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { useFormik } from "formik";
-import List from "../../List";
+// import List from "../../List";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
 
@@ -127,11 +127,11 @@ const AddNewEmployee = () => {
               placeholder="Как зовут сотрудника"
             />
             <p>Должность</p>
-            <List
+            {/* <List
               options={role}
               values={"Выберите должность"}
               onSelect={handleRoleSelect}
-            />
+            /> */}
             <p for="birthday">День рождения</p>
             <input
               onChange={handleChange}

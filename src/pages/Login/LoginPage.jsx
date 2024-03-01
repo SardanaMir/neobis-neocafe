@@ -36,25 +36,7 @@ const LoginPage = ({
                 id="username"
                 autoComplete="off"
               />
-              
               {errors?.email && touched?.email && <p className={styles.errors}>{errors?.email}</p>}
-
-              {/* <input 
-              type="password" 
-              className={error ? styles.error : styles.input}
-              placeholder='Пароль'
-              onChange={handleChange} 
-              onBlur={handleBlur}
-              value={values && values?.password}
-              autoComplete='off' 
-              id='password'
-              required
-              />
-              {errors?.password && touched?.password && <p className={styles.errors}>{errors?.password}</p>} */}
-
-              {errors?.email && touched.email && (
-                <p className={styles.errors}>{errors?.email}</p>
-              )}
               <div className={styles.passwordWrapper}>
                 <input
                   type={passwordVisible ? "text" : "password"}
@@ -74,11 +56,9 @@ const LoginPage = ({
                   alt="passwordVisible"
                 />
               </div>
-
               {errors?.password && touched.password && (
                 <p className={styles.errors}>{errors?.password}</p>
               )}
-
               <button
                 type="submit"
                 disabled={isSubmitting ? "disabled" : ""}
@@ -90,7 +70,6 @@ const LoginPage = ({
           </div>
         </div>
       </div>
-
       <div className={styles.box}>
         <img className={styles.img} src={bg} alt="3 cups of coffee" />
       </div>

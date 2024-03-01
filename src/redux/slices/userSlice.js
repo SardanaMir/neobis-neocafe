@@ -9,15 +9,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action){
-            if(action.payload.token){
-                state.isAuth = true;
-            }else{
-                state.isAuth = false;
-            }
+            state.isAuth = action.payload
         },
-
     },
-
 });
 
 export const {setUser} = userSlice.actions;

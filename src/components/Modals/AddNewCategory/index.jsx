@@ -1,37 +1,51 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { components } from "../../Buttons";
 import { useFormik } from "formik";
-import { createNewCategory, getAllCategories } from "../../../api";
+import { createNewCategory } from "../../../api";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { basicSchema } from "../../../schema";
-import styles from "./styles.module.scss";
 import { addCategory } from "../../../redux/slices/categoriesSlice";
+import styles from "./styles.module.scss";
 
 const AddNewCategory = ({ title, subtitle, placeholder }) => {
   const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories.categories);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     console.log(values.newCategory);
-    const res = await createNewCategory({name : values.newCategory})
-    console.log('createNewCategory res', res);
-    const categories = await getAllCategories()
-    console.log('categories', categories)
-    dispatch(addCategory(values.newCategory))
-    dispatch(closeModal());
-
+    const isCategoryExists = categories.some(
+      (category) => category.name.toLowerCase() === values.newCategory.toLowerCase()
+    );
+    if (isCategoryExists) {
+      errors.newCategory = `Категория '${values.newCategory}' уже существует`;
+    } else {
+      try {
+        const res = await createNewCategory({ name: values.newCategory });
+        console.log("createNewCategory res", res);
+        dispatch(addCategory({ name: values.newCategory }));
+        dispatch(closeModal());
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
-  
-  const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        newCategory: "",
-      },
-      validationSchema: basicSchema,
-      onSubmit: onSubmit,
-    });
 
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    initialValues: {
+      newCategory: "",
+    },
+    // validationSchema: basicSchema,
+    onSubmit: onSubmit,
+  });
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -55,18 +69,28 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
             type="text"
             id="newCategory"
             placeholder={placeholder}
-            name='newCategory'
+            name="newCategory"
+            minLength={3}
+            maxLength={150}
           />
+          {errors?.newCategory && touched?.newCategory && (
+            <h5 className={styles.errorMsg}>{errors?.newCategory}</h5>
+          )}
           <div className={styles.btnGroup}>
-            <components.WhiteButton
-              title={"Отмена"}
-              handleClose={handleClose}
-            />
-            <components.BlueButton
+            <button
+              className={styles.cancelBtn}
+              disabled={isSubmitting}
+              onClick={handleClose}
+            >
+              Отмена
+            </button>
+            <button
+              className={styles.addBtn}
               type="submit"
-              disbled={isSubmitting}
-              title={"Сохранить"}
-            />
+              disabled={isSubmitting}
+            >
+              Сохранить
+            </button>
           </div>
         </form>
       </div>

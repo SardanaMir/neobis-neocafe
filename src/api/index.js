@@ -82,7 +82,7 @@ export const getAllCategories = async () => {
   const res = await API.get("menu/categories/");
   return res;
 };
-export const deleteCategory = async (data) => {
-  const res = await API.get("menu/categories/", data);
+export const deleteCategory = async (id) => {
+  const res = await API.delete(`menu/categories/${id}/`);
   return res;
 };

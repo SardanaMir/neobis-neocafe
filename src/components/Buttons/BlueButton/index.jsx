@@ -6,7 +6,7 @@ const BlueButton = (props) => {
       props.handleCloseModal();
     }
   };
-  return <button className={styles.root} onClick={handleClick}>{props.title}</button>;
+  return <button className={styles.root} type="button" onClick={handleClick}>{props.title}</button>;
 };
 
 export default BlueButton;

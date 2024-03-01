@@ -19,6 +19,7 @@ import CodeVerification from './pages/CodeVerification';
 //   Navigate,
 // } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LoginContainer from './pages/Login/LoginContainer';
 // import LoginContainer from "./pages/Login/LoginContainer";
 // import { Layout } from "antd";
 // import Sider from "./components/Sider/Sider";
@@ -42,7 +43,7 @@ function App() {
           <Route element={<PrivateRouter />} >
             <Route path='/*' element={<MainPage />} />
           </Route>
-          <Route path='/login' element={<LoginPage />} />
+          <Route path='/login' element={<LoginContainer />} />
         </Routes>
       </div>
   )

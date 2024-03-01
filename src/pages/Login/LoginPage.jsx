@@ -39,7 +39,7 @@ const LoginPage = ({
               
               {errors?.email && touched?.email && <p className={styles.errors}>{errors?.email}</p>}
 
-              <input 
+              {/* <input 
               type="password" 
               className={error ? styles.error : styles.input}
               placeholder='Пароль'
@@ -50,7 +50,7 @@ const LoginPage = ({
               id='password'
               required
               />
-              {errors?.password && touched?.password && <p className={styles.errors}>{errors?.password}</p>}
+              {errors?.password && touched?.password && <p className={styles.errors}>{errors?.password}</p>} */}
 
               {errors?.email && touched.email && (
                 <p className={styles.errors}>{errors?.email}</p>

@@ -22,10 +22,10 @@ export const getProducts = createAsyncThunk('storage/getProducts', async () => {
 
 export const setProudct = createAsyncThunk('storage/setProudct', async (data) => {
   try {
-    const { handleCloseModal } = data
+    const { handleCloseModal, getNewProducts } = data
     const response = await axios.post(`${API}/storage/`, data);
     handleCloseModal()
-    window.location.reload();
+    getNewProducts()
     return response.data;
   } catch (error) {
     console.log(error);
@@ -43,7 +43,6 @@ export const getOneProductById = createAsyncThunk('storage/getOneProductById', a
 
 export const deleteProduct = createAsyncThunk('storage/deleteProduct', async ({ id, handleCloseModal }) => {
   try {
-    console.log(id);
     const response = await axios.delete(`${API}/storage/${id}/`);
     handleCloseModal()
     window.location.reload();

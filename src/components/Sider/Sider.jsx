@@ -16,7 +16,12 @@ const Sider = () => {
     <div className={styles.list_menu}>
         <NavLink 
           to="/menu" 
-          className={styles.links} 
+          className={({ isActive, isPending, isTransitioning }) =>
+          [
+            styles.links,
+            isActive ? styles.active : styles.links,
+          ].join(" ")
+        }
         >
           <img 
             src={menu} alt="Error :(" 
@@ -26,7 +31,12 @@ const Sider = () => {
         </NavLink>
         <NavLink 
           to="/storehouse" 
-          className={styles.links}
+          className={({ isActive, isPending, isTransitioning }) =>
+          [
+            styles.links,
+            isActive ? styles.active : styles.links,
+          ].join(" ")
+        }
         >
           <img src={archive} 
             alt="Error :(" 
@@ -36,7 +46,12 @@ const Sider = () => {
         </NavLink>
         <NavLink 
           to="/affiliates" 
-          className={styles.links}
+          className={({ isActive, isPending, isTransitioning }) =>
+          [
+            styles.links,
+            isActive ? styles.active : styles.links,
+          ].join(" ")
+        }
         >
           <img src={branch} 
             alt="Error :(" 
@@ -46,7 +61,12 @@ const Sider = () => {
         </NavLink>
         <NavLink 
           to="/staff" 
-          className={styles.links}
+          className={({ isActive, isPending, isTransitioning }) =>
+          [
+            styles.links,
+            isActive ? styles.active : styles.links,
+          ].join(" ")
+        }
         >
           <img src={group} 
             alt="Error :(" 
@@ -58,10 +78,16 @@ const Sider = () => {
     <NavLink 
       to="#" 
       className={styles.links_exit}
+      // className={({ isActive, isPending, isTransitioning }) =>
+      //   [
+      //     styles.links_exit,
+      //     isActive ? styles.active : styles.links_exit,
+      //   ].join(" ")
+      // } 
     >
-      <img src={exit} 
+      <img 
+        src={exit} 
         alt="Error :(" 
-        className={styles.sider_icon} 
       />
       Выйти
     </NavLink>

@@ -16,7 +16,7 @@ const EditStorhouseProduct = ({ id }) => {
   const { storage_product } = useSelector(state => state.storage)
   const dispatch = useDispatch()
 
-  const [name, setName] = useState(storage_product.name)
+  const [name, setName] = useState('')
   const [quantity, setQuantity] = useState(storage_product.quantity)
   const [quantity_unit, setQuantityUnit] = useState(storage_product.quantity_unit)
   const [limit, setLimit] = useState(storage_product.limit)
@@ -31,8 +31,13 @@ const EditStorhouseProduct = ({ id }) => {
   }
 
   useEffect(() => {
+    setName(storage_product.name)
+  }, [storage_product, ]);
+
+  useEffect(() => {
     dispatch(getOneProductById(id))
   }, []);
+  
 
   return (
     <div className={styles.container}>

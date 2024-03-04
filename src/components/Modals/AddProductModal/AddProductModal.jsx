@@ -8,7 +8,7 @@ import { Select } from 'antd';
 import InputMask from 'react-input-mask';
 import DropdownStoreHouse from '../../Dropdown/Dropdown';
 import DropDownCount from '../../DropDown/DropDownCount';
-import { setProudct } from '../../../redux/slices/storageSlice';
+import { getProducts, setProudct } from '../../../redux/slices/storageSlice';
 import DropDownLimit from '../../DropDown/DropDownLimit';
 
 
@@ -28,9 +28,13 @@ const AddProductModal = () => {
     dispatch(closeModal())
   }
 
+  const getNewProducts = () => {
+    dispatch(getProducts())
+  }
+
   const handleSetProduct = () => {
     const branch = 1
-    dispatch(setProudct({ name, quantity, quantity_unit, limit, limit_unit, arrival_date, category, branch, handleCloseModal }))
+    dispatch(setProudct({ name, quantity, quantity_unit, limit, limit_unit, arrival_date, category, branch, handleCloseModal, getNewProducts }))
   }
 
   return (

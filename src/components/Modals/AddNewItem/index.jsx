@@ -46,8 +46,8 @@ const AddNewItem = () => {
     const formData = convertValuesToFormData(values);
     console.log("formData", formData);
     try {
-      const res = await addNewItem(formData);
-      console.log(res);
+      // const res = await addNewItem(formData);
+      // console.log(res);
       dispatch(addItem(values));
       dispatch(closeModal());
     } catch (err) {

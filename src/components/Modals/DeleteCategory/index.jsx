@@ -31,7 +31,6 @@ const DeleteCategory = (props) => {
   const deleteItem = () => {
     console.log("удалить позицию");
     const updatedItems = items.filter((item) => item.id !== props.id);
-
     dispatch(setItems(updatedItems))
     dispatch(closeModal());
   };

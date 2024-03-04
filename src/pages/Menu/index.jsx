@@ -10,13 +10,14 @@ import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
 import { PlusOutlined } from "@ant-design/icons";
-import { getMenu, getAllCategories } from "../../api/index.js";
+import { getMenu, getAllCategories, getStock } from "../../api/index.js";
 import bell from "../../assets/img/Bell.svg";
 import searchIcon from "../../assets/img/Vector.svg";
 import { Layout } from "antd";
 import {
   setCategories,
   removeCategory,
+  setStock
 } from "../../redux/slices/categoriesSlice.js";
 import {
   setItems,
@@ -125,9 +126,12 @@ const Menu = () => {
 
     const fetchData = async () => {
       try {
-        // const categoriesData = await getAllCategories();
-        dispatch(setCategories(categoriesData));
+        const categoriesData = await getAllCategories();
+        dispatch(setCategories(categoriesData.data));
         console.log("getAllCategories", categoriesData.data);
+        const res = await getStock();
+        console.log("storage", res.data);
+        dispatch(setStock(res.data))
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -170,12 +174,15 @@ const Menu = () => {
     dispatch(
       openModal({
         modalType: "editItem",
+        modalProps: {
+          id: idInfo
+        },
       })
     );
     setActionsPopUpOpen(false);
   };
   //удалить позицию из меню
-  const handleDeleteModalOpen = (id) => {
+  const handleDeleteModalOpen = () => {
     console.log("delete modal open");
     dispatch(
       openModal({
@@ -188,6 +195,7 @@ const Menu = () => {
         },
       })
     );
+    setActionsPopUpOpen(false);
   };
   const handleOpenProductModal = (e) => {
     console.log(e.target);

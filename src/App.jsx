@@ -10,6 +10,7 @@ import PrivateRouter from './router/PrivateRouter';
 import Menu from './pages/Menu';
 import MainPage from './pages/Main/MainPage';
 import CodeVerification from './pages/CodeVerification';
+import Test from './Test.jsx'
 // import React, { useState, useEffect } from "react";
 // import {
 //   BrowserRouter as Router,
@@ -45,6 +46,7 @@ function App() {
           </Route>
           <Route path='/login' element={<LoginContainer />} />
         </Routes>
+        {/* <Test/> */}
       </div>
   )
     // <Routes>

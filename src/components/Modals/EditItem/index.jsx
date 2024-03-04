@@ -1,152 +1,212 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DropDown from "../../DropDown";
 import { useFormik } from "formik";
-// import List from "../../List";
+import CategoryDropDown from "../../CategoryDropDown";
+import MeasureDropDown from "../../MeasureDropDown";
+import { addNewItem } from "../../../api";
+import { basicSchema } from "../../../schema";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { components } from "../../Buttons";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
+import { addItem } from "../../../redux/slices/itemsSlice";
 
-const EditItem = () => {
+const EditItem = (props) => {
+  console.log("EditItem", props);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
+  const items = useSelector((state) => state.items.items);
   const MEASURE = ["мл", "гр", "л", "кг"];
   const [image, setImage] = useState(null);
-  // const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }]);
+  const getItemArr = items.filter((item) => item.id === props.id);
 
-  // const {
-  //   values,
-  //   errors,
-  //   touched,
-  //   isSubmitting,
-  //   handleBlur,
-  //   handleChange,
-  //   setFieldValue,
-  // } = useFormik({
-  //   initialValues: {
-  //     itemName: "",
-  //     description: "",
-  //     category: "",
-  //     price: "",
-  //     ingredients: [{ name: "", quantity: "" }],
-  //     currency: "сом",
-  //     image: null,
-  //   },
-  //   // validationSchema: basicSchema,
-  // });
+  const { name, description, ingredients, price, category} = getItemArr[0]
+  const [item, setItem] = useState(getItemArr[0]);
 
-  const [values, setValues] =[{
-    itemName: "Капучино",
-    description: "ароматный кофейный напиток, который состоит из эспрессо, горячего молока и молочной пенки. ",
-    category: "Кофе",
-    price: "150",
-    ingredients: [{ name: "Кофе", quantity: "10" }],
-    currency: "сом",
-    image: null,
-  }]
+  const onSubmit = async (e) => {
+    console.log("values", values);
+  };
+  const initialValues = {
+    name: item.name,
+    description: item.description,
+    price: item.price,
+    currency: item.currency,
+    category: item.category,
+    ingredients: item.ingredients,
+  };
 
   const handleClose = () => {
     dispatch(closeModal());
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(values);
-  };
+  const convertValuesToFormData = (values) => {
+    const formData = new FormData();
 
+    for (let key in values) {
+      if (key === "ingredients") {
+        // Обработка массива ingredients
+        values[key].forEach((ingredient, index) => {
+          for (let ingredientKey in ingredient) {
+            formData.append(
+              `${key}[${index}][${ingredientKey}]`,
+              ingredient[ingredientKey]
+            );
+          }
+        });
+      } else {
+        formData.append(key, values[key]);
+      }
+    }
+    return formData;
+  };
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        handleChange({ target: { id: "image", value: reader.result } });
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          handleChange({ target: { id: "image", value: reader.result } });
+          setImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      console.log("Файл не выбран");
     }
   };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.items[0].getAsFile();
+
+    if (file) {
+      handleImageChange({ target: { files: [file] } });
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+    }
+  };
+
   const addIngredient = () => {
     setFieldValue("ingredients", [
       ...values.ingredients,
-      { name: "", quantity: "" },
+      { name: "", quantity: "", measure: "" },
     ]);
   };
   const removeIngredient = () => {
     if (values.ingredients.length > 0) {
-        const newIngredients = [...values.ingredients];
-        newIngredients.pop();
-        setFieldValue('ingredients', newIngredients);
+      const newIngredients = [...values.ingredients];
+      newIngredients.pop();
+      setFieldValue("ingredients", newIngredients);
     }
-};
-const handleChange = (event) =>{
-  const { name, value } = event.target;
-  setValues([{ ...values, [name]: value}]);
-}
+  };
+  const handleSelect = (selectedValue) => {
+    console.log("Выбранная опция:", selectedValue);
+    values.category = selectedValue;
+  };
+  const handleMeasureSelect = (selectedMeasure, index) => {
+    const updatedIngredients = [...values.ingredients];
+    updatedIngredients[index] = {
+      ...updatedIngredients[index],
+      measure: selectedMeasure,
+    };
+    setFieldValue("ingredients", updatedIngredients);
+  };
 
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
         <div>
-          <h2 className={styles.title}>Редактирование</h2>
+          <h2 className={styles.title}>Новая позиция</h2>
           <div className={styles.close} onClick={handleClose}>
             &times;
           </div>
         </div>
         <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
-
-        <div className={styles.imagePickerWrapper}>
-          <div className={styles.imagePicker}>
-            <input
-              type="file"
-              id="file-upload"
-              onChange={handleImageChange}
-              className={styles.upload}
-            />
-            <label htmlFor="file-upload" className={styles.uploadArea}>
-              {!image ? (
-                <>
-                  <div className={styles.uploadIconWrapper}>
-                    <img src={images.uploadIcon} alt="Upload Icon" />
+        <div className={styles.imagePickerBorder}>
+          <div className={styles.imagePickerWrapper}>
+            <div
+              className={styles.imagePicker}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              <input
+                type="file"
+                id="file-upload"
+                onChange={handleImageChange}
+                className={styles.upload}
+                style={{ display: "none" }}
+              />
+              <label
+                className={styles.uploadArea}
+                onClick={() => document.getElementById("file-upload").click()}
+              >
+                {!image ? (
+                  <div className={styles.imgWrapper}>
+                    <div className={styles.uploadIconWrapper}>
+                      <img src={images.uploadIcon} alt="Upload Icon" />
+                    </div>
+                    <p>
+                      Перетащите изображение для изменения или{" "}
+                      <span>обзор</span>
+                    </p>
                   </div>
-                  <p>Перетащите изображение для изменения или обзор</p>
-                </>
-              ) : (
-                <>
-                  <img src={image} alt="Preview" style={{ maxWidth: "100%" }} />
-                </>
-              )}
-            </label>
+                ) : (
+                  <>
+                    <img
+                      src={image}
+                      alt="Preview"
+                      style={{ maxWidth: "100%" }}
+                    />
+                    <div className={styles.imgWrapper}>
+                      <p>
+                        Перетащите изображение для изменения или{" "}
+                        <span>обзор</span>
+                      </p>
+                    </div>
+                  </>
+                )}
+              </label>
+            </div>
           </div>
         </div>
 
         <h3 className={styles.subtitle}>Наименование, категория и стоимость</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit>
           <p>Наименование</p>
           <input
             onChange={handleChange}
-            // onBlur={handleBlur}
-            value={values.itemName}
-            id="itemName"
+            onBlur={handleBlur}
+            value={values.name}
+            id="name"
             type="text"
+            name="name"
           />
+          {errors?.name && touched?.name && (
+            <h5 className={styles.errorMsg}>{errors?.name}</h5>
+          )}
           <p>Описание</p>
           <textarea
             onChange={handleChange}
-            // onBlur={handleBlur}
+            onBlur={handleBlur}
             value={values.description}
             className={styles.textarea}
             id="description"
             type="textarea"
+            name="description"
           />
           <div className={styles.flex}>
             <div>
               <p>Категория</p>
               <div className={styles.categoryWrapper}>
-                {/* <List
+                <CategoryDropDown
                   options={categories}
-                  values={"Выберите категорию"}
-                  value={values.category}
-                /> */}
+                  title={"Выберите категорию"}
+                  values={values}
+                  onSelect={handleSelect}
+                />
               </div>
             </div>
             <div>
@@ -154,11 +214,12 @@ const handleChange = (event) =>{
               <div className={styles.flex}>
                 <input
                   onChange={handleChange}
-                  // onBlur={handleBlur}
+                  onBlur={handleBlur}
                   value={values.price}
                   className={styles.priceInput}
-                  type="text"
+                  type="number"
                   id="price"
+                  name="price"
                 />
                 <div className={styles.measureWrapper}>
                   <input
@@ -171,59 +232,100 @@ const handleChange = (event) =>{
               </div>
             </div>
           </div>
+          {errors?.price && touched?.price && (
+            <h5 className={styles.errorMsg}>{errors?.price}</h5>
+          )}
           <h3 className={styles.subtitle}>Состав блюда и граммовка</h3>
           {values.ingredients.map((ingredient, index) => (
-            <div key={index} className={styles.flex}>
-              <div>
-                <p>Наименование</p>
-                <input
-                  value={ingredient.name}
-                  onChange={(e) => {
-                    const newIngredients = [...values.ingredients];
-                    newIngredients[index].name = e.target.value;
-                    setFieldValue("ingredients", newIngredients);
-                  }}
-                  // onBlur={handleBlur}
-                  className={styles.priceInput}
-                  type="text"
-                  id="ingredients"
-                />
-              </div>
-              <div>
-                <p>Кол-во (в гр, мл, л, кг)</p>
-                <div className={styles.flex}>
+            <>
+              <div key={index} className={styles.flex}>
+                <div>
+                  <p>Наименование</p>
                   <input
-                    value={ingredient.quantity}
+                    value={ingredient.name}
                     onChange={(e) => {
                       const newIngredients = [...values.ingredients];
-                      newIngredients[index].quantity = e.target.value;
+                      newIngredients[index].name = e.target.value;
                       setFieldValue("ingredients", newIngredients);
                     }}
-                    // onBlur={handleBlur}
+                    onBlur={handleBlur}
                     className={styles.priceInput}
                     type="text"
-                    id="quantity"
+                    id={`ingredients${index}`}
+                    name={`ingredientName${index}`}
                   />
-                  <div className={styles.measureWrapper}>
-                    {/* <List options={MEASURE} values={"мл"} /> */}
+                </div>
+                <div>
+                  <p>Кол-во (в гр, мл, л, кг)</p>
+                  <div className={styles.flex}>
+                    <input
+                      value={ingredient.quantity}
+                      onChange={(e) => {
+                        const newIngredients = [...values.ingredients];
+                        newIngredients[index].quantity = e.target.value;
+                        setFieldValue("ingredients", newIngredients);
+                      }}
+                      onBlur={handleBlur}
+                      className={styles.priceInput}
+                      type="number"
+                      id={`quantity${index}`}
+                      name={`quantity${index}`}
+                    />
+                    <div className={styles.measureWrapper}>
+                      <MeasureDropDown
+                        options={MEASURE}
+                        values={values}
+                        onSelect={handleMeasureSelect}
+                        index={index}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+              {errors?.ingredients &&
+                errors?.ingredients[index]?.name &&
+                touched?.ingredients &&
+                touched?.ingredients[index] && (
+                  <h5 className={styles.errorMsg}>
+                    {errors.ingredients[index].name}
+                  </h5>
+                )}
+              {errors?.ingredients &&
+                errors?.ingredients[index]?.quantity &&
+                touched?.ingredients &&
+                touched?.ingredients[index] && (
+                  <h5 className={styles.errorMsg}>
+                    {errors.ingredients[index].quantity}
+                  </h5>
+                )}
+              {errors?.ingredients &&
+                errors?.ingredients[index]?.measure &&
+                touched?.ingredients &&
+                touched?.ingredients[index] && (
+                  <h5 className={styles.errorMsg}>
+                    {errors.ingredients[index].measure}
+                  </h5>
+                )}
+            </>
           ))}
+
           <div className={styles.btnGroup}>
             <button onClick={addIngredient} className={styles.addBtn}>
               Добавить еще
             </button>
-            <button onClick={removeIngredient} className={styles.minusBtn}>-</button>
+            <button onClick={removeIngredient} className={styles.minusBtn}>
+              -
+            </button>
           </div>
           <div className={styles.btnWrapper}>
             <components.WhiteButton title={"Отмена"} />
-            <components.BlueButton
-              // disabled={isSubmitting}
-              title={"Сохранить"}
+            <button
+              className={styles.confirmBtn}
+              disabled={isSubmitting}
               type="submit"
-            />
+            >
+              Сохранить
+            </button>
           </div>
         </form>
       </div>

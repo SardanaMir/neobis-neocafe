@@ -36,18 +36,19 @@ const AddNewItem = () => {
   }));
   const [image, setImage] = useState(null);
   const [isStockChosen, setIsStockChosen] = useState(true);
-  const [selectedOption, setSelectedOption] = useState("Готовое");
-  const menuIsOpen = MEASURE.length > 3;
-  const menuIsOpen1 = updatedCategories.length > 2;
-
+  const [preview, setPreview] = useState(null);
   const onSubmit = async (e) => {
-    console.log("values", values);
-    values.category = 1;
+    const selectedCategory = categories.filter(
+      (category) => category.name === values.category
+    );
+    // console.log('id category', selectedCategory)
+    values.category = selectedCategory[0].id;
+    // console.log("values", values);
     const formData = convertValuesToFormData(values);
-    console.log("formData", formData);
+    // console.log("formData", formData);
     try {
-      // const res = await addNewItem(formData);
-      // console.log(res);
+      const res = await addNewItem(formData);
+      console.log(res);
       dispatch(addItem(values));
       dispatch(closeModal());
     } catch (err) {
@@ -70,7 +71,7 @@ const AddNewItem = () => {
       description: "",
       category: "",
       price: "",
-      ingredients: [{ name: "", quantity: "", measurement_unit: "мл" }],
+      ingredients: [{ name: "", quantity: "", measurement_unit: "" }],
       image: null,
       available: true,
       branch: 1,
@@ -87,16 +88,12 @@ const AddNewItem = () => {
     const formData = new FormData();
     for (let key in values) {
       if (key === "ingredients") {
-        
-        // values.ingredients.forEach((ingredient, index) => {
-        //   formData.append(`ingredients[${index}][name]`, ingredient.name);
-        //   formData.append(
-        //     `ingredients[${index}][quantity]`,
-        //     ingredient.quantity
-        //   );
-        //   formData.append(`ingredients[${index}][measurement_unit]`, ingredient.measure);
-        // });
-        formData.append(key, JSON.stringify(values.ingredients))
+        values.ingredients.forEach((ingredient, index) => {
+          formData.append(`ingredients[${index}]name`, ingredient.name);
+          formData.append(`ingredients[${index}]quantity`, ingredient.quantity);
+          formData.append(`ingredients[${index}]measurement_unit`, ingredient.measurement_unit);
+        });
+        // formData.append(key, JSON.stringify(values.ingredients))
       } else {
         formData.append(key, values[key]);
       }
@@ -108,7 +105,17 @@ const AddNewItem = () => {
   const handleImageChange = (e) => {
     const files = e.target.files[0];
     handleChange({ target: { id: "image", value: files } });
-    setImage(files);
+    setImage(files)
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setPreview(reader.result); // Устанавливаем base64 строку изображения в состояние
+      }
+    };
+    
+    if (files) {
+      reader.readAsDataURL(files); // Чтение файла как base64
+    }
   };
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -120,7 +127,7 @@ const AddNewItem = () => {
     if (file) {
       handleImageChange({ target: { files: [file] } });
       const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      setPreview(imageUrl);
     }
   };
 
@@ -139,7 +146,7 @@ const AddNewItem = () => {
   };
   const handleSelect = (selectedValue) => {
     console.log("Выбранная опция:", selectedValue);
-    values.category = selectedValue;
+    values.category = selectedValue.name;
   };
   const handleMeasureSelect = (selectedMeasure, index) => {
     const updatedIngredients = [...values.ingredients];
@@ -159,14 +166,35 @@ const AddNewItem = () => {
       values.mealType = selectedOption.value;
     }
   };
-  const handleSelectMeasure = (selectedOption) => {
-    console.log(selectedOption);
-    values.ingredients[0].measurement_unit = selectedOption.value
+  // Проверка на существование объекта перед доступом к его свойству
+  const handleSelectIngredient = (selectedOption, index) => {
+    const newIngredients = [...values.ingredients];
+    if (newIngredients[index]) {
+      // Добавьте проверку на существование объекта
+      newIngredients[index] = {
+        ...newIngredients[index],
+        name: selectedOption.value,
+      };
+      setFieldValue("ingredients", newIngredients);
+    }
   };
-  const handleSelectIngredient = (selectedOption) => {
-    console.log(selectedOption);
-    values.ingredients[0].name = selectedOption.value
-  }
+  // Проверка на существование объекта перед доступом к его свойству
+  const handleSelectMeasure = (selectedOption, index) => {
+    const newIngredients = [...values.ingredients];
+    if (newIngredients[index]) {
+      // Добавьте проверку на существование объекта
+      newIngredients[index] = {
+        ...newIngredients[index],
+        measurement_unit: selectedOption.value,
+      };
+      setFieldValue("ingredients", newIngredients);
+    }
+  };
+
+  const handleSelectCategory = (selectedOption) => {
+    console.log("category", selectedOption);
+    values.category = selectedOption.value;
+  };
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
@@ -176,57 +204,60 @@ const AddNewItem = () => {
             &times;
           </div>
         </div>
-        <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
-        <div className={styles.imagePickerBorder}>
-          <div className={styles.imagePickerWrapper}>
-            <div
-              className={styles.imagePicker}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              <input
-                type="file"
-                id="file-upload"
-                onChange={handleImageChange}
-                className={styles.upload}
-                style={{ display: "none" }}
-              />
-              <label
-                className={styles.uploadArea}
-                onClick={() => document.getElementById("file-upload").click()}
+        <form onSubmit={handleSubmit}>
+          <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
+          <div className={styles.imagePickerBorder}>
+            <div className={styles.imagePickerWrapper}>
+              <div
+                className={styles.imagePicker}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
               >
-                {!image ? (
-                  <div className={styles.imgWrapper}>
-                    <div className={styles.uploadIconWrapper}>
-                      <img src={images.uploadIcon} alt="Upload Icon" />
-                    </div>
-                    <p>
-                      Перетащите изображение для изменения или{" "}
-                      <span>обзор</span>
-                    </p>
-                  </div>
-                ) : (
-                  <>
-                    <img
-                      src={image}
-                      alt="Preview"
-                      style={{ maxWidth: "100%" }}
-                    />
+                <input
+                  type="file"
+                  id="file-upload"
+                  onChange={handleImageChange}
+                  className={styles.upload}
+                  style={{ display: "none" }}
+                />
+                <label
+                  className={styles.uploadArea}
+                  onClick={() => document.getElementById("file-upload").click()}
+                >
+                  {!preview ? (
                     <div className={styles.imgWrapper}>
+                      <div className={styles.uploadIconWrapper}>
+                        <img src={images.uploadIcon} alt="Upload Icon" />
+                      </div>
                       <p>
                         Перетащите изображение для изменения или{" "}
                         <span>обзор</span>
                       </p>
                     </div>
-                  </>
-                )}
-              </label>
+                  ) : (
+                    <>
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        style={{ maxWidth: "50%" }}
+                      />
+                      <div className={styles.imgWrapper}>
+                        <p>
+                          Перетащите изображение для изменения или{" "}
+                          <span>обзор</span>
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </label>
+              </div>
             </div>
           </div>
-        </div>
 
-        <h3 className={styles.subtitle}>Наименование, категория и стоимость</h3>
-        <form onSubmit={handleSubmit}>
+          <h3 className={styles.subtitle}>
+            Наименование, категория и стоимость
+          </h3>
+
           <p>Тип позиции</p>
           <Select
             defaultValue={MEAL_TYPE[0].value}
@@ -304,13 +335,8 @@ const AddNewItem = () => {
               <div className={styles.categoryWrapper}>
                 <Select
                   defaultValue={""}
-                  onChange={handleSelectMealType}
+                  onChange={handleSelectCategory}
                   options={updatedCategories}
-
-                  // menuIsOpen={menuIsOpen1}
-                  // menuPosition="fixed"
-                  // maxMenuHeight={200}
-                  
                   placeholder="Выберите категорию"
                   styles={{
                     control: (baseStyles, state) => ({
@@ -396,7 +422,9 @@ const AddNewItem = () => {
                       <p>Наименование</p>
                       <Select
                         defaultValue={""}
-                        onChange={handleSelectIngredient}
+                        onChange={(selectedOption) =>
+                          handleSelectIngredient(selectedOption, index)
+                        }
                         options={updateStock}
                         placeholder="Выберите ингредиент"
                         styles={{
@@ -442,19 +470,6 @@ const AddNewItem = () => {
                           },
                         })}
                       />
-                      {/* <input
-                        value={ingredient.name}
-                        onChange={(e) => {
-                          const newIngredients = [...values.ingredients];
-                          newIngredients[index].name = e.target.value;
-                          setFieldValue("ingredients", newIngredients);
-                        }}
-                        onBlur={handleBlur}
-                        className={styles.priceInput}
-                        type="text"
-                        id={`ingredients${index}`}
-                        name={`ingredientName${index}`}
-                      /> */}
                     </div>
                     <div>
                       <p>Кол-во (в гр, мл, л, кг)</p>
@@ -474,8 +489,10 @@ const AddNewItem = () => {
                         />
                         <div className={styles.measureWrapper}>
                           <Select
-                            defaultValue={"мл"}
-                            onChange={handleSelectMeasure}
+                            defaultValue={MEASURE[0].value}
+                            onChange={(selectedOption) =>
+                              handleSelectMeasure(selectedOption, index)
+                            }
                             options={MEASURE}
                             placeholder={"мл"}
                             // menuIsOpen={menuIsOpen}
@@ -556,10 +573,18 @@ const AddNewItem = () => {
               ))}
 
               <div className={styles.btnGroup}>
-                <button onClick={addIngredient} className={styles.addBtn}>
+                <button
+                  type="button"
+                  onClick={addIngredient}
+                  className={styles.addBtn}
+                >
                   Добавить еще
                 </button>
-                <button onClick={removeIngredient} className={styles.minusBtn}>
+                <button
+                  type="button"
+                  onClick={removeIngredient}
+                  className={styles.minusBtn}
+                >
                   -
                 </button>
               </div>

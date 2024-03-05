@@ -69,7 +69,10 @@ export const getMenu = async () => {
   const res = await API.get("menu/menus/");
   return res;
 };
-
+export const deleteItem = async (id) => {
+  const res = await API.delete(`menu/menus/${id}/`);
+  return res;
+};
 export const getStock = async () => {
   const res = await API.get("storage/");
   return res;

@@ -11,9 +11,9 @@ import PrivateRouter from './router/PrivateRouter';
 import Menu from './pages/Menu';
 import MainPage from './pages/Main/MainPage';
 import CodeVerification from './pages/CodeVerification';
+import LoginContainer from './pages/Login/LoginContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
-
 
 function App() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function App() {
           <Route element={<PrivateRouter />} >
             <Route path='/*' element={<MainPage />} />
           </Route>
-          <Route path='/login' element={<LoginPage />} />
+          <Route path='/login' element={<LoginContainer />} />
         </Routes>
         <ToastContainer />
       </div>

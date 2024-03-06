@@ -54,13 +54,15 @@ const AddAffiliateModal = () => {
   const dispatch = useDispatch();
   const startsWithTwo = tableDays.friday_start_time[0] === '2'
 
-  const mask = [
-    /[0-2]/,
-    startsWithTwo ? /[0-3]/ : /[0-9]/,
-    ':',
-    /[0-5]/,
-    /[0-9]/
-  ]
+
+//   const mask = [
+//     /[0-2]/,
+//     startsWithTwo ? /[0-3]/ : /[0-9]/,
+//     ':',
+//     /[0-5]/,
+//     /[0-9]/
+//   ]
+
 
   const handleCloseModal = () => {
     dispatch(closeModal());
@@ -375,5 +377,4 @@ const AddAffiliateModal = () => {
     </div>
   )
 };
-
 export default AddAffiliateModal;

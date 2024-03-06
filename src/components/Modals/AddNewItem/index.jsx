@@ -43,19 +43,30 @@ const AddNewItem = () => {
       const selectedCategory = categories.filter(
         (category) => category.name === values.category
       );
-      // console.log('id category', selectedCategory)
       values.category = selectedCategory[0].id;
-      // console.log("values", values);
-      const formData = convertValuesToFormData(values);
-      // console.log("formData", formData);
-      try {
-        const res = await addNewItem(formData);
-        console.log(res);
-        dispatch(addItem(values));
-        dispatch(closeModal());
-      } catch (err) {
-        console.log(err);
+      if (values.mealType === 'готовое'){
+        values.ingredients = []
+        const formData = convertValuesToFormData(values);
+        try {
+          const res = await addNewItem(formData);
+          console.log(res);
+          dispatch(addItem(values));
+          dispatch(closeModal());
+        } catch (err) {
+          console.log(err);
+        }
+      }else{
+        const formData = convertValuesToFormData(values);
+        try {
+          const res = await addNewItem(formData);
+          console.log(res);
+          dispatch(addItem(values));
+          dispatch(closeModal());
+        } catch (err) {
+          console.log(err);
+        }
       }
+
     }
 
   };
@@ -97,12 +108,10 @@ const AddNewItem = () => {
           formData.append(`ingredients[${index}]quantity`, ingredient.quantity);
           formData.append(`ingredients[${index}]measurement_unit`, ingredient.measurement_unit);
         });
-        // formData.append(key, JSON.stringify(values.ingredients))
       } else {
         formData.append(key, values[key]);
       }
     }
-
     return formData;
   };
 

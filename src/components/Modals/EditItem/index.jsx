@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import Select from "react-select";
 import CategoryDropDown from "../../CategoryDropDown";
 import MeasureDropDown from "../../MeasureDropDown";
-import { addNewItem } from "../../../api";
+import { addNewItem, editItemInfo, getMenu } from "../../../api";
 import { basicSchema } from "../../../schema";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { components } from "../../Buttons";
@@ -13,7 +13,6 @@ import styles from "./style.module.scss";
 import { addItem, setItems } from "../../../redux/slices/itemsSlice";
 
 const EditItem = (props) => {
-  // console.log("EditItem", props);
   const MEASURE = [
     { value: "мл", label: "мл" },
     { value: "гр", label: "гр" },
@@ -37,34 +36,35 @@ const EditItem = (props) => {
     value: item.name,
     label: item.name,
   }));
-  const [image, setImage] = useState(null);
   const [isStockChosen, setIsStockChosen] = useState(true);
   const [preview, setPreview] = useState(null);
   const items = useSelector((state) => state.items.items);
   const getItemArr = items.filter((item) => item.id === props.id);
-  // const { name, description, ingredients, price, category} = getItemArr[0]
   const [item, setItem] = useState(getItemArr[0]);
   const selectedItem = items.find((item) => item.id === props.id);
 
   const onSubmit = async (e) => {
     console.log("values", values);
-    const index = items.findIndex((item) => item.id === values.id);
-    let updatedItems = [...items];
-     if (index !== -1) {
-       // Обновляем товар в массиве items с новыми значениями из values
-       updatedItems[index] = {
-         ...updatedItems[index],
-         name: values.name,
-         description: values.description,
-         category: values.category,
-         price: values.price,
-         ingredients: values.ingredients,
-         mealType: values.mealType
-         // Добавьте другие поля для обновления, если необходимо
-       };
-      }
-      dispatch(setItems(updatedItems))
-      dispatch(closeModal())
+    const updatedData = {
+      name: values.name,
+      description: values.description,
+      category: values.category,
+      price: values.price,
+      ingredients: values.ingredients,
+      // mealType: "сырье",
+      image: values.image,
+      available: values.available,
+    };
+    const formData = convertValuesToFormData(updatedData);
+    try {
+      const res = await editItemInfo(props.id, formData);
+      console.log("edit item", res);
+      const updateMenu = await getMenu();
+      dispatch(setItems(updateMenu.data))
+      dispatch(closeModal());
+    } catch (err) {
+      console.log(err);
+    }
   };
   const {
     values,
@@ -83,8 +83,9 @@ const EditItem = (props) => {
       category: item.category,
       price: item.price,
       ingredients: item.ingredients,
-      mealType: item.mealType,
-      currency: item.currency,
+      mealType: "Сырье",
+      image: item.image,
+      available: item.available,
     },
     // validationSchema: basicSchema,
     onSubmit: onSubmit,
@@ -94,35 +95,78 @@ const EditItem = (props) => {
   const [selectedIngredients, setSelectedIngredients] = useState(
     item.ingredients
   );
+  const currentCategory = categories.find(category => category.id === item.category)
+
   const handleClose = () => {
     dispatch(closeModal());
   };
-  const handleImageChange = (e) => {
-    const files = e.target.files[0];
-    handleChange({ target: { id: "image", value: files } });
-    setImage(files);
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setPreview(reader.result);
+  const convertValuesToFormData = (values) => {
+    console.log("convertValuesToFormData", values);
+    const formData = new FormData();
+    for (let key in values) {
+      if (key === "ingredients") {
+        values.ingredients.forEach((ingredient, index) => {
+          formData.append(`ingredients[${index}]name`, ingredient.name);
+          formData.append(`ingredients[${index}]quantity`, ingredient.quantity);
+          formData.append(
+            `ingredients[${index}]measurement_unit`,
+            ingredient.measurement_unit
+          );
+        });
+        // formData.append(key, JSON.stringify(values.ingredients))
+      } else {
+        formData.append(key, values[key]);
       }
-    };
-    if (files) {
-      reader.readAsDataURL(files);
     }
+    return formData;
   };
+  // const handleImageChange = (e) => {
+  //   const files = e.target.files[0];
+  //   handleChange({ target: { id: "image", value: files } });
+  //   setImage(files);
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     if (reader.readyState === 2) {
+  //       setPreview(reader.result);
+  //     }
+  //   };
+  //   if (files) {
+  //     reader.readAsDataURL(files);
+  //   }
+  // };
+  // const handleDragOver = (e) => {
+  //   e.preventDefault();
+  // };
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   const file = e.dataTransfer.items[0].getAsFile();
+  //   if (file) {
+  //     handleImageChange({ target: { files: [file] } });
+  //     const imageUrl = URL.createObjectURL(file);
+  //     setPreview(imageUrl);
+  //   }
+  // };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]; // Получаем выбранный файл
+    const imageUrl = URL.createObjectURL(file); // Создаем URL для предпросмотра
+    setPreview(imageUrl); // Обновляем предпросмотр
+    handleChange({ target: { id: "image", value: file } }); // Обновляем значение изображения в форме
+  };
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
+
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.items[0].getAsFile();
     if (file) {
-      handleImageChange({ target: { files: [file] } });
       const imageUrl = URL.createObjectURL(file);
-      setPreview(imageUrl);
+      setPreview(imageUrl); // Установка нового предпросмотра
+      handleChange({ target: { id: "image", value: file } }); // Обновление значения изображения в форме
     }
   };
+
   const addIngredient = () => {
     setFieldValue("ingredients", [
       ...values.ingredients,
@@ -190,6 +234,7 @@ const EditItem = (props) => {
 
   useEffect(() => {
     fillFormWithData(selectedItem);
+    setPreview(item.image)
   }, []);
   return (
     <div className={styles.root}>
@@ -254,7 +299,7 @@ const EditItem = (props) => {
             Наименование, категория и стоимость
           </h3>
 
-          <p>Тип позиции</p>
+          {/* <p>Тип позиции</p>
           <Select
             defaultValue={selectedMealType}
             onChange={handleSelectMealType}
@@ -302,7 +347,7 @@ const EditItem = (props) => {
                 primary: "rgb(53, 83, 107)",
               },
             })}
-          />
+          /> */}
           <p>Наименование</p>
           <input
             onChange={handleChange}
@@ -333,7 +378,7 @@ const EditItem = (props) => {
                   defaultValue={selectedCategory}
                   onChange={handleSelectCategory}
                   options={updatedCategories}
-                  placeholder={selectedCategory}
+                  placeholder={currentCategory.name}
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,

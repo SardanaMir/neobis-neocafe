@@ -6,9 +6,8 @@ import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../../Bu
 import outlineImg from '../../../assets/img/outline.svg'
 import { closeModal } from "../../../redux/slices/modalSlice";
 import styles from '../../../styles/add_affiliate_modal.module.scss'
-import { setBranchesProduct } from "../../../redux/slices/branchesSlice";
 
-const AddAffiliateModal = () => {
+const EditAffiliateModal = () => {
   const [tableDays, setTableDays] = useState({
     monday: false,
     monday_start_time: "",
@@ -40,8 +39,9 @@ const AddAffiliateModal = () => {
     link_to_map: "",
     counts_of_tables: 0
   })
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -54,15 +54,13 @@ const AddAffiliateModal = () => {
   const dispatch = useDispatch();
   const startsWithTwo = tableDays.friday_start_time[0] === '2'
 
-
-//   const mask = [
-//     /[0-2]/,
-//     startsWithTwo ? /[0-3]/ : /[0-9]/,
-//     ':',
-//     /[0-5]/,
-//     /[0-9]/
-//   ]
-
+  const mask = [
+    /[0-2]/,
+    startsWithTwo ? /[0-3]/ : /[0-9]/,
+    ':',
+    /[0-5]/,
+    /[0-9]/
+  ]
 
   const handleCloseModal = () => {
     dispatch(closeModal());
@@ -93,56 +91,21 @@ const AddAffiliateModal = () => {
 
   const handleSetProdBranch = () => {
     const formData = new FormData();
-    // formData.append("username", "Chris");
-    // formData.append('moday', tableDays.monday)
-    // formData.append('monday_start_time', tableDays.monday_start_time)
-    // formData.append('monday_end_time', tableDays.monday_end_time)
-    // formData.append('tuesday', tableDays.tuesday)
-    // formData.append('tuesday_start_time', tableDays.tuesday_start_time)
-    // formData.append('tuesday_end_time', tableDays.tuesday_end_time)
-    // formData.append('wednesday', tableDays.wednesday)
-    // formData.append('wednesday_start_time', tableDays.wednesday_start_time)
-    // formData.append('wednesday_end_time', tableDays.wednesday_end_time)
-    // formData.append('thursday', tableDays.thursday)
-    // formData.append('thursday_start_time', tableDays.thursday_start_time)
-    // formData.append('thursday_end_time', tableDays.thursday_end_time)
-    // formData.append('friday', tableDays.friday)
-    // formData.append('friday_start_time', tableDays.friday_start_time)
-    // formData.append('friday_end_time', tableDays.friday_end_time)
-    // formData.append('saturday', tableDays.saturday)
-    // formData.append('saturday_start_time', tableDays.saturday_start_time)
-    // formData.append('saturday_end_time', tableDays.saturday_end_time)
-    // formData.append('sunday', tableDays.sunday)
-    // formData.append('sunday_start_time', tableDays.sunday_start_time)
-    // formData.append('sunday_end_time', tableDays.sunday_end_time)
-    formData.append('image', selectedImage)
-
-    const data = {
-      schedule: {
-        ...tableDays
-      },
-      formData,
-      name: formBranch.name,
-      address: formBranch.address,
-      phone_number: formBranch.phone_number,
-      link_to_map: formBranch.link_to_map,
-      counts_of_tables: formBranch.counts_of_tables
-
-    }
-    // formData.append('name', formBranch.name)
-    // formData.append('address', formBranch.address)
-    // formData.append('phone_number', formBranch.phone_number)
-    // formData.append('link_to_map', formBranch.link_to_map)
-    // formData.append('counts_of_tables', formBranch.counts_of_tables)
+    formData.append("username", "Chris");
     
-    dispatch(setBranchesProduct({ data, handleCloseModal }))
+    dispatch()
   }
-
+  function f() {
+    const formData = new FormData();
+    formData.append("username", "Chris");
+  }
+  
+  console.log(f());
 
   return (
     <div className={styles.root}>
       <div className={styles.affiliate_modal}>
-        <h3>Новый филиал <CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></h3>
+        <h3>Редактирование<CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></h3>
         <p>Добавьте фотографию филиала</p>
         <div className={styles.add__img}>
           <div className={styles.div}>
@@ -371,10 +334,11 @@ const AddAffiliateModal = () => {
       </div>
       <div className={styles.btns}>
         <AffiliateModalWhiteButton onClick={handleCloseModal}>Отмена</AffiliateModalWhiteButton>
-        <AffiliateModalPrimaryButton onClick={handleSetProdBranch}>Сохранить</AffiliateModalPrimaryButton>
+        <AffiliateModalPrimaryButton>Сохранить</AffiliateModalPrimaryButton>
       </div>
     </div>
     </div>
   )
 };
-export default AddAffiliateModal;
+
+export default EditAffiliateModal;

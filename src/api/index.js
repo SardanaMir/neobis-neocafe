@@ -102,3 +102,12 @@ export const addNewItem = async (formData) => {
   });
   return res
 };
+export const editItemInfo = async (id, formData) => {
+  const res = await API.patch(`menu/menus/${id}/`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data' 
+    }
+  });
+  return res
+};
+

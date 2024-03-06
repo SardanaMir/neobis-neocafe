@@ -257,14 +257,13 @@ const Menu = () => {
   // Первичный рендер
   useEffect(() => {
     // dispatch(setItems(data))
-
     const fetchData = async () => {
       try {
         const categoriesData = await getAllCategories();
         dispatch(setCategories(categoriesData.data));
         const menuData = await getMenu();
         console.log("menuData", menuData.data);
-        dispatch(setItems(data));
+        dispatch(setItems(menuData.data));
         const res = await getStock();
         console.log("storage", res.data);
         dispatch(setStock(res.data));

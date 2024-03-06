@@ -5,6 +5,7 @@ import AddNewEmployee from "./AddNewEmployee";
 import AddNewCategory from "./AddNewCategory";
 import AddNewItem from "./AddNewItem";
 import EditItem from "./EditItem";
+import WarningMessage from "./WarningMessage";
 import AddAffiliateModal from "./AddAffiliateModal/AddAffiliateModal";
 import AddProductModal from "./AddProductModal/AddProductModal";
 import EditAffiliateModal from "./EditAffiliateModal/EditAffiliateModal";
@@ -22,6 +23,7 @@ const Modals = () => {
     addCategory: AddNewCategory,
     addNewItem: AddNewItem,
     editItem: EditItem,
+    warninMsg: WarningMessage,
     addAffiliateModal: AddAffiliateModal,
     addProductModal: AddProductModal,
     editAffiliateModal: EditAffiliateModal,

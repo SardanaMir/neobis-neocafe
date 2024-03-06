@@ -16,4 +16,4 @@ export const MainRoutes = () => {
         id: 3,
       },
     ]
-  
+}

@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import images from "../../../assets/images";
 import styles from "./styles.module.scss";
 
-const EditDeletePopUp = ({ x, y, closePopUp, handleDeleteModalOpen, handleEditModalOpen }) => {
+const EditDeletePopUp = ({ x, y, closePopUp, handleDeleteModalOpen, handleEditModalOpen, id }) => {
   const popupStyles = {
     position: "absolute",
     top: y,

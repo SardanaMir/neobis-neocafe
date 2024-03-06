@@ -31,10 +31,11 @@ const DeleteCategory = (props) => {
   const removeItem = async () => {
     const updatedItems = items.filter((item) => item.id !== props.id);
     try{
-      const res = deleteItem(props.id)
+      // const res = deleteItem(props.id)
       // console.log("удалить позицию", res);
-      const updatedMenuData = await getMenu()
-      dispatch(setItems(updatedMenuData))
+      // const updatedMenuData = await getMenu()
+      // dispatch(setItems(updatedMenuData))
+      dispatch(removeItem(props.id))
       dispatch(closeModal());
     }catch(err){
       console.log(err)

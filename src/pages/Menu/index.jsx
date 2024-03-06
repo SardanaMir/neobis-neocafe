@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useFormik } from "formik";
-import Header from "../../components/Header/Header.jsx";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
@@ -9,73 +7,71 @@ import { openModal } from "../../redux/slices/modalSlice.js";
 import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
-import { PlusOutlined } from "@ant-design/icons";
 import { getMenu, getAllCategories, getStock } from "../../api/index.js";
-import bell from "../../assets/img/Bell.svg";
-import searchIcon from "../../assets/img/Vector.svg";
-import { Layout } from "antd";
 import {
   setCategories,
-  removeCategory,
   setStock,
 } from "../../redux/slices/categoriesSlice.js";
 import { setItems } from "../../redux/slices/itemsSlice.js";
 const data = [
-  {
-    id: "item01",
-    name: "Капучино",
-    category: "Кофе",
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "10",
-        measure: "гр",
-      },
-    ],
-    price: 140,
-    currency: "сом",
-    description:
-      "классический напиток, который покорил сердца ценителей кофе по всему миру. Этот напиток известен своей простотой и в то же время насыщенным вкусом. Кофе Американо приготавливается путем добавления горячей воды к одному или двум эспрессо, что придает напитку более нежный вкус без утраты силы и аромата эспрессо.",
-  },
-  {
-    id: "item02",
-    name: "Раф",
-    category: "Кофе",
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "15",
-        measure: "гр",
-      },
-      {
-        name: "Молоко",
-        quantity: "100",
-        measure: "мл",
-      },
-      {
-        name: "Сироп",
-        quantity: "20",
-        measure: "мл",
-      },
-    ],
-    price: 160,
-    currency: "сом",
-    description: "Нежный напиток с молочной пенкой...",
-  },
+  // {
+  //   id: "item01",
+  //   name: "Капучино",
+  //   category: 2,
+  //   ingredients: [
+  //     {
+  //       name: "Кофе",
+  //       quantity: "10",
+  //       measurement_unit: "гр",
+  //     },
+  //   ],
+  //   price: 140,
+  //   mealType: 'Сырье',
+  //   currency: "сом",
+  //   description:
+  //     "классический напиток, который покорил сердца ценителей кофе по всему миру. Этот напиток известен своей простотой и в то же время насыщенным вкусом. Кофе Американо приготавливается путем добавления горячей воды к одному или двум эспрессо, что придает напитку более нежный вкус без утраты силы и аромата эспрессо.",
+  // },
+  // {
+  //   id: "item02",
+  //   name: "Раф",
+  //   category: 2,
+  //   ingredients: [
+  //     {
+  //       name: "Кофе",
+  //       quantity: "15",
+  //       measurement_unit: "гр",
+  //     },
+  //     {
+  //       name: "Молоко",
+  //       quantity: "100",
+  //       measurement_unit: "мл",
+  //     },
+  //     {
+  //       name: "Сироп",
+  //       quantity: "20",
+  //       measurement_unit: "мл",
+  //     },
+  //   ],
+  //   price: 160,
+  //   mealType: 'Сырье',
+  //   currency: "сом",
+  //   description: "Нежный напиток с молочной пенкой...",
+  // },
   {
     id: "item03",
     name: "Латте",
-    category: "Кофе",
+    category: 2,
+    mealType: 'Сырье',
     ingredients: [
       {
         name: "Кофе",
         quantity: "15",
-        measure: "гр",
+        measurement_unit: "гр",
       },
       {
         name: "Молоко",
         quantity: "150",
-        measure: "мл",
+        measurement_unit: "мл",
       },
     ],
     price: 150,
@@ -85,12 +81,133 @@ const data = [
   {
     id: "item04",
     name: "Эспрессо",
-    category: "Кофе",
+    category: 2,
+    mealType: 'Сырье',
+
     ingredients: [
       {
         name: "Кофе",
         quantity: "20",
-        measure: "гр",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
+      },
+    ],
+    price: 120,
+    currency: "сом",
+    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
+  },
+  {
+    id: "item04",
+    name: "Эспрессо",
+    category: 2,
+    mealType: 'Сырье',
+
+    ingredients: [
+      {
+        name: "Кофе",
+        quantity: "20",
+        measurement_unit: "гр",
       },
     ],
     price: 120,
@@ -147,7 +264,7 @@ const Menu = () => {
         dispatch(setCategories(categoriesData.data));
         const menuData = await getMenu();
         console.log("menuData", menuData.data);
-        dispatch(setItems(menuData.data));
+        dispatch(setItems(data));
         const res = await getStock();
         console.log("storage", res.data);
         dispatch(setStock(res.data));
@@ -259,7 +376,7 @@ const Menu = () => {
           </div>
           {/* тело таблицы */}
           {searchTerm ? (
-            <>
+            <div className={styles.menuWrapper}>
               {searchResults.map((item, index) => (
                 <div className={styles.itemWrapper} key={item.id}>
                   <p className={styles.numbering}>№{index + 1}</p>
@@ -283,9 +400,9 @@ const Menu = () => {
                   />
                 </div>
               ))}
-            </>
+            </div>
           ) : (
-            <>
+            <div className={styles.menuWrapper}>
               {updatedItems.map((item, index) => (
                 <div className={styles.itemWrapper} key={item.id}>
                   <p className={styles.numbering}>№{index + 1}</p>
@@ -309,7 +426,7 @@ const Menu = () => {
                   />
                 </div>
               ))}
-            </>
+            </div>
           )}
 
           {/* пагинация */}

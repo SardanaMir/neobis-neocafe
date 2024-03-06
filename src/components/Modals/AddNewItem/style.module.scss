@@ -147,15 +147,15 @@
 
   .categoryWrapper {
     width: 250px;
-    height: 60px;
+    height: 70px;
   }
   .priceInput{
     width: 193px;
-    height: 60px;
+    height: 70px;
   }
   .quantityInput{
     width: 185px;
-    height: 60px;
+    height: 70px;
   }
   .scrollableContent {
     max-height: 70vh;
@@ -199,6 +199,23 @@
     font-weight: 600;
     line-height: 24px;
     border: none;
+    cursor: pointer;
+  }
+  .cancelBtn{
+    width: 260px;
+    height: 56px;
+    left: 32px;
+    top: 246px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 2px solid rgb(53, 83, 107);
+    border-radius: 10px;    
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(53, 83, 107);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0%;
     cursor: pointer;
   }
   .addBtn,

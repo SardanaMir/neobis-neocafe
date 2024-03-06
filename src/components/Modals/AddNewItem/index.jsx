@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../../redux/slices/itemsSlice";
 import Select from "react-select";
 import { useFormik } from "formik";
 import { addNewItem, getStock } from "../../../api";
@@ -8,7 +9,6 @@ import { closeModal } from "../../../redux/slices/modalSlice";
 import { components } from "../../Buttons";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
-import { addItem } from "../../../redux/slices/itemsSlice";
 
 const AddNewItem = () => {
   const MEASURE = [
@@ -37,23 +37,27 @@ const AddNewItem = () => {
   const [image, setImage] = useState(null);
   const [isStockChosen, setIsStockChosen] = useState(true);
   const [preview, setPreview] = useState(null);
+
   const onSubmit = async (e) => {
-    const selectedCategory = categories.filter(
-      (category) => category.name === values.category
-    );
-    // console.log('id category', selectedCategory)
-    values.category = selectedCategory[0].id;
-    // console.log("values", values);
-    const formData = convertValuesToFormData(values);
-    // console.log("formData", formData);
-    try {
-      const res = await addNewItem(formData);
-      console.log(res);
-      dispatch(addItem(values));
-      dispatch(closeModal());
-    } catch (err) {
-      console.log(err);
+    if (values){
+      const selectedCategory = categories.filter(
+        (category) => category.name === values.category
+      );
+      // console.log('id category', selectedCategory)
+      values.category = selectedCategory[0].id;
+      // console.log("values", values);
+      const formData = convertValuesToFormData(values);
+      // console.log("formData", formData);
+      try {
+        const res = await addNewItem(formData);
+        console.log(res);
+        dispatch(addItem(values));
+        dispatch(closeModal());
+      } catch (err) {
+        console.log(err);
+      }
     }
+
   };
 
   const {
@@ -74,7 +78,7 @@ const AddNewItem = () => {
       ingredients: [{ name: "", quantity: "", measurement_unit: "" }],
       image: null,
       available: true,
-      branch: 1,
+      // branch: 1,
       mealType: "Готовое",
     },
     // validationSchema: basicSchema,
@@ -400,7 +404,7 @@ const AddNewItem = () => {
                     type="text"
                     value={values.currency}
                     placeholder="сом"
-                    style={{ height: "60px", width: "60px" }}
+                    style={{ height: "70px", width: "60px" }}
                     disabled
                   />
                 </div>
@@ -592,7 +596,13 @@ const AddNewItem = () => {
           )}
 
           <div className={styles.btnWrapper}>
-            <components.WhiteButton title={"Отмена"} />
+            <button
+              className={styles.cancelBtn}
+              type="button"
+              onClick={handleClose}
+            >
+              Отмена
+            </button>
             <button
               className={styles.confirmBtn}
               disabled={isSubmitting}

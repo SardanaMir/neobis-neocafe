@@ -36,10 +36,7 @@ const LoginPage = ({
                 id="username"
                 autoComplete="off"
               />
-
-              {errors.email && touched.email && (
-                <p className={styles.errors}>{errors.email}</p>
-              )}
+              {errors?.email && touched?.email && <p className={styles.errors}>{errors?.email}</p>}
               <div className={styles.passwordWrapper}>
                 <input
                   type={passwordVisible ? "text" : "password"}
@@ -59,11 +56,9 @@ const LoginPage = ({
                   alt="passwordVisible"
                 />
               </div>
-
-              {errors.password && touched.password && (
-                <p className={styles.errors}>{errors.password}</p>
+              {errors?.password && touched.password && (
+                <p className={styles.errors}>{errors?.password}</p>
               )}
-
               <button
                 type="submit"
                 disabled={isSubmitting ? "disabled" : ""}
@@ -75,7 +70,6 @@ const LoginPage = ({
           </div>
         </div>
       </div>
-
       <div className={styles.box}>
         <img className={styles.img} src={bg} alt="3 cups of coffee" />
       </div>

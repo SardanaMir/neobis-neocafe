@@ -6,7 +6,7 @@ import Menu from '../../pages/Menu'
 import Staff from '../../pages/Staff'
 import Storehouse from '../../components/Storehouse/Storehouse'
 import Affiliate from '../../components/Affiliate/Affiliate'
-import LoginContainer from '../../pages/Login/LoginContainer'
+import DropdownStoreHouse from '../Dropdown/Dropdown'
 
 
 const Content = () => {
@@ -19,15 +19,10 @@ const Content = () => {
   return (
     <Layout.Content className={styles.content}>
       <Routes>
-        {/* <Route path='/' element={<ProtectedRoute element={<Menu />} path='/' />} />
-        <Route path='/storehouse' element={<ProtectedRoute element={<Storehouse />} path='/' />} />
-        <Route path='/affiliates' element={<ProtectedRoute element={<Affiliate />} path='/' />}/>
-        <Route path='/staff' element={<ProtectedRoute element={<Staff />} path='/' />} /> */}
-        <Route path='/' element={<Menu />} />
+        <Route path='/menu' element={<Menu />} />
         <Route path='/storehouse' element={<Storehouse />} />
-        <Route path='/affiliates' element={<Affiliate />}/>
+        <Route path='/affiliates' element={<Affiliate />} />
         <Route path='/staff' element={<Staff />} />
-        {/* <Route path='/' element={<LoginContainer />} />  */}
       </Routes>
     </Layout.Content>
   )

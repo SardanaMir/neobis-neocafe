@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import InputMask from "react-input-mask";
 import { CloseOutlined } from "@ant-design/icons";
-import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../Buttons/AffiliateModalButton";
-import outlineImg from '../../assets/img/outline.svg'
-import { closeModal } from "../../redux/slices/modalSlice";
-import styles from '../../styles/add_affiliate_modal.module.scss'
+import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../../Buttons/Buttons";
+import outlineImg from '../../../assets/img/outline.svg'
+import { closeModal } from "../../../redux/slices/modalSlice";
+import styles from '../../../styles/add_affiliate_modal.module.scss'
 
-const AddAffiliateModal = () => {
+const EditAffiliate = () => {
   const [timeMonStart, setMonTimeStart] = useState('11:00 ')
   const [timeMonEnd, setMonTimeEnd] = useState('22:00 ')
   const dispatch = useDispatch();
@@ -24,14 +24,14 @@ const AddAffiliateModal = () => {
     /[0-9]/
   ]
 
-  const handleOpenModal = () => {
+  const handleCloseModal = () => {
     dispatch(closeModal());
   };
 
   return (
     <div className={styles.root}>
       <div className={styles.affiliate_modal}>
-        <h3>Новый филиал <CloseOutlined style={{cursor: 'pointer'}} onClick={handleOpenModal} /></h3>
+        <h3>Редактирование<CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></h3>
         <p>Добавьте фотографию филиала</p>
         <div className={styles.add__img}>
           <div className={styles.div}>
@@ -122,7 +122,7 @@ const AddAffiliateModal = () => {
         </div>
       </div>
       <div className={styles.btns}>
-        <AffiliateModalWhiteButton>Отмена</AffiliateModalWhiteButton>
+        <AffiliateModalWhiteButton onClick={handleCloseModal}>Отмена</AffiliateModalWhiteButton>
         <AffiliateModalPrimaryButton>Сохранить</AffiliateModalPrimaryButton>
       </div>
     </div>
@@ -130,4 +130,4 @@ const AddAffiliateModal = () => {
   )
 };
 
-export default AddAffiliateModal;
+export default EditAffiliate;

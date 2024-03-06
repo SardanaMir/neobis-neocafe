@@ -1,7 +1,8 @@
 .root{
+    width: 100%;
+    max-width: 1171px;
     background: rgb(235, 239, 242);
     height: 100%;
-    margin-top: 25px;
     p{
         color: rgb(42, 52, 64);
         font-size: 15px;
@@ -11,12 +12,12 @@
     }
 }
 .theader{
+    width: 1171px;
+    height: 88px;
     display: grid;
     grid-template-columns: repeat(7, 1fr) 50px;
     align-items: center;
     justify-items: center;
-    max-width: 1171px;
-    height: 88px;
     box-sizing: border-box;
     border-bottom: 1px solid rgb(53, 83, 107);
     background: white;
@@ -24,9 +25,9 @@
     border-top-right-radius: 20px;
 }
 .wrapper{
+    width: 100%;
     display: block;
-    margin: 0 auto;
-    width:  1085px;
+    max-width:  1171px;
 }
 
 .itemWrapper{

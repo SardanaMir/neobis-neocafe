@@ -1,33 +1,140 @@
 import React, { useState } from 'react';
-import { Space, Table, Tag } from 'antd';
+import { Pagination, Space, Table, Tag } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 import vertical from '../../assets/img/vertical.svg'
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../redux/slices/modalSlice';
 import styles from './storehouse.module.scss'
+import CategoriesPopUp from '../PopUp/CategoriesPopUp';
+import EditDeletePopUp from '../PopUp/EditDeletePopUp';
+
+
+const data = [
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+  {
+    name: "Мария",
+    role: "Официант",
+    login: "maria111",
+    password: "qwerty",
+    branch: "Центральный",
+    phoneNumber: "+70001112233",
+    schedule: "Пн, Вт, Ср, Чт",
+  },
+];
+
 
 const RawMaterials = () => {
-  const [current, setCurrent] = useState(3);
-  const dispatch = useDispatch();
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);  
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const handleOpenModal = () => {
-    dispatch(openModal({
-      modalType: 'addAffiliateModal',
-      modalProps: {
-      //   onChange: () => {},
-        title: 'Новая категория',
-        subtitle: 'Наименование',
-      },
-    }));
+  const dispatch = useDispatch()
+
+  const handleCategoryClick = () => {
+    setPopUpOpen(!isPopUpOpen);
   };
 
-  const onChange = (page) => {
-    setCurrent(page);
+  const handlePopUpClose = () => {
+    setActionsPopUpOpen(false);
+  };
+
+  const handleDeleteModalOpen = () => {
+    dispatch(
+      openModal({
+        modalType: "deleteCategory",
+        modalProps: {
+          title: "Удаление позиции",
+          subtitle: `Вы действительно хотите удалить данную позицию?`,
+          action: "deleteItem",
+        },
+      })
+    );
+  };
+
+  const handleEditModalOpen = () => {
+    dispatch(
+      openModal({
+        modalType: "editStorhouseProduct",
+        modalProps: {},
+      })
+    );
+    setActionsPopUpOpen(false);
+  };
+
+  const handleOpenModal = () => {
+    dispatch(
+      openModal({
+        modalType: "addAffiliateModal",
+        modalProps: {},
+      })
+    );
+  };
+
+  const handleActionClick = (e) => {
+    setPopupPosition({ x: e.clientX, y: e.clientY });
+    setActionsPopUpOpen(!isActionsPopUpOpen);
+  };
+
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
   };
 
   return (
-    <>
-    <table className={styles.table}>
+    <div className={styles.con}>
+      <table className={styles.table}>
         <thead>
           <tr className={styles.first_tr}>
             <th><span>№</span>Наименование</th>
@@ -37,27 +144,42 @@ const RawMaterials = () => {
             <th>Филиал</th>
           </tr>
         </thead>
-        <hr className={styles.table_line}/>
         <tbody>
-            <tr>
+            <tr className={styles.list_product}>
               <td><span>№1</span>Капучино</td>
               <td>25 шт</td>
               <td>10 шт</td>
               <td>20.09.2024</td>
-              <td>NeoCafe Ala-Too Square <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={handleOpenModal}/></td>
+              <td>
+                NeoCafe Ala-Too Square 
+                <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={handleActionClick}/>
+              </td>
             </tr>
-          <hr className={styles.list_line} />
-          <tr>
-              <td><span>№1</span>Капучино</td>
-              <td>20 шт</td>
-              <td>10 шт</td>
-              <td>20.09.2024</td>
-              <td>NeoCafe Ala-Too Square <img src={vertical} alt="Error :(" className={styles.tableIcon}/></td>
-            </tr>
-          <hr className={styles.list_line} />
         </tbody>
       </table>
-    </>
+      <Pagination
+        showSizeChanger
+        onShowSizeChange={onShowSizeChange}
+        defaultCurrent={3}
+        total={data.length}
+        className={styles.pagination}
+      />
+      {isPopUpOpen && (
+        <CategoriesPopUp
+          setPopUpOpen={setPopUpOpen}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
+      {isActionsPopUpOpen && (
+        <EditDeletePopUp
+          x={popupPosition.x}
+          y={popupPosition.y}
+          closePopUp={handlePopUpClose}
+          handleEditModalOpen={handleEditModalOpen}
+          handleDeleteModalOpen={handleDeleteModalOpen}
+        />
+      )}
+    </div>
   )
 };
 

@@ -31,15 +31,19 @@ const DeleteCategory = (props) => {
   const deleteItem = () => {
     console.log("удалить позицию");
     const updatedItems = items.filter((item) => item.id !== props.id);
-
     dispatch(setItems(updatedItems))
     dispatch(closeModal());
   };
 
+  const deleteProductInStorhouse = () =>{
+      const id = props.id
+      dispatch(deleteProduct({ id, handleCloseModal }));
+        
   const actions = {
-    deleteCategory: handleDeleteCategory,
-    deleteItem: deleteItem,
-  };
+        deleteCategory: deleteCategory,
+        deleteItem: deleteItem,
+        deleteProductInStorhouse: deleteProductInStorhouse
+    };
 
   const handleClick = actions[props.action];
 

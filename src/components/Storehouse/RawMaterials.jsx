@@ -5,6 +5,8 @@ import vertical from '../../assets/img/vertical.svg'
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../redux/slices/modalSlice';
 import styles from './storehouse.module.scss'
+import CategoriesPopUp from '../PopUp/CategoriesPopUp';
+import EditDeletePopUp from '../PopUp/EditDeletePopUp';
 
 
 const data = [
@@ -75,17 +77,55 @@ const data = [
 
 
 const RawMaterials = () => {
-  const dispatch = useDispatch();
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);  
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+
+  const dispatch = useDispatch()
+
+  const handleCategoryClick = () => {
+    setPopUpOpen(!isPopUpOpen);
+  };
+
+  const handlePopUpClose = () => {
+    setActionsPopUpOpen(false);
+  };
+
+  const handleDeleteModalOpen = () => {
+    dispatch(
+      openModal({
+        modalType: "deleteCategory",
+        modalProps: {
+          title: "Удаление позиции",
+          subtitle: `Вы действительно хотите удалить данную позицию?`,
+          action: "deleteItem",
+        },
+      })
+    );
+  };
+
+  const handleEditModalOpen = () => {
+    dispatch(
+      openModal({
+        modalType: "editStorhouseProduct",
+        modalProps: {},
+      })
+    );
+    setActionsPopUpOpen(false);
+  };
 
   const handleOpenModal = () => {
-    dispatch(openModal({
-      modalType: 'addAffiliateModal',
-      modalProps: {
-      //   onChange: () => {},
-        title: 'Новая категория',
-        subtitle: 'Наименование',
-      },
-    }));
+    dispatch(
+      openModal({
+        modalType: "addAffiliateModal",
+        modalProps: {},
+      })
+    );
+  };
+
+  const handleActionClick = (e) => {
+    setPopupPosition({ x: e.clientX, y: e.clientY });
+    setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
   const onShowSizeChange = (current, pageSize) => {
@@ -104,24 +144,17 @@ const RawMaterials = () => {
             <th>Филиал</th>
           </tr>
         </thead>
-        <hr className={styles.table_line}/>
         <tbody>
-            <tr>
+            <tr className={styles.list_product}>
               <td><span>№1</span>Капучино</td>
               <td>25 шт</td>
               <td>10 шт</td>
               <td>20.09.2024</td>
-              <td>NeoCafe Ala-Too Square <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={handleOpenModal}/></td>
+              <td>
+                NeoCafe Ala-Too Square 
+                <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={handleActionClick}/>
+              </td>
             </tr>
-          <hr className={styles.list_line} />
-          <tr>
-              <td><span>№1</span>Капучино</td>
-              <td>20 шт</td>
-              <td>10 шт</td>
-              <td>20.09.2024</td>
-              <td>NeoCafe Ala-Too Square <img src={vertical} alt="Error :(" className={styles.tableIcon}/></td>
-            </tr>
-          <hr className={styles.list_line} />
         </tbody>
       </table>
       <Pagination
@@ -131,6 +164,21 @@ const RawMaterials = () => {
         total={data.length}
         className={styles.pagination}
       />
+      {isPopUpOpen && (
+        <CategoriesPopUp
+          setPopUpOpen={setPopUpOpen}
+          handleOpenModal={handleOpenModal}
+        />
+      )}
+      {isActionsPopUpOpen && (
+        <EditDeletePopUp
+          x={popupPosition.x}
+          y={popupPosition.y}
+          closePopUp={handlePopUpClose}
+          handleEditModalOpen={handleEditModalOpen}
+          handleDeleteModalOpen={handleDeleteModalOpen}
+        />
+      )}
     </div>
   )
 };

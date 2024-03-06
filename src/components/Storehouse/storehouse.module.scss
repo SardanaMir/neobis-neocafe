@@ -125,17 +125,21 @@
 .table {
   width: 100%;
   max-width: 1171px;
-  height: 528px;
+  height: 100%;
+  max-height: 528px;
 }
 
 tr {
-  width: 1134px;
+  width: 100%;
+  max-width: 1171px;
   height: 88px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 32px;
+  padding-left: 32px;
+  border-bottom: 1px solid rgb(235, 239, 242);
 }
+
 
 th {
   display: flex;
@@ -180,8 +184,11 @@ td {
 }
 
 td:first-child {
-  width: 115px;
+  width: 100%;
+  max-width: 115px;
   margin-right: 152px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 
@@ -199,11 +206,9 @@ th:last-child {
   align-items: center;
 }
 
-.table_line {
-  position: absolute;
-  width: 1171px;
-  height: 0px;
-  border: 1px solid rgba(53, 83, 107, 1);
+
+.first_tr {
+  border-bottom: 1px solid rgb(53, 83, 107);
 }
 
 

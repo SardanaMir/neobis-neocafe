@@ -4,7 +4,7 @@ import styles from './buttons.module.scss'
 
 export const AffiliateModalWhiteButton = (props) => {
   return (
-    <Button className={styles.affiliate__btn_white} {...props}>
+    <Button className={styles.affiliate__btn_white} { ...props }>
         {props.children}
     </Button>
   )

@@ -1,7 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../redux/slices/modalSlice";
-import { deleteCategory } from "../../../api";
+import {
+  deleteCategory,
+  deleteItem,
+  getAllCategories,
+  getMenu,
+} from "../../../api";
 import { components } from "../../Buttons";
 import styles from "./style.module.scss";
 import { removeCategory } from "../../../redux/slices/categoriesSlice";
@@ -17,10 +22,9 @@ const DeleteCategory = (props) => {
   };
 
   const handleDeleteCategory = async (id) => {
-    console.log("удалить категорию");
-    console.log(props.id);
+
     try {
-      const res = await deleteCategory(props.id); //!!!
+      const res = await deleteCategory(props.id);
       console.log("удаление катег", res);
       dispatch(removeCategory(props.id));
       dispatch(closeModal());
@@ -28,22 +32,30 @@ const DeleteCategory = (props) => {
       console.log(err);
     }
   };
-  const deleteItem = () => {
-    console.log("удалить позицию");
-    const updatedItems = items.filter((item) => item.id !== props.id);
-    dispatch(setItems(updatedItems))
-    dispatch(closeModal());
+  const removeItem = async () => {
+    // const updatedItems = items.filter((item) => item.id !== props.id);
+    try {
+      const res = await deleteItem(props.id)
+      console.log("удалить позицию", res);
+      const updatedMenuData = await getMenu()
+      dispatch(setItems(updatedMenuData.data))
+      // dispatch(removeItem(props.id));
+      dispatch(closeModal());
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const deleteProductInStorhouse = () =>{
-      const id = props.id
-      dispatch(deleteProduct({ id, handleCloseModal }));
-        
+  const deleteProductInStorhouse = () => {
+    const id = props.id;
+    dispatch(deleteProduct({ id, handleCloseModal }));
+  };
+
   const actions = {
-        deleteCategory: deleteCategory,
-        deleteItem: deleteItem,
-        deleteProductInStorhouse: deleteProductInStorhouse
-    };
+    deleteCategory: handleDeleteCategory,
+    deleteItem: removeItem,
+    deleteProductInStorhouse: deleteProductInStorhouse,
+  };
 
   const handleClick = actions[props.action];
 

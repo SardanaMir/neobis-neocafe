@@ -28,7 +28,8 @@
     }
 
     .links {
-      width: 157px;
+      width: 100%;
+      max-width: 157px;
       height: 48px;
       display: flex;
       flex-direction: row;
@@ -37,10 +38,13 @@
       padding: 12px 10px 12px 10px;
       color: rgb(255, 255, 255);
       border-radius: 12px;
+      background-color: transparent;
     }
 
+    
     .links_exit {
-      width: 157px;
+      width: 100%;
+      max-width: 157px;
       height: 48px;
       display: flex;
       flex-direction: row;
@@ -50,8 +54,11 @@
       color: rgb(255, 255, 255);
       margin-top: 600px;
     }
+    
+    .active {
+      background-color: rgba(244, 115, 86, 1);
+      overflow: scroll;
+    }
   }
 
-  .active {
-    background-color: red;
-  }
+

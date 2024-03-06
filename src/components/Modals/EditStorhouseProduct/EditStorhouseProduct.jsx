@@ -1,46 +1,48 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { CloseOutlined } from "@ant-design/icons";
-import { closeModal } from '../../../redux/slices/modalSlice';
-import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../../Buttons/Buttons";
-import styles from '../../../styles/add_product.modal.module.scss'
 import { Select } from 'antd';
 import InputMask from 'react-input-mask';
+import { closeModal } from '../../../redux/slices/modalSlice';
+import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../../Buttons/Buttons";
 import DropdownStoreHouse from '../../Dropdown/Dropdown';
 import DropDownCount from '../../DropDown/DropDownCount';
-import { getProducts, setProudct } from '../../../redux/slices/storageSlice';
+import { getOneProductById } from '../../../redux/slices/storageSlice';
 import DropDownLimit from '../../DropDown/DropDownLimit';
+import styles from '../../../styles/add_product.modal.module.scss'
 
 
-const AddProductModal = () => {  
-  const [name, setName] = useState('')
-  const [quantity, setQuantity] = useState(0)
-  const [quantity_unit, setQuantityUnit] = useState('мл')
-  const [limit, setLimit] = useState(0)
-  const [limit_unit, setLimitUnit] = useState('мл')
-  const [arrival_date, setArrivalDate] = useState('')
-  const [category, setCategory] = useState('Выберите категорию')
-  const [branch, steBranch] = useState('')
-
+const EditStorhouseProduct = ({ id }) => {  
+  const { storage_product } = useSelector(state => state.storage)
   const dispatch = useDispatch()
+
+  const [name, setName] = useState('')
+  const [quantity, setQuantity] = useState(storage_product.quantity)
+  const [quantity_unit, setQuantityUnit] = useState(storage_product.quantity_unit)
+  const [limit, setLimit] = useState(storage_product.limit)
+  const [limit_unit, setLimitUnit] = useState(storage_product.limit_unit)
+  const [arrival_date, setArrivalDate] = useState(storage_product.arrival_date)
+  const [category, setCategory] = useState(storage_product.category)
+  const [branch, steBranch] = useState(storage_product.branch)  
+
 
   const handleCloseModal = () => {
     dispatch(closeModal())
   }
 
-  const getNewProducts = () => {
-    dispatch(getProducts())
-  }
+  useEffect(() => {
+    setName(storage_product.name)
+  }, [storage_product, ]);
 
-  const handleSetProduct = () => {
-    const branch = 1
-    dispatch(setProudct({ name, quantity, quantity_unit, limit, limit_unit, arrival_date, category, branch, handleCloseModal, getNewProducts }))
-  }
+  useEffect(() => {
+    dispatch(getOneProductById(id))
+  }, []);
+  
 
   return (
     <div className={styles.container}>
         <div className={styles.add__product}>
-          <h3 className={styles.add__product_h3}>Новая продукция<CloseOutlined className={styles.add__product_icon} onClick={handleCloseModal} /></h3>
+          <h3 className={styles.add__product_h3}>Редактирование<CloseOutlined className={styles.add__product_icon} onClick={handleCloseModal} /></h3>
           <p className={styles.add__product_p}>Наименование, категория и стоимость</p>
           <div className={styles.add__product_name}>
             <span>Наименование</span>
@@ -100,12 +102,12 @@ const AddProductModal = () => {
           </div>
           <div className={styles.btns}>
             <StorehouseModalWhiteButton onClick={handleCloseModal}>Отмена</StorehouseModalWhiteButton>
-            <StorehouseModalPrimaryButton onClick={handleSetProduct}>Сохранить</StorehouseModalPrimaryButton>
+            <StorehouseModalPrimaryButton>Сохранить</StorehouseModalPrimaryButton>
         </div>
         </div>
     </div>
   )
 };
 
+export default EditStorhouseProduct;
 
-export default AddProductModal;

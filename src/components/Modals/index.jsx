@@ -5,8 +5,11 @@ import AddNewEmployee from "./AddNewEmployee";
 import AddNewCategory from "./AddNewCategory";
 import AddNewItem from "./AddNewItem";
 import EditItem from "./EditItem";
-// import AddAffiliateModal from "./AddAffiliateModal/AddAffiliateModal";
-// import AddProductModal from "./AddProductModal/AddProductModal";
+import AddAffiliateModal from "./AddAffiliateModal/AddAffiliateModal";
+import AddProductModal from "./AddProductModal/AddProductModal";
+import EditAffiliateModal from "./EditAffiliateModal/EditAffiliateModal";
+import EditStorhouseProduct from "./EditStorhouseProduct/EditStorhouseProduct";
+
 const Modals = () => {
   const { isOpen, modalType, modalProps } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
@@ -19,9 +22,10 @@ const Modals = () => {
     addCategory: AddNewCategory,
     addNewItem: AddNewItem,
     editItem: EditItem,
-    // addAffiliateModal: AddAffiliateModal,
-    // addProductModal: AddProductModal,
-    
+    addAffiliateModal: AddAffiliateModal,
+    addProductModal: AddProductModal,
+    editAffiliateModal: EditAffiliateModal,
+    editStorhouseProduct: EditStorhouseProduct,
   };
   const CurrentModal = modalType ? ModalsMap[modalType] : null;
 

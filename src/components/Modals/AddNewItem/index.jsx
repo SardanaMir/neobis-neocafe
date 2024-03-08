@@ -122,12 +122,12 @@ const AddNewItem = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setPreview(reader.result); // Устанавливаем base64 строку изображения в состояние
+        setPreview(reader.result);
       }
     };
     
     if (files) {
-      reader.readAsDataURL(files); // Чтение файла как base64
+      reader.readAsDataURL(files);
     }
   };
   const handleDragOver = (e) => {

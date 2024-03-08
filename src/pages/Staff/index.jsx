@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useFormik } from "formik";
-import Header from "../../components/Header/Header.jsx";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
@@ -9,10 +8,7 @@ import { openModal } from "../../redux/slices/modalSlice.js";
 import BranchesPopUp from "../../components/PopUp/BranchesPopUp";
 import styles from "./styles.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
-import { PlusOutlined } from "@ant-design/icons";
-import bell from "../../assets/img/Bell.svg";
-import searchIcon from "../../assets/img/Vector.svg";
-import { Layout } from "antd";
+
 const data = [
   {
     name: "Мария",
@@ -98,20 +94,6 @@ const Staff = () => {
     "График работы",
   ];
 
-  const handleOpenModal = () => {
-    dispatch(
-      openModal({
-        modalType: "addNewEmployee",
-        // modalProps: {
-        //   title: "Новая категория",
-        //   subtitle: "Наименование",
-        //   placeholder: "Введите название категории",
-        //   action: "addCategory",
-        // },
-      })
-    );
-  };
-
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
@@ -120,25 +102,10 @@ const Staff = () => {
     console.log(popupPosition);
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
-
   const handlePopUpClose = () => {
     setActionsPopUpOpen(false);
   };
-  const handleEditModalOpen = () => {
-    console.log("edit modal open");
-    dispatch(
-      openModal({
-        modalType: "addNewEmployee",
-        modalProps: {
-          // title: "Новая категория",
-          // subtitle: "Наименование",
-          // placeholder: "Введите название категории",
-        },
-      })
-    );
-    setActionsPopUpOpen(false);
-  };
-  //удалить позицию из меню
+
   const handleDeleteModalOpen = () => {
     console.log("delete modal open");
     dispatch(
@@ -152,14 +119,6 @@ const Staff = () => {
       })
     );
     // setActionsPopUpOpen(false)
-  };
-  const handleOpenProductModal = (e) => {
-    console.log(e.target);
-    dispatch(
-      openModal({
-        modalType: "addNewEmployee",
-      })
-    );
   };
   return (
     <>
@@ -191,23 +150,25 @@ const Staff = () => {
             ))}
           </header>
           {/* тело таблицы */}
-          {data.map((item, index) => (
-            <div className={styles.itemWrapper} key={index}>
-              <p>{item.name}</p>
-              <p>{item.role}</p>
-              <p>{item.login}</p>
-              <p>{item.password}</p>
-              <p>{item.branch}</p>
-              <p>{item.phoneNumber}</p>
-              <p>{item.schedule}</p>
-              <img
-                className={styles.actionImg}
-                onClick={handleActionClick}
-                src={images.action}
-                alt="действия"
-              />
-            </div>
-          ))}
+          <div className={styles.menuWrapper}>
+            {data.map((item, index) => (
+              <div className={styles.itemWrapper} key={index}>
+                <p>{item.name}</p>
+                <p>{item.role}</p>
+                <p>{item.login}</p>
+                <p>{item.password}</p>
+                <p>{item.branch}</p>
+                <p>{item.phoneNumber}</p>
+                <p>{item.schedule}</p>
+                <img
+                  className={styles.actionImg}
+                  onClick={handleActionClick}
+                  src={images.action}
+                  alt="действия"
+                />
+              </div>
+            ))}
+          </div>
           {/* пагинация */}
           <div className={styles.pagination}>
             <Pagination

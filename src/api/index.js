@@ -111,3 +111,8 @@ export const editItemInfo = async (id, formData) => {
   return res
 };
 
+export const createNewStaff = async (data) => {
+  const res = await API.post('employees/staff/create/', data);
+  return res;
+};
+

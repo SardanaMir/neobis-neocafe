@@ -93,28 +93,6 @@ const AddAffiliateModal = () => {
 
   const handleSetProdBranch = () => {
     const formData = new FormData();
-    // formData.append("username", "Chris");
-    // formData.append('moday', tableDays.monday)
-    // formData.append('monday_start_time', tableDays.monday_start_time)
-    // formData.append('monday_end_time', tableDays.monday_end_time)
-    // formData.append('tuesday', tableDays.tuesday)
-    // formData.append('tuesday_start_time', tableDays.tuesday_start_time)
-    // formData.append('tuesday_end_time', tableDays.tuesday_end_time)
-    // formData.append('wednesday', tableDays.wednesday)
-    // formData.append('wednesday_start_time', tableDays.wednesday_start_time)
-    // formData.append('wednesday_end_time', tableDays.wednesday_end_time)
-    // formData.append('thursday', tableDays.thursday)
-    // formData.append('thursday_start_time', tableDays.thursday_start_time)
-    // formData.append('thursday_end_time', tableDays.thursday_end_time)
-    // formData.append('friday', tableDays.friday)
-    // formData.append('friday_start_time', tableDays.friday_start_time)
-    // formData.append('friday_end_time', tableDays.friday_end_time)
-    // formData.append('saturday', tableDays.saturday)
-    // formData.append('saturday_start_time', tableDays.saturday_start_time)
-    // formData.append('saturday_end_time', tableDays.saturday_end_time)
-    // formData.append('sunday', tableDays.sunday)
-    // formData.append('sunday_start_time', tableDays.sunday_start_time)
-    // formData.append('sunday_end_time', tableDays.sunday_end_time)
     formData.append('image', selectedImage)
 
     const data = {
@@ -127,14 +105,7 @@ const AddAffiliateModal = () => {
       phone_number: formBranch.phone_number,
       link_to_map: formBranch.link_to_map,
       counts_of_tables: formBranch.counts_of_tables
-
     }
-    // formData.append('name', formBranch.name)
-    // formData.append('address', formBranch.address)
-    // formData.append('phone_number', formBranch.phone_number)
-    // formData.append('link_to_map', formBranch.link_to_map)
-    // formData.append('counts_of_tables', formBranch.counts_of_tables)
-    
     dispatch(setBranchesProduct({ data, handleCloseModal }))
   }
 

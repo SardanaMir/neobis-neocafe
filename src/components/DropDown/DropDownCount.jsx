@@ -4,7 +4,7 @@ import styles from "./dropdown.module.scss";
 
 const DropDownCount = ({ quantity_unit, setQuantityUnit }) => {
     const [isActive, setIsActive] = useState(false)
-    const options  = ['мл', 'гр', 'кл', 'шт', 'литр']
+    const options  = ['мл', 'г', 'кг', 'шт', 'л']
 
   return (
     <div className={styles.dropdown_count}>

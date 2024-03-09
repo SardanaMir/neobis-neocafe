@@ -4,7 +4,8 @@ import { closeModal } from '../../../redux/slices/modalSlice';
 import {components} from '../../Buttons'
 import styles from './style.module.scss';
 import { removeCategory } from '../../../redux/slices/categoriesSlice';
-import { deleteProduct } from '../../../redux/slices/storageSlice';
+import { deleteProduct, getProducts } from '../../../redux/slices/storageSlice';
+import { deleteBranch, getBranches } from '../../../redux/slices/branchesSlice';
 
 const DeleteCategory = (props) => {
     const dispatch = useDispatch();
@@ -12,6 +13,11 @@ const DeleteCategory = (props) => {
     const handleCloseModal = () => {
         dispatch(closeModal());
     };
+
+    const getLastUpdateProduct = () => {
+        dispatch(getProducts());
+    };
+
     const deleteCategory = () =>{
         console.log('удалить категорию')
         dispatch(removeCategory(props.category))
@@ -24,13 +30,23 @@ const DeleteCategory = (props) => {
 
     const deleteProductInStorhouse = () =>{
         const id = props.id
-        dispatch(deleteProduct({ id, handleCloseModal }));
+        dispatch(deleteProduct({ id, handleCloseModal, getLastUpdateProduct }));
+    }
+
+    const getLastUpdateBranches = () => {
+        dispatch(getBranches())
+      }
+
+    const handleDeleteBranch = () =>{
+        const id = props.id
+        dispatch(deleteBranch({ id, handleCloseModal, getLastUpdateBranches }))
     }
 
     const actions = {
         deleteCategory: deleteCategory,
         deleteItem: deleteItem,
-        deleteProductInStorhouse: deleteProductInStorhouse
+        deleteProductInStorhouse: deleteProductInStorhouse,
+        handleDeleteBranch: handleDeleteBranch,
     };
 
     const handleClick = actions[props.action];

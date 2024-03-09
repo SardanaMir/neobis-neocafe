@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Pagination, Space, Table, Tag } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux'
-import vertical from '../../assets/img/vertical.svg'
-import styles from './storehouse.module.scss'
+import { getBranches } from '../../redux/slices/branchesSlice';
 import { getProducts } from '../../redux/slices/storageSlice';
 import { openModal } from '../../redux/slices/modalSlice';
 import CategoriesPopUp from '../PopUp/CategoriesPopUp';
 import EditDeletePopUp from '../PopUp/EditDeletePopUp';
+import vertical from '../../assets/img/vertical.svg'
+import styles from './storehouse.module.scss'
 
 
 const FinishedProducts = () => {
@@ -15,10 +16,14 @@ const FinishedProducts = () => {
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [id, setId] = useState(null)
-  
-  const { data_storage } = useSelector(state => state.storage)
 
   const dispatch = useDispatch()
+  
+  const { data_storage } = useSelector(state => state.storage)
+  const { data } = useSelector(state => state.branches.data_branches)
+  
+  const readyProducts = data_storage.filter(product => product.category === 'Готовые продукты')
+
   
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
@@ -34,11 +39,11 @@ const FinishedProducts = () => {
     setPopupPosition({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
-
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
-
+  
+  useEffect(() => {
+    dispatch(getBranches())
+  }, []);
+  
   const handleDeleteModalOpen = () => {
     dispatch(
       openModal({
@@ -50,9 +55,10 @@ const FinishedProducts = () => {
           id: id,
         },
       })
-    );
-  };
-
+      );
+    };
+    
+    
   const handleEditModalOpen = () => {
     dispatch(
       openModal({
@@ -61,23 +67,27 @@ const FinishedProducts = () => {
           id: id
         },
       })
-    );
-    setActionsPopUpOpen(false);
+      );
+      setActionsPopUpOpen(false);
+    };
+      
+    const handleOpenModal = () => {
+      dispatch(
+        openModal({
+          modalType: "addAffiliateModal",
+          modalProps: {},
+        })
+        );
+      };
+
+      
+    useEffect(() => {
+      dispatch(getProducts())
+    }, []);
+        
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
   };
-
-  const handleOpenModal = () => {
-    dispatch(
-      openModal({
-        modalType: "addAffiliateModal",
-        modalProps: {},
-      })
-    );
-  };
-
-
-  useEffect(() => {
-    dispatch(getProducts())
-  }, []);
   
   return (
     <div className={styles.con}>
@@ -93,14 +103,20 @@ const FinishedProducts = () => {
         </thead>
         <tbody>
             {
-              data_storage.map((product, index) => 
+              readyProducts?.map((product, index) => 
                 <tr key={product.id} className={styles.list_product}>
                   <td><span>№{index+1}</span>{product.name}</td>
                   <td>{product.quantity} {product.quantity_unit}</td>
                   <td>{product.limit} {product.limit_unit}</td>
                   <td>{product.arrival_date}</td>
                   <td>
-                    NeoCafe Ala-Too Square 
+                    {
+                      data?.map(branch => {
+                        if (branch.id === product.branch) {
+                          return branch.name
+                        }
+                      })
+                    }
                     <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={(e) => handleActionClick(e, product.id)} />
                   </td>
                 </tr>

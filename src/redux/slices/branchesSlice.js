@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 
 
 const initialState = {
-    data_branches: []
+    data_branches: [],
+    branch: [],
 }
 
 const API = 'https://helsinki-backender.org.kg'
@@ -14,21 +15,57 @@ export const getBranches = createAsyncThunk('branches/getBranches', async () => 
         const response = await axios.get(`${API}/branches/`)
         return response
     } catch (error) {
-        return error
+        console.log(error);
     }
 })
 
-export const setBranchesProduct = createAsyncThunk('branches/setBranchesProduct', async ({ data, handleCloseModal }) => {
+export const getBranchById = createAsyncThunk('branches/getBranchById', async (id) => {
     try {
-    const response = await axios.post(`${API}/branches/`, data, {
+        const response = await axios.get(`${API}/branches/${id}/`)
+        return response
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+export const setBranchesProduct = createAsyncThunk('branches/setBranchesProduct', async ({ formData, handleCloseModal, handleGetBranches }) => {
+    try {
+    const response = await axios.post(`${API}/branches/`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-              },
+            },
         })
+        handleGetBranches()
         handleCloseModal()
         return response
     } catch (error) {
-        return error
+        console.log(error);
+    }
+})
+
+export const editBranch = createAsyncThunk('branches/setBranchesProduct', async ({ id, formData, handleCloseModal, handleGetBranches }) => {
+    try {
+    const response = await axios.patch(`${API}/branches/${id}/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        handleGetBranches()
+        handleCloseModal()
+        return response
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+export const deleteBranch = createAsyncThunk('branches/deleteBranch', async ({ id, handleCloseModal, getLastUpdateBranches }) => {
+    try {
+        const response = await axios.delete(`${API}/branches/${id}/`)
+        getLastUpdateBranches()
+        handleCloseModal()
+        return response
+    } catch (error) {
+        console.log(error);
     }
 })
 
@@ -46,6 +83,15 @@ const branchesSlices = createSlice({
         })
         .addCase(setBranchesProduct.fulfilled, (state, action) => {
             toast.success('Продукт добавлен')
+        })
+        .addCase(deleteBranch.rejected, (state, action) => {
+            toast.error('Продукт не удалён!')
+        })
+        .addCase(deleteBranch.fulfilled, (state, action) => {
+            toast.warning('Продукт удалён')
+        })
+        .addCase(getBranchById.fulfilled, (state, action) => {
+            state.branch = action.payload
         })
     }
 })

@@ -9,16 +9,9 @@ import {
 } from "../../../redux/slices/categoriesSlice.js";
 
 const CategoriesPopUp = ({ setPopUpOpen, handleOpenModal, data }) => {
-  const categoriesArr = ["Кофе", "Выпечка", "Коктейли", "Десерты", "Чай"];
   const [highlightedCategory, setHighlightedCategory] = useState(null);
   const dispatch = useDispatch();
   const categoriesData = useSelector((state) => state.categories.categories);
-
-  useEffect(() => {
-    if (!categoriesData.length) {
-      dispatch(setCategories(categoriesArr));
-    }
-  }, []);
 
   const handleDeleteCategory = (index) => {
     dispatch(
@@ -26,13 +19,14 @@ const CategoriesPopUp = ({ setPopUpOpen, handleOpenModal, data }) => {
         modalType: "deleteCategory",
         modalProps: {
           title: "Удаление",
-          subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index]}' ?`,
-          category: categoriesData[index],
+          subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index].name}' ?`,
+          category: categoriesData[index].name,
           action: "deleteCategory",
+          id: categoriesData[index].id,
         },
       })
     );
-    dispatch(removeCategory(categoriesData[index]));
+    // dispatch(removeCategory(categoriesData[index].name));
   };
 
   const handleAdd = () => {
@@ -64,7 +58,7 @@ const CategoriesPopUp = ({ setPopUpOpen, handleOpenModal, data }) => {
                 highlightedCategory === index ? styles.highlighted : ""
               }
             >
-              {category}
+              {category.name}
             </p>
             {highlightedCategory === index && (
               <img

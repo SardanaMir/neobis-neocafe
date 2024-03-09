@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DropDown from "../../DropDown";
 import { useFormik } from "formik";
-import List from "../../List";
+// import List from "../../List";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { components } from "../../Buttons";
 import images from "../../../assets/images";
@@ -95,17 +95,17 @@ const handleChange = (event) =>{
         <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
 
         <div className={styles.imagePickerWrapper}>
-          <div class={styles.imagePicker}>
+          <div className={styles.imagePicker}>
             <input
               type="file"
               id="file-upload"
               onChange={handleImageChange}
               className={styles.upload}
             />
-            <label htmlFor="file-upload" class={styles.uploadArea}>
+            <label htmlFor="file-upload" className={styles.uploadArea}>
               {!image ? (
                 <>
-                  <div class={styles.uploadIconWrapper}>
+                  <div className={styles.uploadIconWrapper}>
                     <img src={images.uploadIcon} alt="Upload Icon" />
                   </div>
                   <p>Перетащите изображение для изменения или обзор</p>
@@ -142,11 +142,11 @@ const handleChange = (event) =>{
             <div>
               <p>Категория</p>
               <div className={styles.categoryWrapper}>
-                <List
+                {/* <List
                   options={categories}
                   values={"Выберите категорию"}
                   value={values.category}
-                />
+                /> */}
               </div>
             </div>
             <div>
@@ -205,7 +205,7 @@ const handleChange = (event) =>{
                     id="quantity"
                   />
                   <div className={styles.measureWrapper}>
-                    <List options={MEASURE} values={"мл"} />
+                    {/* <List options={MEASURE} values={"мл"} /> */}
                   </div>
                 </div>
               </div>

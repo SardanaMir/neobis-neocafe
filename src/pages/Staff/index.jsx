@@ -16,63 +16,42 @@ const data = [
     login: "maria111",
     password: "qwerty",
     branch: "Центральный",
-    phoneNumber: "+70001112233",
     schedule: "Пн, Вт, Ср, Чт",
   },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
+  // {
+  //   email: "user@example.com",
+  //   password: "string",
+  //   first_name: "string",
+  //   birth_date: "2024-03-08",
+  //   branch: 0,
+  //   position: "barista",
+  //   schedule: {
+  //       id: 0,
+  //       title: "string",
+  //       description: "string",
+  //       monday: true,
+  //       monday_start_time: "string",
+  //       monday_end_time: "string",
+  //       tuesday: true,
+  //       tuesday_start_time: "string",
+  //       tuesday_end_time: "string",
+  //       wednesday: true,
+  //       wednesday_start_time: "string",
+  //       wednesday_end_time: "string",
+  //       thursday: true,
+  //       thursday_start_time: "string",
+  //       thursday_end_time: "string",
+  //       friday: true,
+  //       friday_start_time: "string",
+  //       friday_end_time: "string",
+  //       saturday: true,
+  //       saturday_start_time: "string",
+  //       saturday_end_time: "string",
+  //       sunday: true,
+  //       sunday_start_time: "string",
+  //       sunday_end_time: "string"
+  //   }
+  // }
 ];
 
 const onShowSizeChange = (current, pageSize) => {
@@ -83,6 +62,7 @@ const Staff = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [idInfo, setIdInfo] = useState();
 
   const tableHead = [
     "Имя",
@@ -90,22 +70,27 @@ const Staff = () => {
     "Логин",
     "Пароль",
     "Выберите филиал",
-    "Телефон",
     "График работы",
   ];
 
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
-  const handleActionClick = (e) => {
-    setPopupPosition({ x: e.clientX, y: e.clientY });
-    console.log(popupPosition);
-    setActionsPopUpOpen(!isActionsPopUpOpen);
-  };
+
   const handlePopUpClose = () => {
     setActionsPopUpOpen(false);
   };
-
+  const handleEditModalOpen = () => {
+    dispatch(
+      openModal({
+        modalType: "editEmployeeInfo",
+        modalProps: {
+          id: idInfo,
+        },
+      })
+    );
+    setActionsPopUpOpen(false);
+  };
   const handleDeleteModalOpen = () => {
     console.log("delete modal open");
     dispatch(
@@ -115,11 +100,22 @@ const Staff = () => {
           title: "Удаление сотрудника",
           subtitle: `Вы действительно хотите удалить данного сотрудника?`,
           action: "deleteItem",
+          id: idInfo,
         },
       })
     );
     // setActionsPopUpOpen(false)
   };
+  const handleActionClick = (e) => {
+    setPopupPosition({ x: e.clientX, y: e.clientY });
+    console.log(popupPosition);
+    setActionsPopUpOpen(!isActionsPopUpOpen);
+  };
+  const handleClick = (id, e) => {
+    setIdInfo(id);
+    handleActionClick(e);
+  };
+
   return (
     <>
       <div className={styles.root}>
@@ -158,11 +154,10 @@ const Staff = () => {
                 <p>{item.login}</p>
                 <p>{item.password}</p>
                 <p>{item.branch}</p>
-                <p>{item.phoneNumber}</p>
                 <p>{item.schedule}</p>
                 <img
                   className={styles.actionImg}
-                  onClick={handleActionClick}
+                  onClick={(e) => handleClick(item.id, e)}
                   src={images.action}
                   alt="действия"
                 />

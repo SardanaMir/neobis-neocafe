@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
+import { components } from "../../Buttons";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { useFormik } from "formik";
-import {createNewStaff, getBranches} from '../../../api'
+import { createNewStaff } from "../../../api";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
 
-const AddNewEmployee = () => {
+const EditEmployeeInfo = (props) => {
+    console.log('EditEmployeeInfo', props)
   const ROLE = [
     { value: "официант", label: "Официант" },
     { value: "бармен", label: "Бармен" },
@@ -19,13 +21,6 @@ const AddNewEmployee = () => {
     { value: "NeoCafe Dzerzhinka-4", label: "NeoCafe Dzerzhinka-4" },
   ];
   const weekday = [
-    // "Понедельник",
-    // "Вторник",
-    // "Среда",
-    // "Четверг",
-    // "Пятница",
-    // "Суббота",
-    // "Воскресенье",
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -36,32 +31,37 @@ const AddNewEmployee = () => {
   ];
   const [workSchedule, setWorkSchedule] = useState({});
   const dispatch = useDispatch();
-  const [schedule, setSchedule] = useState({});
 
   function transformData(data) {
     let schedule = {};
 
     // Устанавливаем по умолчанию для всех дней false
-    const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    daysOfWeek.forEach(day => {
-        schedule[day] = false;
-        schedule[`${day}_start_time`] = null;
-        schedule[`${day}_end_time`] = null;
+    const daysOfWeek = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday",
+    ];
+    daysOfWeek.forEach((day) => {
+      schedule[day] = false;
+      schedule[`${day}_start_time`] = "";
+      schedule[`${day}_end_time`] = "";
     });
 
     data.forEach((dayInfo, index) => {
-        const day = Object.keys(dayInfo)[0];
-        schedule[day.toLowerCase()] = true;
-        schedule[`${day.toLowerCase()}_start_time`] = dayInfo[day][0].start;
-        schedule[`${day.toLowerCase()}_end_time`] = dayInfo[day][1].end;
+      const day = Object.keys(dayInfo)[0];
+      schedule[day.toLowerCase()] = true;
+      schedule[`${day.toLowerCase()}_start_time`] = dayInfo[day][0].start;
+      schedule[`${day.toLowerCase()}_end_time`] = dayInfo[day][1].end;
     });
 
     return schedule;
-}
+  }
 
   const onSubmit = async (e) => {
-    const response = await getBranches()
-    console.log(response)
     const finalWorkSchedule = weekday.reduce((acc, day) => {
       if (workSchedule[day]) {
         acc.push({
@@ -77,11 +77,11 @@ const AddNewEmployee = () => {
     const changeDataStructure = transformData(finalWorkSchedule);
     values.schedule = changeDataStructure;
     console.log("values", values);
-    try{
+    try {
       const res = await createNewStaff(values);
-      console.log(res)
-    }catch(err){
-      console.log(err)
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -99,23 +99,14 @@ const AddNewEmployee = () => {
       password: "",
       email: "",
       first_name: "",
-      position: "barista",
+      position: "",
       birth_date: "",
-      branch: 2,
+      branch: 1,
       schedule: {},
     },
     // validationSchema: basicSchema,
     onSubmit: onSubmit,
   });
-
-  // Функция обработки изменений в расписании работы
-  // const handleCheckboxChange = (index) => {
-  //   setWorkSchedule((prevState) => ({
-  //     ...prevState,
-  //     [index]: !prevState[index],
-  //   }));
-  // };
-
   const handleSelectRole = (selectedRole) => {
     console.log(selectedRole);
     values.position = selectedRole.value;
@@ -124,15 +115,6 @@ const AddNewEmployee = () => {
     console.log(selectedBranch);
     values.branch = selectedBranch.value;
   };
-  // const handleTimeChange = (day, field, value) => {
-  //   setWorkSchedule((prevState) => ({
-  //     ...prevState,
-  //     [day]: {
-  //       ...prevState[day],
-  //       [field]: value,
-  //     },
-  //   }));
-  // };
   const handleClose = () => {
     dispatch(closeModal());
   };
@@ -158,7 +140,7 @@ const AddNewEmployee = () => {
       <div className={styles.wrapper}>
         <>
           <div>
-            <h2 className={styles.title}>Новый сотрудник</h2>
+            <h2 className={styles.title}>Редактирование</h2>
             <div className={styles.close} onClick={handleClose}>
               &times;
             </div>
@@ -370,4 +352,4 @@ const AddNewEmployee = () => {
   );
 };
 
-export default AddNewEmployee;
+export default EditEmployeeInfo;

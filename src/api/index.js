@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const URL = "https://helsinki-backender.org.kg/";
 
@@ -9,57 +10,24 @@ const API = axios.create({
   },
 });
 
-// API.interceptors.request.use(async (config) => {
-//   const token = localStorage.getItem('accessToken');
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// }, (error) => {
-//   return Promise.reject(error);
-// });
+API.interceptors.request.use(async (config) => {
+  const token = Cookies.get('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
-// API.interceptors.response.use(response => {
-//   return response;
-// }, error => {
-//   if (error.response.status === 401) {
-//     console.log(error)
-//   }
-//   return Promise.reject(error);
-// });
-// API.interceptors.request.use(
-//   async (config) => {
-//     const cookies = document.cookie
-//       .split("; ")
-//       .reduce((cookieObject, currentCookie) => {
-//         const [name, value] = currentCookie.split("=");
-//         cookieObject[name] = value;
-//         return cookieObject;
-//       }, {});
-
-//     const token = cookies.accessToken;
-
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// API.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
-//     if (error.response.status === 401) {
-//       console.log(error);
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+API.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) {
+    console.log(error)
+  }
+  return Promise.reject(error);
+});
 
 export const login = async (data) => {
   const res = await API.post("users/login/admin/", data);
@@ -115,4 +83,7 @@ export const createNewStaff = async (data) => {
   const res = await API.post('employees/staff/create/', data);
   return res;
 };
-
+export const getBranches = async () => {
+  const res = await API.get('branches/');
+  return res;
+};

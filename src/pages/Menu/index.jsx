@@ -219,10 +219,6 @@ const data = [
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
 };
-const categoriesData = [
-  { name: "Кофе", id: "cat02" },
-  { name: "Чай", id: "cat02" },
-];
 const Menu = () => {
   const dispatch = useDispatch();
   const [isPopUpOpen, setPopUpOpen] = useState(false);
@@ -232,7 +228,6 @@ const Menu = () => {
   const searchTerm = useSelector((state) => state.items.searchTerm);
   const items = useSelector((state) => state.items.items);
   const categories = useSelector((state) => state.categories.categories);
-  console.log("menu cat", categories);
   const [idInfo, setIdInfo] = useState();
   const tableHead = [
     "№",
@@ -253,7 +248,6 @@ const Menu = () => {
     currency: "сом",
   }));
 
-  console.log("updatedItems", updatedItems);
   // Первичный рендер
   useEffect(() => {
     // dispatch(setItems(data))
@@ -262,10 +256,8 @@ const Menu = () => {
         const categoriesData = await getAllCategories();
         dispatch(setCategories(categoriesData.data));
         const menuData = await getMenu();
-        console.log("menuData", menuData.data);
         dispatch(setItems(menuData.data));
         const res = await getStock();
-        console.log("storage", res.data);
         dispatch(setStock(res.data));
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -288,7 +280,6 @@ const Menu = () => {
     );
   };
   const handleClick = (id, e) => {
-    console.log("id", id);
     setIdInfo(id);
     handleActionClick(e);
   };
@@ -297,7 +288,7 @@ const Menu = () => {
   };
   const handleActionClick = (e) => {
     setPopupPosition({ x: e.clientX, y: e.clientY });
-    console.log({ x: e.clientX, y: e.clientY });
+    // console.log({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
@@ -305,7 +296,6 @@ const Menu = () => {
     setActionsPopUpOpen(false);
   };
   const handleEditModalOpen = () => {
-    console.log("edit modal open");
     dispatch(
       openModal({
         modalType: "editItem",
@@ -316,12 +306,9 @@ const Menu = () => {
     );
     setActionsPopUpOpen(false);
   };
-  // const deleteItem = () =>{
-  //   console.log('deleteItem in menu')
-  // }
+
   //удалить позицию из меню
   const handleDeleteModalOpen = () => {
-    console.log("delete modal open");
     dispatch(
       openModal({
         modalType: "deleteCategory",
@@ -330,19 +317,10 @@ const Menu = () => {
           subtitle: `Вы действительно хотите удалить данную позицию?`,
           action: "deleteItem",
           id: idInfo,
-          // handleDeleteModalOpen: deleteItem,
         },
       })
     );
     setActionsPopUpOpen(false);
-  };
-  const handleOpenProductModal = (e) => {
-    console.log(e.target);
-    dispatch(
-      openModal({
-        modalType: "addNewItem",
-      })
-    );
   };
   return (
     <>
@@ -392,7 +370,6 @@ const Menu = () => {
                   </p>
                   <img
                     className={styles.actionImg}
-                    // onClick={handleActionClick}
                     onClick={(e) => handleClick(item.id, e)}
                     src={images.action}
                     alt="действия"

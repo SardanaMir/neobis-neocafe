@@ -1,58 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useFormik } from "formik";
 import images from "../../assets/images.js";
 import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice.js";
 import BranchesPopUp from "../../components/PopUp/BranchesPopUp";
 import styles from "./styles.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
-
-const data = [
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  // {
-  //   email: "user@example.com",
-  //   password: "string",
-  //   first_name: "string",
-  //   birth_date: "2024-03-08",
-  //   branch: 0,
-  //   position: "barista",
-  //   schedule: {
-  //       id: 0,
-  //       title: "string",
-  //       description: "string",
-  //       monday: true,
-  //       monday_start_time: "string",
-  //       monday_end_time: "string",
-  //       tuesday: true,
-  //       tuesday_start_time: "string",
-  //       tuesday_end_time: "string",
-  //       wednesday: true,
-  //       wednesday_start_time: "string",
-  //       wednesday_end_time: "string",
-  //       thursday: true,
-  //       thursday_start_time: "string",
-  //       thursday_end_time: "string",
-  //       friday: true,
-  //       friday_start_time: "string",
-  //       friday_end_time: "string",
-  //       saturday: true,
-  //       saturday_start_time: "string",
-  //       saturday_end_time: "string",
-  //       sunday: true,
-  //       sunday_start_time: "string",
-  //       sunday_end_time: "string"
-  //   }
-  // }
-];
+import { getAllStaff } from "../../api/index.js";
+import { setStaffInfo } from "../../redux/slices/staffSlice.js";
 
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
@@ -63,7 +19,7 @@ const Staff = () => {
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [idInfo, setIdInfo] = useState();
-
+  const data = useSelector(state => state.staff.staff)
   const tableHead = [
     "Имя",
     "Должность",
@@ -72,7 +28,18 @@ const Staff = () => {
     "Выберите филиал",
     "График работы",
   ];
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const staffData = await getAllStaff();
+        console.log(staffData);
+        dispatch(setStaffInfo(staffData.data));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, []);
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
@@ -99,7 +66,7 @@ const Staff = () => {
         modalProps: {
           title: "Удаление сотрудника",
           subtitle: `Вы действительно хотите удалить данного сотрудника?`,
-          action: "deleteItem",
+          action: "deleteStaff",
           id: idInfo,
         },
       })
@@ -147,17 +114,17 @@ const Staff = () => {
           </header>
           {/* тело таблицы */}
           <div className={styles.menuWrapper}>
-            {data.map((item, index) => (
-              <div className={styles.itemWrapper} key={index}>
-                <p>{item.name}</p>
-                <p>{item.role}</p>
-                <p>{item.login}</p>
-                <p>{item.password}</p>
-                <p>{item.branch}</p>
-                <p>{item.schedule}</p>
+            {data.map((staff, index) => (
+              <div className={styles.itemWrapper} key={staff.id}>
+                <p>{staff.first_name}</p>
+                <p>{staff.position}</p>
+                <p>{staff.username}</p>
+                <p>{staff.password}</p>
+                <p>{staff.branch}</p>
+                <p>Пн, Вт, Ср, Чт</p>
                 <img
                   className={styles.actionImg}
-                  onClick={(e) => handleClick(item.id, e)}
+                  onClick={(e) => handleClick(staff.id, e)}
                   src={images.action}
                   alt="действия"
                 />

@@ -16,7 +16,9 @@ const LoginContainer = () => {
     const adminData = { username: values.username, password: values.password };
     console.log(adminData);
     try {
+      Cookies.remove('accessToken')
       const res = await login(adminData);
+      console.log(res)
       Cookies.set('accessToken', res?.access, { expires: 7 });
       dispatch(setUser(true))
       navigate("/menu");

@@ -4,15 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { components } from "../../Buttons";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { useFormik } from "formik";
-import { createNewStaff } from "../../../api";
+import { createNewStaff, changeStaffInfo } from "../../../api";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
+import { setStaffInfo } from "../../../redux/slices/staffSlice";
 
 const EditEmployeeInfo = (props) => {
-    console.log('EditEmployeeInfo', props)
+  const staffData = useSelector((state) => state.staff.staff);
+  const staff = staffData.find((staff) => staff.id === props.id);
+  const [selectedRole, setSelectedRole] = useState(staff.position);
+
   const ROLE = [
-    { value: "официант", label: "Официант" },
-    { value: "бармен", label: "Бармен" },
+    { value: "Официант", label: "Официант" },
+    { value: "Бармен", label: "Бармен" },
   ];
   const BRANCH = [
     { value: "NeoCafe Dzerzhinka-1", label: "NeoCafe Dzerzhinka-1" },
@@ -21,65 +25,27 @@ const EditEmployeeInfo = (props) => {
     { value: "NeoCafe Dzerzhinka-4", label: "NeoCafe Dzerzhinka-4" },
   ];
   const weekday = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
   ];
-  const [workSchedule, setWorkSchedule] = useState({});
+  const [workSchedule, setWorkSchedule] = useState(staff.schedule);
   const dispatch = useDispatch();
 
-  function transformData(data) {
-    let schedule = {};
-
-    // Устанавливаем по умолчанию для всех дней false
-    const daysOfWeek = [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ];
-    daysOfWeek.forEach((day) => {
-      schedule[day] = false;
-      schedule[`${day}_start_time`] = "";
-      schedule[`${day}_end_time`] = "";
-    });
-
-    data.forEach((dayInfo, index) => {
-      const day = Object.keys(dayInfo)[0];
-      schedule[day.toLowerCase()] = true;
-      schedule[`${day.toLowerCase()}_start_time`] = dayInfo[day][0].start;
-      schedule[`${day.toLowerCase()}_end_time`] = dayInfo[day][1].end;
-    });
-
-    return schedule;
-  }
-
   const onSubmit = async (e) => {
-    const finalWorkSchedule = weekday.reduce((acc, day) => {
-      if (workSchedule[day]) {
-        acc.push({
-          [day]: [
-            { start: workSchedule[day].start || "09:00" },
-            { end: workSchedule[day].end || "18:00" },
-          ],
-        });
-      }
-      return acc;
-    }, []);
-
-    const changeDataStructure = transformData(finalWorkSchedule);
-    values.schedule = changeDataStructure;
+    values.schedule = workSchedule;
     console.log("values", values);
     try {
-      const res = await createNewStaff(values);
+      const res = await changeStaffInfo(props.id, values);
       console.log(res);
+      const staffData = await getAllStaff();
+      dispatch(setStaffInfo(staffData.data))
+      dispatch(closeModal());
+
     } catch (err) {
       console.log(err);
     }
@@ -95,14 +61,14 @@ const EditEmployeeInfo = (props) => {
     handleChange,
   } = useFormik({
     initialValues: {
-      login: "",
-      password: "",
-      email: "",
-      first_name: "",
-      position: "",
-      birth_date: "",
-      branch: 1,
-      schedule: {},
+      username: staff.username,
+      password: staff.password,
+      email: staff.email,
+      first_name: staff.first_name,
+      position: staff.position,
+      birth_date: staff.birth_date,
+      branch: staff.branch,
+      schedule: staff.schedule,
     },
     // validationSchema: basicSchema,
     onSubmit: onSubmit,
@@ -110,6 +76,7 @@ const EditEmployeeInfo = (props) => {
   const handleSelectRole = (selectedRole) => {
     console.log(selectedRole);
     values.position = selectedRole.value;
+    setSelectedRole(selectedRole.value);
   };
   const handleSelectBranch = (selectedBranch) => {
     console.log(selectedBranch);
@@ -118,69 +85,40 @@ const EditEmployeeInfo = (props) => {
   const handleClose = () => {
     dispatch(closeModal());
   };
-  const handleCheckboxChange = (index, e) => {
+  const handleCheckboxChange = (day) => {
     setWorkSchedule((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
+        ...prevState,
+        [day]: !prevState[day],
+        [`${day}_start_time`]: prevState[day] ? "" : "",
+        [`${day}_end_time`]: prevState[day] ? "" : "",
     }));
-  };
+};
 
-  const handleTimeChange = (day, field, value) => {
+const handleTimeChange = (day, field, value) => {
     setWorkSchedule((prevState) => ({
-      ...prevState,
-      [day]: {
-        ...prevState[day],
-        [field]: value,
-      },
+        ...prevState,
+        [day]: true,
+        [`${day}_${field}`]: value,
     }));
-  };
-
+};
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
         <>
           <div>
-            <h2 className={styles.title}>Редактирование</h2>
+            <h2 className={styles.title}>Новый сотрудник</h2>
             <div className={styles.close} onClick={handleClose}>
               &times;
             </div>
           </div>
           <h3 className={styles.subtitle}>Личные данные</h3>
           <form onSubmit={handleSubmit}>
-            <p>Логин</p>
-            <input
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.login}
-              id="login"
-              type="text"
-              placeholder="Придумайте логин"
-              minLength={5}
-            />
-            <p>Пароль</p>
-            <input
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              id="password"
-              type="text"
-              placeholder="Придумайте пароль"
-            />
-            <p>Имя</p>
-            <input
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.first_name}
-              id="first_name"
-              type="text"
-              placeholder="Как зовут сотрудника"
-            />
             <p>Должность</p>
             <Select
-              defaultValue={""}
+              defaultValue={selectedRole}
               onChange={(selectedOption) => handleSelectRole(selectedOption)}
               options={ROLE}
-              placeholder={"Выберите должность"}
+              placeholder={selectedRole}
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,
@@ -220,6 +158,48 @@ const EditEmployeeInfo = (props) => {
                 },
               })}
             />
+            <p>Имя</p>
+            <input
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.first_name}
+              id="first_name"
+              type="text"
+              placeholder="Как зовут сотрудника"
+            />
+            <p className="label">Электронная почта</p>
+            <input
+              type="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              id="email"
+              placeholder="Введите e-mail"
+            />
+            {selectedRole === "Официант" && (
+              <>
+                <p>Логин</p>
+                <input
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                  id="username"
+                  type="text"
+                  placeholder="Придумайте логин"
+                  minLength={5}
+                />
+                <p>Пароль</p>
+                <input
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  id="password"
+                  type="text"
+                  placeholder="Придумайте пароль"
+                />
+              </>
+            )}
+
             <p for="birthday">День рождения</p>
             <input
               onChange={handleChange}
@@ -229,15 +209,7 @@ const EditEmployeeInfo = (props) => {
               type="date"
               placeholder="01.01.2000"
             />
-            <label className="label">Электронная почта</label>
-            <input
-              type="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              id="email"
-              placeholder="Введите e-mail"
-            />
+
             <p>Филиал</p>
             <Select
               defaultValue={""}
@@ -296,8 +268,8 @@ const EditEmployeeInfo = (props) => {
                   <input
                     className={styles.checkbox}
                     type="checkbox"
-                    checked={workSchedule[index]}
-                    onChange={() => handleCheckboxChange(index)}
+                    checked={workSchedule[day]}
+                    onChange={() => handleCheckboxChange(day)}
                   />
                   <div className={styles.timeWrapper}>
                     <input
@@ -306,10 +278,9 @@ const EditEmployeeInfo = (props) => {
                       step="900"
                       min="09:00"
                       max="22:00"
-                      defaultValue="11:00"
-                      value={workSchedule[day]?.start || ""}
+                      value={workSchedule[`${day}_start_time`] || ""}
                       onChange={(e) =>
-                        handleTimeChange(day, "start", e.target.value)
+                        handleTimeChange(day, "start_time", e.target.value)
                       }
                     ></input>
                     <span>-</span>
@@ -319,10 +290,9 @@ const EditEmployeeInfo = (props) => {
                       step="900"
                       min="09:00"
                       max="22:00"
-                      defaultValue="20:00"
-                      value={workSchedule[day]?.end || ""}
+                      value={workSchedule[`${day}_end_time`] || ""}
                       onChange={(e) =>
-                        handleTimeChange(day, "end", e.target.value)
+                        handleTimeChange(day, "end_time", e.target.value)
                       }
                     ></input>
                   </div>

@@ -5,12 +5,15 @@ import {
   deleteCategory,
   deleteItem,
   getAllCategories,
+  getAllStaff,
   getMenu,
+  deleteStaffInfo,
 } from "../../../api";
 import { components } from "../../Buttons";
-import styles from "./style.module.scss";
 import { removeCategory } from "../../../redux/slices/categoriesSlice";
 import { setItems } from "../../../redux/slices/itemsSlice";
+import { setStaffInfo } from "../../../redux/slices/staffSlice";
+import styles from "./style.module.scss";
 
 const DeleteCategory = (props) => {
   console.log("remove category", props);
@@ -50,11 +53,23 @@ const DeleteCategory = (props) => {
     const id = props.id;
     dispatch(deleteProduct({ id, handleCloseModal }));
   };
+  const handleDeleteStaffInfo = async () =>{
+    const id = props.id
+    try {
+      const res = await deleteStaffInfo(id)
+      const staffData = await getAllStaff()
+      dispatch(setStaffInfo(staffData.data))
+      dispatch(closeModal());
 
+    }catch(err){
+      console.log(err)
+    }
+  }
   const actions = {
     deleteCategory: handleDeleteCategory,
     deleteItem: removeItem,
     deleteProductInStorhouse: deleteProductInStorhouse,
+    deleteStaff: handleDeleteStaffInfo
   };
 
   const handleClick = actions[props.action];

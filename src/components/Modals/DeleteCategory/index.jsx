@@ -51,11 +51,18 @@ const DeleteCategory = (props) => {
     dispatch(deleteProduct({ id, handleCloseModal }));
   };
 
+  const deleteProductInStorhouse = () => {
+      const id = props.id
+      dispatch(deleteProduct({ id, handleCloseModal }));
+  }
+        
   const actions = {
-    deleteCategory: handleDeleteCategory,
-    deleteItem: removeItem,
-    deleteProductInStorhouse: deleteProductInStorhouse,
-  };
+        deleteCategory: deleteCategory,
+        deleteItem: deleteItem,
+        deleteProductInStorhouse: deleteProductInStorhouse,
+        handleDeleteBranch: handleDeleteBranch,
+    };
+
 
   const handleClick = actions[props.action];
 

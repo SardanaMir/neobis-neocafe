@@ -6,10 +6,10 @@ import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../../Bu
 import outlineImg from '../../../assets/img/outline.svg'
 import { closeModal } from "../../../redux/slices/modalSlice";
 import styles from '../../../styles/add_affiliate_modal.module.scss'
-import { setBranchesProduct } from "../../../redux/slices/branchesSlice";
+import { getBranches, setBranchesProduct } from "../../../redux/slices/branchesSlice";
 
 const AddAffiliateModal = () => {
-  const [tableDays, setTableDays] = useState({
+  const [schedule, setShedule] = useState({
     monday: false,
     monday_start_time: "",
     monday_end_time: "",
@@ -40,7 +40,7 @@ const AddAffiliateModal = () => {
     link_to_map: "",
     counts_of_tables: 0
   })
-  const [selectedImage, setSelectedImage] = useState('');
+  const [image, setSelectedImage] = useState('');
   const fileInputRef = useRef(null);
 
   const handleImageClick = () => {
@@ -52,7 +52,7 @@ const AddAffiliateModal = () => {
   };
 
   const dispatch = useDispatch();
-  const startsWithTwo = tableDays.friday_start_time[0] === '2'
+  const startsWithTwo = schedule.friday_start_time[0] === '2'
 
 
 //   const mask = [
@@ -70,15 +70,15 @@ const AddAffiliateModal = () => {
 
   const handleChangeDays = (e) => {
     const { name, value } = e.target
-    setTableDays({
-      ...tableDays,
+    setShedule({
+      ...schedule,
       [name]: value,
     })
   }
   const handleChangeDaysCheckbox = (e) => {
     const { name, checked } = e.target
-    setTableDays({
-      ...tableDays,
+    setShedule({
+      ...schedule,
       [name]: checked,
     })
   }
@@ -91,25 +91,26 @@ const AddAffiliateModal = () => {
     })
   }
 
-  const handleSetProdBranch = () => {
-    const formData = new FormData();
-    formData.append('image', selectedImage)
-
-    const data = {
-      schedule: {
-        ...tableDays
-      },
-      formData,
-      name: formBranch.name,
-      address: formBranch.address,
-      phone_number: formBranch.phone_number,
-      link_to_map: formBranch.link_to_map,
-      counts_of_tables: formBranch.counts_of_tables
-    }
-    dispatch(setBranchesProduct({ data, handleCloseModal }))
+  const handleGetBranches = () => {
+    dispatch(getBranches())
   }
 
+  const handleSetProdBranch = () => {
+    const formData = new FormData()
+    for (const [key, value] of Object.entries(schedule)) {
+      formData.append(`schedule.${key}`, value);
+    }
+    
 
+      formData.append('image', image)
+      formData.append('name', formBranch.name)
+      formData.append('address', formBranch.address)
+      formData.append('phone_number', formBranch.phone_number)
+      formData.append('link_to_map', formBranch.link_to_map)
+      formData.append('counts_of_tables', formBranch.counts_of_tables)
+      dispatch(setBranchesProduct({ formData, handleCloseModal, handleGetBranches }))
+    }
+    
   return (
     <div className={styles.root}>
       <div className={styles.affiliate_modal}>
@@ -118,7 +119,7 @@ const AddAffiliateModal = () => {
         <div className={styles.add__img}>
           <div className={styles.div}>
             <img 
-              src={selectedImage || outlineImg} 
+              src={image || outlineImg} 
               alt="Error :(" 
               onClick={handleImageClick}
               className={styles.affiliate__img_main}
@@ -191,7 +192,7 @@ const AddAffiliateModal = () => {
           <input 
             type="checkbox" 
             className={styles.checkbox} 
-            value={tableDays.monday}
+            value={schedule.monday}
             name="monday"
             onChange={handleChangeDaysCheckbox}
           />
@@ -200,14 +201,14 @@ const AddAffiliateModal = () => {
               mask={mask} 
               name="monday_start_time"
               onChange={handleChangeDays} 
-              value={tableDays.monday_start_time}
+              value={schedule.monday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask} 
               name="monday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.monday_end_time} 
+              value={schedule.monday_end_time} 
             />
           </div>
         </div>
@@ -218,13 +219,13 @@ const AddAffiliateModal = () => {
             className={styles.checkbox} 
             name="thursday"
             onChange={handleChangeDaysCheckbox}
-            value={tableDays.thursday}
+            value={schedule.thursday}
           />
           <div className={styles.inps}>
             <InputMask 
               mask={mask} 
               onChange={handleChangeDays} 
-              value={tableDays.tuesday_start_time} 
+              value={schedule.tuesday_start_time} 
               name="tuesday_start_time" 
             />
             <span>-</span>
@@ -232,7 +233,7 @@ const AddAffiliateModal = () => {
               mask={mask} 
               name="tuesday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.tuesday_end_time} 
+              value={schedule.tuesday_end_time} 
             />
           </div>
         </div>
@@ -243,21 +244,21 @@ const AddAffiliateModal = () => {
             name="wednesday"
             className={styles.checkbox} 
             onChange={handleChangeDaysCheckbox}
-            value={tableDays.wednesday}
+            value={schedule.wednesday}
           />
           <div className={styles.inps}>
             <InputMask 
               mask={mask} 
               name="wednesday_start_time"
               onChange={handleChangeDays} 
-              value={tableDays.wednesday_start_time}
+              value={schedule.wednesday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask} 
               name="wednesday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.wednesday_end_time} 
+              value={schedule.wednesday_end_time} 
             />
           </div>
         </div>
@@ -268,21 +269,21 @@ const AddAffiliateModal = () => {
             name="thursday"
             className={styles.checkbox} 
             onChange={handleChangeDaysCheckbox}
-            value={tableDays.thursday}
+            value={schedule.thursday}
           />
           <div className={styles.inps}>
             <InputMask 
               mask={mask} 
               name="thursday_start_time"
               onChange={handleChangeDays} 
-              value={tableDays.thursday_start_time}
+              value={schedule.thursday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask} 
               name="thursday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.thursday_end_time}
+              value={schedule.thursday_end_time}
             />
           </div>
         </div>
@@ -292,7 +293,7 @@ const AddAffiliateModal = () => {
             type="checkbox" 
             className={styles.checkbox} 
             name="friday"
-            value={tableDays.friday}
+            value={schedule.friday}
             onChange={handleChangeDaysCheckbox}
           />
           <div className={styles.inps}>
@@ -300,14 +301,14 @@ const AddAffiliateModal = () => {
               mask={mask}
               name="friday_start_time" 
               onChange={handleChangeDays} 
-              value={tableDays.friday_start_time}
+              value={schedule.friday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask}
               name="friday_end_time" 
               onChange={handleChangeDays} 
-              value={tableDays.friday_end_time} 
+              value={schedule.friday_end_time} 
             />
           </div>
         </div>
@@ -317,12 +318,12 @@ const AddAffiliateModal = () => {
             type="checkbox" 
             disabled 
             className={styles.checkbox} 
-            value={tableDays.saturday}
+            value={schedule.saturday}
           />
           <div className={styles.inps}>
-            <InputMask mask={mask} value={tableDays.saturday_start_time} disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.saturday_start_time} disabled className={styles.disabledInp} />
             <span>-</span>
-            <InputMask mask={mask} value={tableDays.saturday_end_time} disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.saturday_end_time} disabled className={styles.disabledInp} />
           </div>
         </div>
         <div className={styles.day}>
@@ -330,13 +331,13 @@ const AddAffiliateModal = () => {
           <input 
             type="checkbox" 
             className={styles.checkbox} 
-            value={tableDays.sunday}
+            value={schedule.sunday}
             disabled 
           />
           <div className={styles.inps}>
-            <InputMask mask={mask} value={tableDays.sunday_start_time} disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.sunday_start_time} disabled className={styles.disabledInp} />
             <span>-</span>
-            <InputMask mask={mask} value={tableDays.sunday_end_time}  disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.sunday_end_time}  disabled className={styles.disabledInp} />
           </div>
         </div>
       </div>

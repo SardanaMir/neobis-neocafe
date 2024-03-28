@@ -18,6 +18,7 @@
         border-radius: 30px;
         background: rgb(254, 254, 254);
         padding: 32px;
+        overflow: scroll;
 
         .add__product_icon {
             position: absolute;
@@ -199,9 +200,21 @@
             }
 
             .add__product_affiliate {
+                width: 100%;
                 max-width: 252px;
                 height: 90px;
                 margin-top: 16px;
+
+                div {
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: rgb(42, 52, 64);
+                    border: none;
+
+                    span {
+                        display: none;
+                    }
+                }
 
                 .affiliate_span {
                     color: rgb(91, 126, 154);
@@ -210,19 +223,18 @@
                     font-weight: 400;
                 }
 
-                input {
-                    width: 252px;
-                    height: 66px;
-                    padding: 24px 16px 24px 16px;
-                    border-radius: 10px;
-                    background: rgb(235, 239, 242);
-                    color: rgb(42, 52, 64);
-                    font-family: Poppins;
-                    font-size: 16px;
-                    font-weight: 400;
-                    border: none;
-                    outline: none;
-                    }
+                // .add__product_option  {
+                //     width: 252px;
+                //     height: 66px;
+                //     border-radius: 10px;
+                //     background: rgb(235, 239, 242);
+                //     color: rgb(42, 52, 64);
+                //     font-family: Poppins;
+                //     font-size: 16px;
+                //     font-weight: 400;
+                //     border: none;
+                //     outline: none;
+                // }
             }
         }
 
@@ -272,3 +284,4 @@
     outline: none;
     border-radius: 10px 10pxcd;
 }
+

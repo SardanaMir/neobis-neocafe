@@ -1,18 +1,22 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { CloseOutlined } from "@ant-design/icons";
+import InputMask from 'react-input-mask';
+import Select from 'react-select'
 import { closeModal } from '../../../redux/slices/modalSlice';
 import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../../Buttons/Buttons";
-import styles from '../../../styles/add_product.modal.module.scss'
-import { Select } from 'antd';
-import InputMask from 'react-input-mask';
 import DropdownStoreHouse from '../../Dropdown/Dropdown';
 import DropDownCount from '../../DropDown/DropDownCount';
 import { getProducts, setProudct } from '../../../redux/slices/storageSlice';
 import DropDownLimit from '../../DropDown/DropDownLimit';
+import { getBranches } from '../../../redux/slices/branchesSlice';
+import styles from '../../../styles/add_product.modal.module.scss'
 
 
 const AddProductModal = () => {  
+  const { data } = useSelector(state => state.branches.data_branches)
+  const dispatch = useDispatch()
+
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState(0)
   const [quantity_unit, setQuantityUnit] = useState('мл')
@@ -20,12 +24,14 @@ const AddProductModal = () => {
   const [limit_unit, setLimitUnit] = useState('мл')
   const [arrival_date, setArrivalDate] = useState('')
   const [category, setCategory] = useState('Выберите категорию')
-  const [branch, steBranch] = useState('')
-
-  const dispatch = useDispatch()
-
+  const [branch, steBranch] = useState(null)
+  
   const handleCloseModal = () => {
     dispatch(closeModal())
+  }
+
+  const handleSelectIngredient = (value) => {
+    steBranch(value.value)
   }
 
   const getNewProducts = () => {
@@ -33,9 +39,18 @@ const AddProductModal = () => {
   }
 
   const handleSetProduct = () => {
-    const branch = 1
     dispatch(setProudct({ name, quantity, quantity_unit, limit, limit_unit, arrival_date, category, branch, handleCloseModal, getNewProducts }))
   }
+
+
+  useEffect(() => {
+    dispatch(getBranches())
+  }, [])
+
+  const options = data?.map((branch) => ({
+    value: branch.id,
+    label: branch.name,
+  }))
 
   return (
     <div className={styles.container}>
@@ -92,9 +107,58 @@ const AddProductModal = () => {
             </div>
             <div className={styles.add__product_affiliate}>
               <span className={styles.affiliate_span}>Филиал</span>
-              <input 
-                type="text" 
-                onChange={(e) => steBranch(e.target.value)}
+              <Select
+                defaultValue={""}
+                onChange={handleSelectIngredient}
+                options={options}
+                placeholder="Выберите филиал"
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    background: "rgb(235, 239, 242)",
+                    width: 252,
+                    height: 66,
+                    boxShadow: state.isFocused
+                      ? "0px solid #ccc"
+                      : "0px solid #ccc",
+                    boxShadow: "none !import",
+                    borderStyle: "none",
+                    fontSize: 16,
+                  }),
+                  menu: (provided) => ({
+                    width: 252,
+                    height: 100,
+                    maxHeight: 66,
+                    borderStyle: "none",
+                    background: "rgb(235, 239, 242)",
+                    fontSize: 16,
+                    overflow: scroll
+                  }),
+                  option: (provided) => ({
+                    width: 100,
+                    height: 100,
+                    maxHeight: 40,
+                    ...provided,
+                    background: "rgb(235, 239, 242)",
+                    color: "rgb(42, 52, 64)",
+                    borderBottom: "1px solid rgb(205, 211, 221)",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: 16,
+                    overflow: scroll,
+                  }),
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 10,
+                  width: 252,
+                  height: 66,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "rgb(53, 83, 107)",
+                    primary: "rgb(53, 83, 107)",
+                  },
+                })}
               />
             </div>
           </div>

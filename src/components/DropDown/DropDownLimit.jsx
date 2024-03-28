@@ -1,10 +1,18 @@
 import { useState } from 'react';
+import Select from 'react-select';
 import iconDown from '../../assets/img/CaretDown.svg'
 import styles from "./dropdown.module.scss";
 
 const DropDownLimit = ({ limit_unit, setLimitUnit }) => {
     const [isActive, setIsActive] = useState(false)
-    const options  = ['мл', 'гр', 'кл', 'шт', 'литр']
+    const options  = ['мл', 'г', 'кг', 'шт', 'л']
+    // const options  = [
+    //     {value: 'мл', label: 'мл'},
+    //     {value: 'г', label: 'г'},
+    //     {value: 'кг', label: 'кг'},
+    //     {value: 'шт', label: 'шт'},
+    //     {value: 'л', label: 'л'},
+    // ]
 
   return (
     <div className={styles.dropdown_count}>

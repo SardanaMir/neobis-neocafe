@@ -111,8 +111,6 @@ const AddAffiliateModal = () => {
       dispatch(setBranchesProduct({ formData, handleCloseModal, handleGetBranches }))
     }
     
-
-
   return (
     <div className={styles.root}>
       <div className={styles.affiliate_modal}>

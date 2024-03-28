@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getStock } from "./api";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
+import Autosuggest from "react-autosuggest";
 
 const EditItem = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
   const MEASURE = ["мл", "гр", "л", "кг"];
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const { values, errors, touched, isSubmitting, handleBlur, handleChange } =
     useFormik({
@@ -19,7 +23,31 @@ const EditItem = () => {
         image: null,
       },
     });
+  const onInputChange = (event, { newValue }) => {
+    setInputValue(newValue);
+  };
+  // Функция для отображения подсказок
+  const getSuggestions = async (value) => {
+    const res = await getStock(); // Здесь вызывается ваш метод для получения данных по введенному значению
+    const search = res.data.filter((item) => item.name === value);
+    setSuggestions(search); // Устанавливает полученные данные в состояние подсказок
+  };
 
+  const handleInputChange = (event, { newValue }) => {
+    setInputValue(newValue);
+  };
+
+  useEffect(() => {
+    getSuggestions(inputValue);
+  }, [inputValue]);
+
+  const onSuggestionsFetchRequested = ({ value }) => {
+    getSuggestions(value);
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
   const handleClose = () => {
     dispatch(closeModal());
   };
@@ -41,33 +69,19 @@ const EditItem = () => {
   };
 
   return (
-    <div className={styles.root}>
-      <div className={styles.wrapper}>
-        <div>
-          <h2 className={styles.title}>Редактирование</h2>
-          <div className={styles.close} onClick={handleClose}>
-            &times;
-          </div>
-        </div>
-        <h3 className={styles.subtitle}>Добавьте фото к позиции</h3>
-        <div className={styles.imagePicker}>
-          <input
-            type="file"
-            id="file-upload"
-            className={styles.upload}
-            onChange={handleImageChange}
-          />
-          <label htmlFor="file-upload" className={styles.uploadArea}>
-            <div className={styles.uploadIconWrapper}>
-              <img src={images.uploadIcon} alt="Upload Icon" />
-            </div>
-            <p>Перетащите изображение для изменения или обзор</p>
-          </label>
-        </div>
-        <h3 className={styles.subtitle}>Наименование, категория и стоимость</h3>
-        <form onSubmit={handleSubmit}>{/* остальной ваш код формы */}</form>
-      </div>
-    </div>
+    <>
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        getSuggestionValue={(suggestion) => suggestion.name}
+        renderSuggestion={(suggestion) => <div>{suggestion.name}</div>}
+        inputProps={{
+          value: inputValue,
+          onChange: handleInputChange,
+        }}
+      />
+    </>
   );
 };
 

@@ -12,27 +12,44 @@ const CategoriesPopUp = ({ setPopUpOpen, handleOpenModal, data }) => {
   const [highlightedCategory, setHighlightedCategory] = useState(null);
   const dispatch = useDispatch();
   const categoriesData = useSelector((state) => state.categories.categories);
+  const items = useSelector((state) => state.items.items);
 
   const handleDeleteCategory = (index) => {
-    dispatch(
-      openModal({
-        modalType: "deleteCategory",
-        modalProps: {
-          title: "Удаление",
-          subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index].name}' ?`,
-          category: categoriesData[index].name,
-          action: "deleteCategory",
-          id: categoriesData[index].id,
-        },
-      })
+    const isCategoryHasItems = items.filter(
+      (item) => item.category === categoriesData[index].id
     );
-    // dispatch(removeCategory(categoriesData[index].name));
+    // isCategoryHasItems
+    if (isCategoryHasItems.length > 1) {
+      dispatch(
+        openModal({
+          modalType: "warninMsg",
+          modalProps: {
+            title: "Ошибка",
+            subtitle: `Вы не можете удалить данную категорию, так как данная категории содержит позиции`,
+          },
+        })
+      );
+    } else {
+      dispatch(
+        openModal({
+          modalType: "deleteCategory",
+          modalProps: {
+            title: "Удаление",
+            subtitle: `Вы действительно хотите удалить категорию '${categoriesData[index].name}' ?`,
+            category: categoriesData[index].name,
+            action: "deleteCategory",
+            id: categoriesData[index].id,
+          },
+        })
+      );
+    }
   };
 
   const handleAdd = () => {
     console.log("вызов модалки добавить категорию");
     handleOpenModal();
   };
+
   return (
     <div className={styles.popup}>
       <div className={styles.popup__wrapper}>

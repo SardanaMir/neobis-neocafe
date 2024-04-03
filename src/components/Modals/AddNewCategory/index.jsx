@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { components } from "../../Buttons";
 import { useFormik } from "formik";
-import { createNewCategory } from "../../../api";
+import { createNewCategory, getAllCategories } from "../../../api";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { basicSchema } from "../../../schema";
-import { addCategory } from "../../../redux/slices/categoriesSlice";
+import { addCategory, setCategories } from "../../../redux/slices/categoriesSlice";
 import styles from "./styles.module.scss";
 
 const AddNewCategory = ({ title, subtitle, placeholder }) => {
@@ -13,7 +13,6 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
   const categories = useSelector((state) => state.categories.categories);
 
   const onSubmit = async () => {
-    console.log(values.newCategory);
     const isCategoryExists = categories.some(
       (category) => category.name.toLowerCase() === values.newCategory.toLowerCase()
     );
@@ -22,8 +21,10 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
     } else {
       try {
         const res = await createNewCategory({ name: values.newCategory });
-        console.log("createNewCategory res", res);
-        dispatch(addCategory({ name: values.newCategory }));
+        // console.log("createNewCategory res", res);
+        const allCategoriesData = await getAllCategories()
+        console.log('updated', allCategoriesData)
+        dispatch(setCategories(allCategoriesData.data));
         dispatch(closeModal());
       } catch (err) {
         console.log(err);

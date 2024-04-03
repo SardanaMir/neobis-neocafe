@@ -16,9 +16,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 
 function App() {
-  const navigate = useNavigate();
-  const isAuth = useSelector((state) => state.user.isAuth);
-
   return (
       <div className='app'>
         <Routes>

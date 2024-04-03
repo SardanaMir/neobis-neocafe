@@ -10,6 +10,7 @@ import { getBranches, setBranchesProduct } from "../../../redux/slices/branchesS
 
 const AddAffiliateModal = () => {
   const [schedule, setShedule] = useState({
+    title: "Branch",
     monday: false,
     monday_start_time: "",
     monday_end_time: "",
@@ -40,28 +41,31 @@ const AddAffiliateModal = () => {
     link_to_map: "",
     counts_of_tables: 0
   })
-  const [image, setSelectedImage] = useState('');
+  const [image, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleImageChange = (imageUrl) => {
-    setSelectedImage(imageUrl);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    setImagePreview(URL.createObjectURL(e.target.files[0]))
+    setSelectedImage(file)
   };
 
   const dispatch = useDispatch();
   const startsWithTwo = schedule.friday_start_time[0] === '2'
 
 
-//   const mask = [
-//     /[0-2]/,
-//     startsWithTwo ? /[0-3]/ : /[0-9]/,
-//     ':',
-//     /[0-5]/,
-//     /[0-9]/
-//   ]
+  const mask = [
+    /[0-2]/,
+    startsWithTwo ? /[0-3]/ : /[0-9]/,
+    ':',
+    /[0-5]/,
+    /[0-9]/
+  ]
 
 
   const handleCloseModal = () => {
@@ -100,8 +104,6 @@ const AddAffiliateModal = () => {
     for (const [key, value] of Object.entries(schedule)) {
       formData.append(`schedule.${key}`, value);
     }
-    
-
       formData.append('image', image)
       formData.append('name', formBranch.name)
       formData.append('address', formBranch.address)
@@ -109,19 +111,18 @@ const AddAffiliateModal = () => {
       formData.append('link_to_map', formBranch.link_to_map)
       formData.append('counts_of_tables', formBranch.counts_of_tables)
       dispatch(setBranchesProduct({ formData, handleCloseModal, handleGetBranches }))
-    }
-    
+  }
 
 
   return (
     <div className={styles.root}>
       <div className={styles.affiliate_modal}>
-        <h3>Новый филиал <CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></h3>
+        <p className={styles.title}>Новый филиал <CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></p>
         <p>Добавьте фотографию филиала</p>
         <div className={styles.add__img}>
           <div className={styles.div}>
             <img 
-              src={image || outlineImg} 
+              src={imagePreview || outlineImg} 
               alt="Error :(" 
               onClick={handleImageClick}
               className={styles.affiliate__img_main}
@@ -131,7 +132,7 @@ const AddAffiliateModal = () => {
               accept="image/*"
               style={{ display: 'none' }}
               ref={fileInputRef}
-              onChange={(event) => handleImageChange(URL.createObjectURL(event.target.files[0]))}
+              onChange={handleImageChange}
             />
             <p>Перетащите изображение для изменения или <span>обзор</span></p>
           </div>

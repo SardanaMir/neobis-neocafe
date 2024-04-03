@@ -69,6 +69,14 @@ export const getMenu = async () => {
   const res = await API.get("menu/menus/");
   return res;
 };
+export const deleteItem = async (id) => {
+  const res = await API.delete(`menu/menus/${id}/`);
+  return res;
+};
+export const getStock = async () => {
+  const res = await API.get("storage/");
+  return res;
+};
 export const createNewItem = async (data) => {
   const res = await API.post("menu/menus/", data);
   return res;
@@ -86,3 +94,20 @@ export const deleteCategory = async (id) => {
   const res = await API.delete(`menu/categories/${id}/`);
   return res;
 };
+export const addNewItem = async (formData) => {
+  const res = await API.post('menu/menus/', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data' 
+    }
+  });
+  return res
+};
+export const editItemInfo = async (id, formData) => {
+  const res = await API.patch(`menu/menus/${id}/`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data' 
+    }
+  });
+  return res
+};
+

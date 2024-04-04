@@ -1,14 +1,15 @@
-import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import InputMask from "react-input-mask";
 import { CloseOutlined } from "@ant-design/icons";
 import { AffiliateModalPrimaryButton, AffiliateModalWhiteButton } from "../../Buttons/Buttons";
 import outlineImg from '../../../assets/img/outline.svg'
 import { closeModal } from "../../../redux/slices/modalSlice";
+import { getBranchById, getBranches, editBranch } from "../../../redux/slices/branchesSlice";
 import styles from '../../../styles/add_affiliate_modal.module.scss'
 
-const EditAffiliateModal = () => {
-  const [tableDays, setTableDays] = useState({
+const EditAffiliateModal = ({ id }) => {
+  const [schedule, setShedule] = useState({
     monday: false,
     monday_start_time: "",
     monday_end_time: "",
@@ -31,7 +32,6 @@ const EditAffiliateModal = () => {
     sunday_start_time: "08:00",
     sunday_end_time: "17:00"
   })
-
   const [formBranch, setFormBranch] = useState({
     name: "",
     address: "",
@@ -52,7 +52,10 @@ const EditAffiliateModal = () => {
   };
 
   const dispatch = useDispatch();
-  const startsWithTwo = tableDays.friday_start_time[0] === '2'
+  const { data } = useSelector(state => state.branches.branch)
+
+  // const startsWithTwo = schedule?.monday_start_time[0] === '2'
+  const startsWithTwo = 1 === '2'
 
   const mask = [
     /[0-2]/,
@@ -68,15 +71,15 @@ const EditAffiliateModal = () => {
 
   const handleChangeDays = (e) => {
     const { name, value } = e.target
-    setTableDays({
-      ...tableDays,
+    setShedule({
+      ...schedule,
       [name]: value,
     })
   }
   const handleChangeDaysCheckbox = (e) => {
     const { name, checked } = e.target
-    setTableDays({
-      ...tableDays,
+    setShedule({
+      ...schedule,
       [name]: checked,
     })
   }
@@ -89,18 +92,63 @@ const EditAffiliateModal = () => {
     })
   }
 
-  const handleSetProdBranch = () => {
-    const formData = new FormData();
-    formData.append("username", "Chris");
-    
-    dispatch()
+  useEffect(() => {
+    dispatch(getBranchById(id))
+  }, []);
+
+  console.log();
+
+  useEffect(() => {
+    setShedule({
+      monday: data?.schedule.monday,
+      monday_start_time: data?.schedule.monday_start_time,
+      monday_end_time: data?.schedule.monday_end_time,
+      tuesday: data?.schedule.tuesday,
+      tuesday_start_time: data?.schedule.tuesday_start_time,
+      tuesday_end_time: data?.schedule.tuesday_end_time,
+      wednesday: data?.schedule.wednesday,
+      wednesday_start_time: data?.schedule.wednesday_start_time,
+      wednesday_end_time: data?.schedule.wednesday_end_time,
+      thursday: data?.schedule.thursday,
+      thursday_start_time: data?.schedule.thursday_start_time,
+      thursday_end_time: data?.schedule.thursday_end_time,
+      friday: data?.schedule.friday,
+      friday_start_time: data?.schedule.friday_start_time,
+      friday_end_time: data?.schedule.friday_end_time,
+      saturday: data?.schedule.saturday,
+      saturday_start_time: "08:00",
+      saturday_end_time: "17:00",
+      sunday: data?.schedule.sunday,
+      sunday_start_time: "08:00",
+      sunday_end_time: "17:00"
+    })
+    // setSelectedImage(data?.image)
+    setFormBranch({
+      name: data?.name,
+      address: data?.address,
+      phone_number: data?.phone_number,
+      link_to_map: data?.link_to_map,
+      counts_of_tables: data?.counts_of_tables
+    })
+  }, [data, ]);
+
+  const handleGetBranches = () => {
+    dispatch(getBranches())
   }
-  function f() {
-    const formData = new FormData();
-    formData.append("username", "Chris");
-  }
-  
-  console.log(f());
+
+  const handleEditBranch = () => {
+    const formData = new FormData()
+    for (const [key, value] of Object.entries(schedule)) {
+      formData.append(`schedule.${key}`, value);
+    }
+    formData.append('image', selectedImage)
+    formData.append('name', formBranch.name)
+    formData.append('address', formBranch.address)
+    formData.append('phone_number', formBranch.phone_number)
+    formData.append('link_to_map', formBranch.link_to_map)
+    formData.append('counts_of_tables', formBranch.counts_of_tables)
+    dispatch(editBranch({ id, formData, handleCloseModal, handleGetBranches }))
+    }
 
   return (
     <div className={styles.root}>
@@ -183,7 +231,7 @@ const EditAffiliateModal = () => {
           <input 
             type="checkbox" 
             className={styles.checkbox} 
-            value={tableDays.monday}
+            value={schedule.monday}
             name="monday"
             onChange={handleChangeDaysCheckbox}
           />
@@ -192,14 +240,14 @@ const EditAffiliateModal = () => {
               mask={mask} 
               name="monday_start_time"
               onChange={handleChangeDays} 
-              value={tableDays.monday_start_time}
+              value={schedule.monday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask} 
               name="monday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.monday_end_time} 
+              value={schedule.monday_end_time} 
             />
           </div>
         </div>
@@ -210,13 +258,13 @@ const EditAffiliateModal = () => {
             className={styles.checkbox} 
             name="thursday"
             onChange={handleChangeDaysCheckbox}
-            value={tableDays.thursday}
+            value={schedule.thursday}
           />
           <div className={styles.inps}>
             <InputMask 
               mask={mask} 
               onChange={handleChangeDays} 
-              value={tableDays.tuesday_start_time} 
+              value={schedule.tuesday_start_time} 
               name="tuesday_start_time" 
             />
             <span>-</span>
@@ -224,7 +272,7 @@ const EditAffiliateModal = () => {
               mask={mask} 
               name="tuesday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.tuesday_end_time} 
+              value={schedule.tuesday_end_time} 
             />
           </div>
         </div>
@@ -235,21 +283,21 @@ const EditAffiliateModal = () => {
             name="wednesday"
             className={styles.checkbox} 
             onChange={handleChangeDaysCheckbox}
-            value={tableDays.wednesday}
+            value={schedule.wednesday}
           />
           <div className={styles.inps}>
             <InputMask 
               mask={mask} 
               name="wednesday_start_time"
               onChange={handleChangeDays} 
-              value={tableDays.wednesday_start_time}
+              value={schedule.wednesday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask} 
               name="wednesday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.wednesday_end_time} 
+              value={schedule.wednesday_end_time} 
             />
           </div>
         </div>
@@ -260,21 +308,21 @@ const EditAffiliateModal = () => {
             name="thursday"
             className={styles.checkbox} 
             onChange={handleChangeDaysCheckbox}
-            value={tableDays.thursday}
+            value={schedule.thursday}
           />
           <div className={styles.inps}>
             <InputMask 
               mask={mask} 
               name="thursday_start_time"
               onChange={handleChangeDays} 
-              value={tableDays.thursday_start_time}
+              value={schedule.thursday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask} 
               name="thursday_end_time"
               onChange={handleChangeDays} 
-              value={tableDays.thursday_end_time}
+              value={schedule.thursday_end_time}
             />
           </div>
         </div>
@@ -284,7 +332,7 @@ const EditAffiliateModal = () => {
             type="checkbox" 
             className={styles.checkbox} 
             name="friday"
-            value={tableDays.friday}
+            value={schedule.friday}
             onChange={handleChangeDaysCheckbox}
           />
           <div className={styles.inps}>
@@ -292,14 +340,14 @@ const EditAffiliateModal = () => {
               mask={mask}
               name="friday_start_time" 
               onChange={handleChangeDays} 
-              value={tableDays.friday_start_time}
+              value={schedule.friday_start_time}
             />
             <span>-</span>
             <InputMask 
               mask={mask}
               name="friday_end_time" 
               onChange={handleChangeDays} 
-              value={tableDays.friday_end_time} 
+              value={schedule.friday_end_time} 
             />
           </div>
         </div>
@@ -309,12 +357,12 @@ const EditAffiliateModal = () => {
             type="checkbox" 
             disabled 
             className={styles.checkbox} 
-            value={tableDays.saturday}
+            value={schedule.saturday}
           />
           <div className={styles.inps}>
-            <InputMask mask={mask} value={tableDays.saturday_start_time} disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.saturday_start_time} disabled className={styles.disabledInp} />
             <span>-</span>
-            <InputMask mask={mask} value={tableDays.saturday_end_time} disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.saturday_end_time} disabled className={styles.disabledInp} />
           </div>
         </div>
         <div className={styles.day}>
@@ -322,19 +370,19 @@ const EditAffiliateModal = () => {
           <input 
             type="checkbox" 
             className={styles.checkbox} 
-            value={tableDays.sunday}
+            value={schedule.sunday}
             disabled 
           />
           <div className={styles.inps}>
-            <InputMask mask={mask} value={tableDays.sunday_start_time} disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.sunday_start_time} disabled className={styles.disabledInp} />
             <span>-</span>
-            <InputMask mask={mask} value={tableDays.sunday_end_time}  disabled className={styles.disabledInp} />
+            <InputMask mask={mask} value={schedule.sunday_end_time}  disabled className={styles.disabledInp} />
           </div>
         </div>
       </div>
       <div className={styles.btns}>
         <AffiliateModalWhiteButton onClick={handleCloseModal}>Отмена</AffiliateModalWhiteButton>
-        <AffiliateModalPrimaryButton>Сохранить</AffiliateModalPrimaryButton>
+        <AffiliateModalPrimaryButton onClick={handleEditBranch}>Сохранить</AffiliateModalPrimaryButton>
       </div>
     </div>
     </div>

@@ -1,114 +1,57 @@
-import React, { useState } from 'react';
-import { Pagination, Space, Table, Tag } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { MoreOutlined } from '@ant-design/icons';
-import vertical from '../../assets/img/vertical.svg'
-import { openModal } from '../../redux/slices/modalSlice';
-import styles from './storehouse.module.scss'
-import EditDeletePopUp from '../PopUp/EditDeletePopUp';
-import CategoriesPopUp from '../PopUp/CategoriesPopUp';
-
-const data = [
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-];
-
+import React, { useEffect, useState } from "react";
+import { Pagination, Space, Table, Tag } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getBranches } from "../../redux/slices/branchesSlice";
+import { getProducts } from "../../redux/slices/storageSlice";
+import { openModal } from "../../redux/slices/modalSlice";
+import CategoriesPopUp from "../PopUp/CategoriesPopUp";
+import EditDeletePopUp from "../PopUp/EditDeletePopUp";
+import vertical from "../../assets/img/vertical.svg";
+import styles from "./storehouse.module.scss";
 
 const FinishingProducts = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  
-  const { data_storage } = useSelector(state => state.storage)
+  const [id, setId] = useState(null);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
+  const { data_storage } = useSelector((state) => state.storage);
+  const { data } = useSelector((state) => state.branches.data_branches);
+
+  const runningLow = data_storage.filter(
+    (product) => product.is_running_out === true
+  );
 
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
-  };
-
-  const handleActionClick = (e) => {
-    setPopupPosition({ x: e.clientX, y: e.clientY });
-    setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
   const handlePopUpClose = () => {
     setActionsPopUpOpen(false);
   };
 
+  const handleActionClick = (e, id) => {
+    setId(id);
+    setPopupPosition({ x: e.clientX, y: e.clientY });
+    setActionsPopUpOpen(!isActionsPopUpOpen);
+  };
+
+  useEffect(() => {
+    dispatch(getBranches());
+  }, []);
+
   const handleDeleteModalOpen = () => {
     dispatch(
       openModal({
         modalType: "deleteCategory",
         modalProps: {
-          title: "Удаление позиции",
-          subtitle: `Вы действительно хотите удалить данную позицию?`,
-          action: "deleteItem",
+          title: "Удаление продукта",
+          subtitle: `Вы действительно хотите удалить этот продукт?`,
+          action: "deleteProductInStorhouse",
+          id: id,
         },
       })
     );
@@ -118,12 +61,13 @@ const FinishingProducts = () => {
     dispatch(
       openModal({
         modalType: "editStorhouseProduct",
-        modalProps: {},
+        modalProps: {
+          id: id,
+        },
       })
     );
     setActionsPopUpOpen(false);
   };
-
 
   const handleOpenModal = () => {
     dispatch(
@@ -134,13 +78,22 @@ const FinishingProducts = () => {
     );
   };
 
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
+  };
 
   return (
     <div className={styles.con}>
       <table className={styles.table}>
         <thead>
           <tr className={styles.first_tr}>
-            <th><span>№</span>Наименование</th>
+            <th>
+              <span>№</span>Наименование
+            </th>
             <th>Количество</th>
             <th>Лимит</th>
             <th>Дата прихода</th>
@@ -148,25 +101,45 @@ const FinishingProducts = () => {
           </tr>
         </thead>
         <tbody>
-            <tr className={styles.list_product}>
-              <td><span>№1</span>Капучино</td>
-              <td>20 шт</td>
-              <td>10 шт</td>
-              <td>20.09.2024</td>
+          {runningLow?.map((product, index) => (
+            <tr key={product.id} className={styles.list_product}>
               <td>
-                NeoCafe Ala-Too Square 
-                <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={handleActionClick} />
+                <span>№{index + 1}</span>
+                {product.name}
+              </td>
+              <td>
+                {product.quantity} {product.quantity_unit}
+              </td>
+              <td>
+                {product.limit} {product.limit_unit}
+              </td>
+              <td>{product.arrival_date}</td>
+              <td>
+                {data.map((branch) => {
+                  if (branch.id === product.branch) {
+                    return branch.name;
+                  }
+                })}
+                <img
+                  src={vertical}
+                  alt="Error :("
+                  className={styles.tableIcon}
+                  onClick={(e) => handleActionClick(e, product.id)}
+                />
               </td>
             </tr>
+          ))}
         </tbody>
       </table>
-      <Pagination
-        showSizeChanger
-        onShowSizeChange={onShowSizeChange}
-        defaultCurrent={3}
-        total={100}
-        className={styles.pagination}
-      />
+      <div className={styles.paginationWrapper}>
+        <Pagination
+          showSizeChanger
+          onShowSizeChange={onShowSizeChange}
+          defaultCurrent={3}
+          total={100}
+          className={styles.pagination}
+        />
+      </div>
       {isPopUpOpen && (
         <CategoriesPopUp
           setPopUpOpen={setPopUpOpen}
@@ -183,7 +156,7 @@ const FinishingProducts = () => {
         />
       )}
     </div>
-  )
+  );
 };
 
 export default FinishingProducts;

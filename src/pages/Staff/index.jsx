@@ -19,7 +19,13 @@ const Staff = () => {
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [idInfo, setIdInfo] = useState();
-  const data = useSelector(state => state.staff.staff)
+  const data = useSelector((state) => state.staff.staff);
+  const branches = useSelector((state) => state.branches.data_branches.data);
+  const staffData = data.map((obj) => {
+    const branch = branches.find((branch) => branch.id === obj.branch);
+    return  { ...obj, branchName: branch ? branch.name : "Филиал не найден" };
+  });
+  
   const tableHead = [
     "Имя",
     "Должность",
@@ -32,7 +38,8 @@ const Staff = () => {
     const fetchData = async () => {
       try {
         const staffData = await getAllStaff();
-        console.log(staffData);
+        console.log(staffData.data);
+
         dispatch(setStaffInfo(staffData.data));
       } catch (err) {
         console.error(err);
@@ -114,13 +121,13 @@ const Staff = () => {
           </header>
           {/* тело таблицы */}
           <div className={styles.menuWrapper}>
-            {data.map((staff, index) => (
+            {staffData.map((staff, index) => (
               <div className={styles.itemWrapper} key={staff.id}>
                 <p>{staff.first_name}</p>
                 <p>{staff.position}</p>
                 <p>{staff.username}</p>
                 <p>{staff.password}</p>
-                <p>{staff.branch}</p>
+                <p>{staff.branchName}</p>
                 <p>Пн, Вт, Ср, Чт</p>
                 <img
                   className={styles.actionImg}

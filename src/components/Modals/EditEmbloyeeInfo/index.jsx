@@ -13,7 +13,8 @@ const EditEmployeeInfo = (props) => {
   const staffData = useSelector((state) => state.staff.staff);
   const staff = staffData.find((staff) => staff.id === props.id);
   const [selectedRole, setSelectedRole] = useState(staff.position);
-
+  // const branches = useSelector(state => state.data_branches.data)
+  // console.log('branches', branches)
   const ROLE = [
     { value: "Официант", label: "Официант" },
     { value: "Бармен", label: "Бармен" },

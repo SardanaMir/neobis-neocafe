@@ -69,8 +69,11 @@ const DeleteCategory = (props) => {
     deleteCategory: handleDeleteCategory,
     deleteItem: removeItem,
     deleteProductInStorhouse: deleteProductInStorhouse,
+    handleDeleteBranch: handleDeleteBranch,
     deleteStaff: handleDeleteStaffInfo
   };
+
+
 
   const handleClick = actions[props.action];
 

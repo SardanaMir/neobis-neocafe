@@ -28,6 +28,7 @@ const MenuHeader = () => {
     const results = items.filter(item => item.name.toLowerCase().includes(term.toLowerCase()))
     dispatch(setFindedItem(results))
   };
+  
   return (
     <Layout.Header className={styles.header}>
       <h2>Меню</h2>

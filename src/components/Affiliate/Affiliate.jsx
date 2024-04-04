@@ -11,87 +11,22 @@ import DropdownStoreHouse from '../Dropdown/Dropdown';
 import { getBranches } from '../../redux/slices/branchesSlice'; 
 import styles from './affiliate.module.scss'
 
-const data = [
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-  {
-    name: "Мария",
-    role: "Официант",
-    login: "maria111",
-    password: "qwerty",
-    branch: "Центральный",
-    phoneNumber: "+70001112233",
-    schedule: "Пн, Вт, Ср, Чт",
-  },
-];
 
 const Affiliate = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [id, setId] = useState(null)
 
-  // const { data_branches } = useSelector(state => state.branches)
+  const { data } = useSelector(state => state.branches.data_branches)
   const dispatch = useDispatch()
-
     
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
-  const handleActionClick = (e) => {
+  const handleActionClick = (e, id) => {
+    setId(id)
     setPopupPosition({ x: e.clientX, y: e.clientY });
-    console.log(popupPosition);
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
@@ -112,7 +47,9 @@ const Affiliate = () => {
       dispatch(
         openModal({
           modalType: "editAffiliateModal",
-          modalProps: {},
+          modalProps: {
+            id: id
+          },
         })
       );
       setActionsPopUpOpen(false);
@@ -123,9 +60,10 @@ const Affiliate = () => {
         openModal({
           modalType: "deleteCategory",
           modalProps: {
-            title: "Удаление позиции",
-            subtitle: `Вы действительно хотите удалить данную позицию?`,
-            action: "deleteItem",
+            title: "Удаление продукта",
+            subtitle: `Вы действительно хотите удалить этот продукт?`,
+            action: "handleDeleteBranch",
+            id: id,
           },
         })
       );
@@ -138,6 +76,8 @@ const Affiliate = () => {
     useEffect(() => {
       dispatch(getBranches())
     }, []);
+
+    
   
   
     return (
@@ -152,20 +92,24 @@ const Affiliate = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className={styles.tr}>
-                <span>№1</span>
-                  <td className={styles.name_cafe}>NeoCafe Dzerzhinka</td>
-                  <td className={styles.address}>бульвар Эркиндик, 35 </td>
-                  <td className={styles.time_work}>Каждый день с 11:00 до 22:00 </td>
-                <img src={vertical} alt="Error :(" className={styles.listIcon} onClick={handleActionClick} />
-            </tr>
+            {
+              data?.map((branch, index) => 
+                <tr className={styles.tr} key={branch.id}>
+                  <span>№{index+1}</span>
+                    <td className={styles.name_cafe}>{branch.name}</td>
+                    <td className={styles.address}>{branch.address}</td>
+                    <td className={styles.time_work}>Каждый день с 11:00 до 22:00 </td>
+                  <img src={vertical} alt="Error :(" className={styles.listIcon} onClick={(e) => handleActionClick(e, branch.id)} />
+              </tr>
+              )
+            }
           </tbody>
         </table>
         <Pagination
           showSizeChanger
           onShowSizeChange={onShowSizeChange}
           defaultCurrent={3}
-          total={data.length}
+          total={data?.length}
           className={styles.affiliate_pagination}
         />
         {isPopUpOpen && (

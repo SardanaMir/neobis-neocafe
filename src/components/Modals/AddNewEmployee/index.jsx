@@ -12,12 +12,6 @@ const AddNewEmployee = () => {
     { value: "Официант", label: "Официант" },
     { value: "Бармен", label: "Бармен" },
   ];
-  const BRANCH = [
-    { value: "NeoCafe Dzerzhinka-1", label: "NeoCafe Dzerzhinka-1" },
-    { value: "NeoCafe Dzerzhinka-2", label: "NeoCafe Dzerzhinka-2" },
-    { value: "NeoCafe Dzerzhinka-3", label: "NeoCafe Dzerzhinka-3" },
-    { value: "NeoCafe Dzerzhinka-4", label: "NeoCafe Dzerzhinka-4" },
-  ];
   const weekday = [
     "Monday",
     "Tuesday",
@@ -30,10 +24,13 @@ const AddNewEmployee = () => {
   const [workSchedule, setWorkSchedule] = useState({});
   const dispatch = useDispatch();
   const [selectedRole, setSelectedRole] = useState("");
-
+  const branches = useSelector(state => state.branches.data_branches.data)
+  const BRANCH = branches.map(item => ({
+    value: item.name,
+    label: item.name
+  }));
   function transformData(data) {
     let schedule = {title:'neocafe',};
-    // Устанавливаем по умолчанию для всех дней false
     const daysOfWeek = [
       "monday",
       "tuesday",
@@ -61,7 +58,6 @@ const AddNewEmployee = () => {
 
   const onSubmit = async (e) => {
     const response = await getBranches();
-    console.log(response);
     const finalWorkSchedule = weekday.reduce((acc, day) => {
       if (workSchedule[day]) {
         acc.push({
@@ -76,10 +72,10 @@ const AddNewEmployee = () => {
 
     const changeDataStructure = transformData(finalWorkSchedule);
     values.schedule = changeDataStructure;
-    console.log("values", values);
+    const branchID = branches.filter(branch => branch.name === values.branch)
+    values.branch = branchID[0].id
     try {
       const res = await createNewStaff(values);
-      console.log(res);
       dispatch(closeModal());
     } catch (err) {
       console.log(err);
@@ -102,7 +98,7 @@ const AddNewEmployee = () => {
       first_name: "",
       position: "",
       birth_date: "",
-      branch: 2,
+      branch: null,
       schedule: {title:'neocafe',},
     },
     // validationSchema: basicSchema,

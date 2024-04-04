@@ -53,27 +53,26 @@ const DeleteCategory = (props) => {
     const id = props.id;
     dispatch(deleteProduct({ id, handleCloseModal }));
   };
+
   const handleDeleteStaffInfo = async () =>{
     const id = props.id
     try {
-      const res = await deleteStaffInfo(id)
+      await deleteStaffInfo(id)
       const staffData = await getAllStaff()
       dispatch(setStaffInfo(staffData.data))
       dispatch(closeModal());
-
     }catch(err){
       console.log(err)
     }
   }
+  const handleDeleteBranch = {}
   const actions = {
     deleteCategory: handleDeleteCategory,
     deleteItem: removeItem,
     deleteProductInStorhouse: deleteProductInStorhouse,
-    handleDeleteBranch: handleDeleteBranch,
+    deleteBranch: handleDeleteBranch,
     deleteStaff: handleDeleteStaffInfo
   };
-
-
 
   const handleClick = actions[props.action];
 

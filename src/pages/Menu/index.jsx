@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import images from "../../assets/images.js";
-import { basicSchema } from "../../schema";
 import { Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice.js";
@@ -8,213 +7,13 @@ import CategoriesPopUp from "../../components/PopUp/CategoriesPopUp/index.jsx";
 import styles from "./style.module.scss";
 import EditDeletePopUp from "../../components/PopUp/EditDeletePopUp/index.jsx";
 import { getMenu, getAllCategories, getStock } from "../../api/index.js";
+import {getBranches} from '../../redux/slices/branchesSlice.js'
 import {
   setCategories,
   setStock,
 } from "../../redux/slices/categoriesSlice.js";
 import { setItems } from "../../redux/slices/itemsSlice.js";
-const data = [
-  // {
-  //   id: "item01",
-  //   name: "Капучино",
-  //   category: 2,
-  //   ingredients: [
-  //     {
-  //       name: "Кофе",
-  //       quantity: "10",
-  //       measurement_unit: "гр",
-  //     },
-  //   ],
-  //   price: 140,
-  //   mealType: 'Сырье',
-  //   currency: "сом",
-  //   description:
-  //     "классический напиток, который покорил сердца ценителей кофе по всему миру. Этот напиток известен своей простотой и в то же время насыщенным вкусом. Кофе Американо приготавливается путем добавления горячей воды к одному или двум эспрессо, что придает напитку более нежный вкус без утраты силы и аромата эспрессо.",
-  // },
-  // {
-  //   id: "item02",
-  //   name: "Раф",
-  //   category: 2,
-  //   ingredients: [
-  //     {
-  //       name: "Кофе",
-  //       quantity: "15",
-  //       measurement_unit: "гр",
-  //     },
-  //     {
-  //       name: "Молоко",
-  //       quantity: "100",
-  //       measurement_unit: "мл",
-  //     },
-  //     {
-  //       name: "Сироп",
-  //       quantity: "20",
-  //       measurement_unit: "мл",
-  //     },
-  //   ],
-  //   price: 160,
-  //   mealType: 'Сырье',
-  //   currency: "сом",
-  //   description: "Нежный напиток с молочной пенкой...",
-  // },
-  {
-    id: "item03",
-    name: "Латте",
-    category: 2,
-    mealType: 'Сырье',
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "15",
-        measurement_unit: "гр",
-      },
-      {
-        name: "Молоко",
-        quantity: "150",
-        measurement_unit: "мл",
-      },
-    ],
-    price: 150,
-    currency: "сом",
-    description: "Ароматный кофейный напиток с молоком...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
 
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-  {
-    id: "item04",
-    name: "Эспрессо",
-    category: 2,
-    mealType: 'Сырье',
-
-    ingredients: [
-      {
-        name: "Кофе",
-        quantity: "20",
-        measurement_unit: "гр",
-      },
-    ],
-    price: 120,
-    currency: "сом",
-    description: "Крепкий, насыщенный и ароматный кофейный напиток...",
-  },
-];
 
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
@@ -259,6 +58,7 @@ const Menu = () => {
         dispatch(setItems(menuData.data));
         const res = await getStock();
         dispatch(setStock(res.data));
+        dispatch(getBranches())
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -407,12 +207,12 @@ const Menu = () => {
 
           {/* пагинация */}
           <div className={styles.pagination}>
-            <Pagination
+            {/* <Pagination
               showSizeChanger
               onShowSizeChange={onShowSizeChange}
               defaultCurrent={3}
               total={data.length}
-            />
+            /> */}
           </div>
           {/* Всплывающее окно для категорий */}
           {isPopUpOpen && (

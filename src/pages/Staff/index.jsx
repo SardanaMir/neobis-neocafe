@@ -25,7 +25,7 @@ const Staff = () => {
     const branch = branches.find((branch) => branch.id === obj.branch);
     return  { ...obj, branchName: branch ? branch.name : "Филиал не найден" };
   });
-  
+
   const tableHead = [
     "Имя",
     "Должность",
@@ -38,8 +38,6 @@ const Staff = () => {
     const fetchData = async () => {
       try {
         const staffData = await getAllStaff();
-        console.log(staffData.data);
-
         dispatch(setStaffInfo(staffData.data));
       } catch (err) {
         console.error(err);
@@ -66,7 +64,6 @@ const Staff = () => {
     setActionsPopUpOpen(false);
   };
   const handleDeleteModalOpen = () => {
-    console.log("delete modal open");
     dispatch(
       openModal({
         modalType: "deleteCategory",
@@ -82,7 +79,6 @@ const Staff = () => {
   };
   const handleActionClick = (e) => {
     setPopupPosition({ x: e.clientX, y: e.clientY });
-    console.log(popupPosition);
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
   const handleClick = (id, e) => {

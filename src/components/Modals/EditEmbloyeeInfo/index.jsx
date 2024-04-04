@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { components } from "../../Buttons";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { useFormik } from "formik";
-import { createNewStaff, changeStaffInfo } from "../../../api";
+import { changeStaffInfo, getAllStaff } from "../../../api";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
 import { setStaffInfo } from "../../../redux/slices/staffSlice";
@@ -13,17 +12,9 @@ const EditEmployeeInfo = (props) => {
   const staffData = useSelector((state) => state.staff.staff);
   const staff = staffData.find((staff) => staff.id === props.id);
   const [selectedRole, setSelectedRole] = useState(staff.position);
-  // const branches = useSelector(state => state.data_branches.data)
-  // console.log('branches', branches)
   const ROLE = [
     { value: "Официант", label: "Официант" },
     { value: "Бармен", label: "Бармен" },
-  ];
-  const BRANCH = [
-    { value: "NeoCafe Dzerzhinka-1", label: "NeoCafe Dzerzhinka-1" },
-    { value: "NeoCafe Dzerzhinka-2", label: "NeoCafe Dzerzhinka-2" },
-    { value: "NeoCafe Dzerzhinka-3", label: "NeoCafe Dzerzhinka-3" },
-    { value: "NeoCafe Dzerzhinka-4", label: "NeoCafe Dzerzhinka-4" },
   ];
   const weekday = [
     "monday",
@@ -36,17 +27,23 @@ const EditEmployeeInfo = (props) => {
   ];
   const [workSchedule, setWorkSchedule] = useState(staff.schedule);
   const dispatch = useDispatch();
-
+  const branches = useSelector((state) => state.branches.data_branches.data);
+  const BRANCH = branches.map((item) => ({
+    value: item.name,
+    label: item.name,
+  }));
+  const currentBranch = branches.filter((branch) => branch.id === staff.branch);
   const onSubmit = async (e) => {
     values.schedule = workSchedule;
-    console.log("values", values);
+    if (typeof values.branch === 'string'){
+      const branchID = branches.filter((branch) => branch.name === values.branch);
+      values.branch = branchID[0].id;
+    }
     try {
-      const res = await changeStaffInfo(props.id, values);
-      console.log(res);
+      await changeStaffInfo(props.id, values);
       const staffData = await getAllStaff();
       dispatch(setStaffInfo(staffData.data))
       dispatch(closeModal());
-
     } catch (err) {
       console.log(err);
     }
@@ -74,13 +71,12 @@ const EditEmployeeInfo = (props) => {
     // validationSchema: basicSchema,
     onSubmit: onSubmit,
   });
+
   const handleSelectRole = (selectedRole) => {
-    console.log(selectedRole);
     values.position = selectedRole.value;
     setSelectedRole(selectedRole.value);
   };
   const handleSelectBranch = (selectedBranch) => {
-    console.log(selectedBranch);
     values.branch = selectedBranch.value;
   };
   const handleClose = () => {
@@ -88,20 +84,20 @@ const EditEmployeeInfo = (props) => {
   };
   const handleCheckboxChange = (day) => {
     setWorkSchedule((prevState) => ({
-        ...prevState,
-        [day]: !prevState[day],
-        [`${day}_start_time`]: prevState[day] ? "" : "",
-        [`${day}_end_time`]: prevState[day] ? "" : "",
+      ...prevState,
+      [day]: !prevState[day],
+      [`${day}_start_time`]: prevState[day] ? "" : "",
+      [`${day}_end_time`]: prevState[day] ? "" : "",
     }));
-};
+  };
 
-const handleTimeChange = (day, field, value) => {
+  const handleTimeChange = (day, field, value) => {
     setWorkSchedule((prevState) => ({
-        ...prevState,
-        [day]: true,
-        [`${day}_${field}`]: value,
+      ...prevState,
+      [day]: true,
+      [`${day}_${field}`]: value,
     }));
-};
+  };
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
@@ -216,7 +212,7 @@ const handleTimeChange = (day, field, value) => {
               defaultValue={""}
               onChange={(selectedOption) => handleSelectBranch(selectedOption)}
               options={BRANCH}
-              placeholder={"Выберите филиал"}
+              placeholder={currentBranch[0].name}
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,

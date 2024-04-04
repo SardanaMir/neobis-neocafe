@@ -61,7 +61,7 @@ const Affiliate = () => {
         modalProps: {
           title: "Удаление продукта",
           subtitle: `Вы действительно хотите удалить этот продукт?`,
-          action: "handleDeleteBranch",
+          action: "deleteBranch",
           id: id,
         },
       })

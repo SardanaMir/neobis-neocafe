@@ -13,7 +13,6 @@ const AddNewCategory = ({ title, subtitle, placeholder }) => {
   const categories = useSelector((state) => state.categories.categories);
 
   const onSubmit = async () => {
-    console.log(values.newCategory);
     const isCategoryExists = categories.some(
       (category) => category.name.toLowerCase() === values.newCategory.toLowerCase()
     );

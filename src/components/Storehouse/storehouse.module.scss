@@ -15,9 +15,7 @@
   height: 792px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding-bottom: 24px;
 
   ul {
     li:last-child {
@@ -31,6 +29,7 @@
   max-width: 440px;
   height: 60px;
   text-align: center;
+  margin-top: 30px;
 }
 
   .tabs {

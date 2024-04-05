@@ -17,10 +17,15 @@ const Affiliate = () => {
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [id, setId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
 
   const { data } = useSelector(state => state.branches.data_branches)
+  const affiliate = useSelector(state => state.items.search)
   const dispatch = useDispatch()
-    
+
+  const results = data?.filter(branch => branch.name.toLowerCase().includes(affiliate.toLowerCase()))    
+
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
@@ -77,8 +82,14 @@ const Affiliate = () => {
       dispatch(getBranches())
     }, []);
 
-    
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
   
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+  
+    const currentPageData = results?.slice(startIndex, endIndex);  
   
     return (
       <div className={styles.container}>
@@ -93,7 +104,7 @@ const Affiliate = () => {
           </thead>
           <tbody>
             {
-              data?.map((branch, index) => 
+              currentPageData?.map((branch, index) => 
                 <tr className={styles.tr} key={branch.id}>
                   <span>№{index+1}</span>
                     <td className={styles.name_cafe}>{branch.name}</td>
@@ -107,9 +118,10 @@ const Affiliate = () => {
         </table>
         <Pagination
           showSizeChanger
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={3}
-          total={data?.length}
+          current={currentPage}
+          pageSize={pageSize}
+          total={results?.length}
+          onChange={handlePageChange}
           className={styles.affiliate_pagination}
         />
         {isPopUpOpen && (

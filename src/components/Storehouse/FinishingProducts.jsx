@@ -17,13 +17,17 @@ const FinishingProducts = () => {
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [id, setId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
   
   const dispatch = useDispatch()
   
+  const storhouseOne = useSelector(state => state.items.search)
   const { data_storage } = useSelector(state => state.storage)
   const { data } = useSelector(state => state.branches.data_branches)
   
   const runningLow = data_storage.filter(product => product.is_running_out === true)
+  const result = runningLow?.filter(storhouse => storhouse.name.toLowerCase().includes(storhouseOne.toLowerCase())) 
 
   
   const handleCategoryClick = () => {
@@ -86,9 +90,14 @@ const FinishingProducts = () => {
       dispatch(getProducts())
     }, []);
         
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+  
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+  
+    const currentPageData = result.slice(startIndex, endIndex);
 
   return (
     <div className={styles.con}>
@@ -104,7 +113,7 @@ const FinishingProducts = () => {
         </thead>
         <tbody>
           {
-            runningLow?.map((product, index) => 
+            currentPageData?.map((product, index) => 
               <tr key={product.id} className={styles.list_product}>
                 <td><span>№{index+1}</span>{product.name}</td>
                 <td>{product.quantity} {product.quantity_unit}</td>
@@ -127,9 +136,10 @@ const FinishingProducts = () => {
       </table>
       <Pagination
         showSizeChanger
-        onShowSizeChange={onShowSizeChange}
-        defaultCurrent={3}
-        total={100}
+        current={currentPage}
+        pageSize={pageSize}
+        total={result.length}
+        onChange={handlePageChange}
         className={styles.pagination}
       />
       {isPopUpOpen && (

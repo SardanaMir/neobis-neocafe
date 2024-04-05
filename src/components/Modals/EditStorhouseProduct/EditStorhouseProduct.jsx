@@ -74,7 +74,7 @@ const EditStorhouseProduct = ({ id }) => {
   return (
     <div className={styles.container}>
         <div className={styles.add__product}>
-          <h3 className={styles.add__product_h3}>Редактирование<CloseOutlined className={styles.add__product_icon} onClick={handleCloseModal} /></h3>
+          <p className={styles.add__product_h3}>Редактирование<CloseOutlined className={styles.add__product_icon} onClick={handleCloseModal} /></p>
           <p className={styles.add__product_p}>Наименование, категория и стоимость</p>
           <div className={styles.add__product_name}>
             <span>Наименование</span>

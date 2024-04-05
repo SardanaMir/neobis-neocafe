@@ -54,11 +54,11 @@ export const getOneProductById = createAsyncThunk('storage/getOneProductById', a
   }
 });
 
-export const deleteProduct = createAsyncThunk('storage/deleteProduct', async ({ id, handleCloseModal, getLastUpdateProduct }) => {
+export const deleteProduct = createAsyncThunk('storage/deleteProduct', async ({ id, handleCloseModal, getStorageProduct }) => {
   try {
     const response = await axios.delete(`${API}/storage/${id}/`);
     handleCloseModal()
-    getLastUpdateProduct()
+    getStorageProduct()
     return response.data;
   } catch (error) {
     console.log(error);

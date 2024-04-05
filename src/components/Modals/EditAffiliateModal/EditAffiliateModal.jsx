@@ -10,6 +10,7 @@ import styles from '../../../styles/add_affiliate_modal.module.scss'
 
 const EditAffiliateModal = ({ id }) => {
   const [schedule, setShedule] = useState({
+    title: "Branch",
     monday: false,
     monday_start_time: "",
     monday_end_time: "",
@@ -40,17 +41,19 @@ const EditAffiliateModal = ({ id }) => {
     counts_of_tables: 0
   })
   const [selectedImage, setSelectedImage] = useState(null);
-  const fileInputRef = useRef(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const fileInputRef = useRef(null)
 
 
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleImageChange = (imageUrl) => {
-    setSelectedImage(imageUrl);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    setPreviewImage(URL.createObjectURL(e.target.files[0]))
+    setSelectedImage(file)
   };
-
   const dispatch = useDispatch();
   const { data } = useSelector(state => state.branches.branch)
 
@@ -96,10 +99,10 @@ const EditAffiliateModal = ({ id }) => {
     dispatch(getBranchById(id))
   }, []);
 
-  console.log();
-
   useEffect(() => {
     setShedule({
+      // title: data?.schedule.title,
+      title: "Branch",
       monday: data?.schedule.monday,
       monday_start_time: data?.schedule.monday_start_time,
       monday_end_time: data?.schedule.monday_end_time,
@@ -122,7 +125,8 @@ const EditAffiliateModal = ({ id }) => {
       sunday_start_time: "08:00",
       sunday_end_time: "17:00"
     })
-    // setSelectedImage(data?.image)
+    setPreviewImage(data?.image)
+    setSelectedImage(data?.image)
     setFormBranch({
       name: data?.name,
       address: data?.address,
@@ -141,6 +145,7 @@ const EditAffiliateModal = ({ id }) => {
     for (const [key, value] of Object.entries(schedule)) {
       formData.append(`schedule.${key}`, value);
     }
+    // const file = new File([selectedImage], 'image.jpg', { type: 'image/jpeg' });
     formData.append('image', selectedImage)
     formData.append('name', formBranch.name)
     formData.append('address', formBranch.address)
@@ -153,12 +158,12 @@ const EditAffiliateModal = ({ id }) => {
   return (
     <div className={styles.root}>
       <div className={styles.affiliate_modal}>
-        <h3>Редактирование<CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></h3>
+        <p className={styles.title}>Редактирование<CloseOutlined style={{cursor: 'pointer'}} onClick={handleCloseModal} /></p>
         <p>Добавьте фотографию филиала</p>
         <div className={styles.add__img}>
           <div className={styles.div}>
             <img 
-              src={selectedImage || outlineImg} 
+              src={previewImage || outlineImg} 
               alt="Error :(" 
               onClick={handleImageClick}
               className={styles.affiliate__img_main}
@@ -168,7 +173,7 @@ const EditAffiliateModal = ({ id }) => {
               accept="image/*"
               style={{ display: 'none' }}
               ref={fileInputRef}
-              onChange={(event) => handleImageChange(URL.createObjectURL(event.target.files[0]))}
+              onChange={handleImageChange}
             />
             <p>Перетащите изображение для изменения или <span>обзор</span></p>
           </div>

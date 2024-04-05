@@ -15,10 +15,15 @@ const Affiliate = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
 
-  const { data } = useSelector((state) => state.branches.data_branches);
-  const dispatch = useDispatch();
+  const { data } = useSelector(state => state.branches.data_branches)
+  const affiliate = useSelector(state => state.items.search)
+  const dispatch = useDispatch()
+
+  const results = data?.filter(branch => branch.name.toLowerCase().includes(affiliate.toLowerCase()))    
 
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
@@ -72,21 +77,24 @@ const Affiliate = () => {
     console.log(current, pageSize);
   };
 
-  useEffect(() => {
-    dispatch(getBranches());
-  }, []);
+    useEffect(() => {
+      dispatch(getBranches())
+    }, []);
 
-  return (
-    <div className={styles.container}>
-      <table className={styles.table} style={{ widt: "100%" }}>
-        <thead>
-          <tr
-            className={styles.affiliate_tr}
-            style={{
-              gridTemplateColumns: "50px repeat(3, 1fr) 55px",
-              maxWidth: "1171px",
-            }}
-          >
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+  
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+  
+    const currentPageData = results?.slice(startIndex, endIndex);  
+  
+    return (
+      <div className={styles.container}>
+      <table className={styles.table}>
+          <thead>
+            <tr className={styles.affiliate_tr}>
             <span>№</span>
             <th className={styles.name_cafe} onClick={handleOpenModal}>
               Название кофейни
@@ -96,7 +104,7 @@ const Affiliate = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((branch, index) => (
+          {currentPageData?.map((branch, index) => (
             <tr
               className={styles.tr}
               key={branch.id}
@@ -124,9 +132,10 @@ const Affiliate = () => {
       <div className={styles.paginationWrapper}>
         <Pagination
           showSizeChanger
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={3}
-          total={data?.length}
+          current={currentPage}
+          pageSize={pageSize}
+          total={results?.length}
+          onChange={handlePageChange}
           className={styles.affiliate_pagination}
         />
       </div>

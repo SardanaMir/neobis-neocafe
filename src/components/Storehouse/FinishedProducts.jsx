@@ -14,17 +14,21 @@ const FinishedProducts = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  
+  const storhouseOne = useSelector(state => state.items.search)
+  const { data_storage } = useSelector(state => state.storage)
+  const { data } = useSelector(state => state.branches.data_branches)
 
-  const { data_storage } = useSelector((state) => state.storage);
-  const { data } = useSelector((state) => state.branches.data_branches);
+  const sortedData = data_storage?.filter(storhouse => storhouse.name.toLowerCase().includes(storhouseOne.toLowerCase()))    
+  const readyProducts = sortedData?.filter(product => product.category === 'Готовые продукты')
+  const finishedProducts = readyProducts?.filter(product => product.is_running_out === false)
 
-  const readyProducts = data_storage.filter(
-    (product) => product.category === "Готовые продукты"
-  );
-
+  
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
@@ -65,27 +69,33 @@ const FinishedProducts = () => {
           id: id,
         },
       })
-    );
-    setActionsPopUpOpen(false);
-  };
+      );
+      setActionsPopUpOpen(false);
+    };
+      
+    const handleOpenModal = () => {
+      dispatch(
+        openModal({
+          modalType: "addAffiliateModal",
+          modalProps: {},
+        })
+        );
+      };
 
-  const handleOpenModal = () => {
-    dispatch(
-      openModal({
-        modalType: "addAffiliateModal",
-        modalProps: {},
-      })
-    );
-  };
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
-
+      
+    useEffect(() => {
+      dispatch(getProducts())
+    }, []);
+        
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+  
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+  
+    const currentPageData = finishedProducts.slice(startIndex, endIndex);
+  
   return (
     <div className={styles.con}>
       <table className={styles.table}>
@@ -101,45 +111,36 @@ const FinishedProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {readyProducts?.map((product, index) => (
-            <tr key={product.id} className={styles.list_product}>
-              <td>
-                <span>№{index + 1}</span>
-                {product.name}
-              </td>
-              <td>
-                {product.quantity} {product.quantity_unit}
-              </td>
-              <td>
-                {product.limit} {product.limit_unit}
-              </td>
-              <td>{product.arrival_date}</td>
-              <td>
-                {data?.map((branch) => {
-                  if (branch.id === product.branch) {
-                    return branch.name;
-                  }
-                })}
-                <img
-                  src={vertical}
-                  alt="Error :("
-                  className={styles.tableIcon}
-                  onClick={(e) => handleActionClick(e, product.id)}
-                />
-              </td>
-            </tr>
-          ))}
+            {
+              currentPageData?.map((product, index) => 
+                <tr key={product.id} className={styles.list_product}>
+                  <td><span>№{index+1}</span>{product.name}</td>
+                  <td>{product.quantity} {product.quantity_unit}</td>
+                  <td>{product.limit} {product.limit_unit}</td>
+                  <td>{product.arrival_date}</td>
+                  <td>
+                    {
+                      data?.map(branch => {
+                        if (branch.id === product.branch) {
+                          return branch.name
+                        }
+                      })
+                    }
+                    <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={(e) => handleActionClick(e, product.id)} />
+                  </td>
+                </tr>
+              )
+            }
         </tbody>
       </table>
-      <div className={styles.paginationWrapper}>
-        <Pagination
-          showSizeChanger
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={3}
-          total={data_storage.length}
-          className={styles.pagination}
-        />
-      </div>
+      <Pagination
+        showSizeChanger
+        current={currentPage}
+        pageSize={pageSize}
+        total={finishedProducts.length}
+        onChange={handlePageChange}
+        className={styles.pagination}
+      />
       {isPopUpOpen && (
         <CategoriesPopUp
           setPopUpOpen={setPopUpOpen}

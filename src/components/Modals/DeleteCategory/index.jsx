@@ -12,11 +12,12 @@ import {
 import { components } from "../../Buttons";
 import { removeCategory } from "../../../redux/slices/categoriesSlice";
 import { setItems } from "../../../redux/slices/itemsSlice";
+import { deleteProduct, getProducts } from "../../../redux/slices/storageSlice";
+import { deleteBranch, getBranches } from "../../../redux/slices/branchesSlice";
 import { setStaffInfo } from "../../../redux/slices/staffSlice";
 import styles from "./style.module.scss";
 
 const DeleteCategory = (props) => {
-  console.log("remove category", props);
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items.items);
 
@@ -49,10 +50,23 @@ const DeleteCategory = (props) => {
     }
   };
 
+  const getStorageProduct = () => {
+    dispatch(getProducts({  }))
+  }
+
   const deleteProductInStorhouse = () => {
     const id = props.id;
-    dispatch(deleteProduct({ id, handleCloseModal }));
+    dispatch(deleteProduct({ id, handleCloseModal, getStorageProduct }));
   };
+
+  const getLastUpdateBranches = () => {
+    dispatch(getBranches())
+  }
+
+  const handleDeleteBranch = () => {
+    const id = props.id
+    dispatch(deleteBranch({ id, handleCloseModal, getLastUpdateBranches }))
+  }
 
   const handleDeleteStaffInfo = async () =>{
     const id = props.id
@@ -65,7 +79,7 @@ const DeleteCategory = (props) => {
       console.log(err)
     }
   }
-  const handleDeleteBranch = {}
+
   const actions = {
     deleteCategory: handleDeleteCategory,
     deleteItem: removeItem,

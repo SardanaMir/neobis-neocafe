@@ -16,7 +16,6 @@ const Modals = () => {
   const { isOpen, modalType, modalProps } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
-
   const ModalsMap = {
     deleteCategory: DeleteCategory,
     addNewEmployee: AddNewEmployee,

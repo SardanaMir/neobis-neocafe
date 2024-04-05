@@ -23,7 +23,6 @@ const MenuHeader = () => {
   const handleSearch = (e) => {
     const term = e.target.value;
     dispatch(setSearchTerm(term));
-    // console.log(searchTerm)
     const results = items.filter(item => item.name.toLowerCase().includes(term.toLowerCase()))
     dispatch(setFindedItem(results))
   };

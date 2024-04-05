@@ -14,17 +14,20 @@ const FinishingProducts = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
+  
+  const dispatch = useDispatch()
+  
+  const storhouseOne = useSelector(state => state.items.search)
+  const { data_storage } = useSelector(state => state.storage)
+  const { data } = useSelector(state => state.branches.data_branches)
+  
+  const runningLow = data_storage.filter(product => product.is_running_out === true)
+  const result = runningLow?.filter(storhouse => storhouse.name.toLowerCase().includes(storhouseOne.toLowerCase())) 
 
-  const dispatch = useDispatch();
-
-  const { data_storage } = useSelector((state) => state.storage);
-  const { data } = useSelector((state) => state.branches.data_branches);
-
-  const runningLow = data_storage.filter(
-    (product) => product.is_running_out === true
-  );
-
+  
   const handleCategoryClick = () => {
     setPopUpOpen(!isPopUpOpen);
   };
@@ -65,26 +68,32 @@ const FinishingProducts = () => {
           id: id,
         },
       })
-    );
-    setActionsPopUpOpen(false);
-  };
+      );
+      setActionsPopUpOpen(false);
+    };
+      
+    const handleOpenModal = () => {
+      dispatch(
+        openModal({
+          modalType: "addAffiliateModal",
+          modalProps: {},
+        })
+        );
+      };
 
-  const handleOpenModal = () => {
-    dispatch(
-      openModal({
-        modalType: "addAffiliateModal",
-        modalProps: {},
-      })
-    );
-  };
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
+      
+    useEffect(() => {
+      dispatch(getProducts())
+    }, []);
+        
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+  
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+  
+    const currentPageData = result.slice(startIndex, endIndex);
 
   return (
     <div className={styles.con}>
@@ -101,45 +110,36 @@ const FinishingProducts = () => {
           </tr>
         </thead>
         <tbody>
-          {runningLow?.map((product, index) => (
-            <tr key={product.id} className={styles.list_product}>
-              <td>
-                <span>№{index + 1}</span>
-                {product.name}
-              </td>
-              <td>
-                {product.quantity} {product.quantity_unit}
-              </td>
-              <td>
-                {product.limit} {product.limit_unit}
-              </td>
-              <td>{product.arrival_date}</td>
-              <td>
-                {data.map((branch) => {
-                  if (branch.id === product.branch) {
-                    return branch.name;
-                  }
-                })}
-                <img
-                  src={vertical}
-                  alt="Error :("
-                  className={styles.tableIcon}
-                  onClick={(e) => handleActionClick(e, product.id)}
-                />
-              </td>
-            </tr>
-          ))}
+          {
+            currentPageData?.map((product, index) => 
+              <tr key={product.id} className={styles.list_product}>
+                <td><span>№{index+1}</span>{product.name}</td>
+                <td>{product.quantity} {product.quantity_unit}</td>
+                <td>{product.limit} {product.limit_unit}</td>
+                <td>{product.arrival_date}</td>
+                <td>
+                {
+                  data.map(branch => {
+                    if (branch.id === product.branch) {
+                      return branch.name
+                    }
+                  })
+                } 
+                  <img src={vertical} alt="Error :(" className={styles.tableIcon} onClick={(e) => handleActionClick(e, product.id)} />
+                </td>
+              </tr>
+            )
+          }
         </tbody>
       </table>
-      <div className={styles.paginationWrapper}>
-        <Pagination
-          showSizeChanger
-          onShowSizeChange={onShowSizeChange}
-          defaultCurrent={3}
-          total={100}
-          className={styles.pagination}
-        />
-      </div>
+      <Pagination
+        showSizeChanger
+        current={currentPage}
+        pageSize={pageSize}
+        total={result.length}
+        onChange={handlePageChange}
+        className={styles.pagination}
+      />
       {isPopUpOpen && (
         <CategoriesPopUp
           setPopUpOpen={setPopUpOpen}

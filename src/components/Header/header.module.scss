@@ -1,75 +1,74 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 .header {
-    width: 1219px;
-    height: 100px;
-    background-color: rgba(255, 255, 255, 1);
-    padding: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	width: 1219px;
+	height: 100px;
+	background-color: rgba(255, 255, 255, 1);
+	padding: 0 24px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-    h2 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 600;
-        font-size: 40px;
-        color: rgba(42, 52, 64, 1);
-    }
+	h2 {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 600;
+		font-size: 40px;
+		color: rgba(42, 52, 64, 1);
+	}
 
-    .header__list {
-        width: 700px;
-        display: flex;
-        justify-content: space-between;
+	.header__list {
+		width: 700px;
+		display: flex;
+		justify-content: space-between;
 
-        .btn_search {
-            width: 17.5pxpx;
-            height: 17.5pxpx;
-            color: rgba(53, 83, 107, 1);
-            margin: 18px 0 0 17px;
-            position: absolute;
-        }
+		.btn_search {
+			width: 17.5pxpx;
+			height: 17.5pxpx;
+			color: rgba(53, 83, 107, 1);
+			margin: 18px 0 0 17px;
+			position: absolute;
+		}
 
-        input {
-            width: 350px;
-            height: 52px;
-            border-radius: 14px;
-            border: none;
-            background-color: rgba(235, 239, 242, 1);
-            outline: none;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            font-size: 18px;
-            color: rgba(53, 83, 107, 1);
-            padding-left: 44px;
-        }
+		input {
+			width: 350px;
+			height: 52px;
+			border-radius: 14px;
+			border: none;
+			background-color: rgba(235, 239, 242, 1);
+			outline: none;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 500;
+			font-size: 18px;
+			color: rgba(53, 83, 107, 1);
+			padding-left: 44px;
+		}
 
-        input::placeholder {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            font-size: 18px;
-            color: rgba(53, 83, 107, 1);
-        }
-    
-        button {
-            width: 256px;
-            height: 52px;
-            border-radius: 14px;
-            border: none;
-            background-color: rgba(53, 83, 107, 1);
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: rgba(255, 255, 255, 1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            cursor: pointer;
+		input::placeholder {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 500;
+			font-size: 18px;
+			color: rgba(53, 83, 107, 1);
+		}
+
+		button {
+			width: 256px;
+			height: 52px;
+			border-radius: 14px;
+			border: none;
+			background-color: rgba(53, 83, 107, 1);
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			font-size: 16px;
+			color: rgba(255, 255, 255, 1);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 15px;
+			cursor: pointer;
 
             .btn_plus {
                 width: 24px;
                 height: 24px;
-                margin-top: 6px;
                 cursor: pointer;
             }
         }

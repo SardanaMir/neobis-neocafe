@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../redux/slices/userSlice";
-import { setAuthTokenToCookie } from "../../utils";
-import * as yup from "yup";
 import { login } from "../../api";
 import LoginPage from "./LoginPage";
 import { useDispatch } from "react-redux";
+import Cookies from 'js-cookie';
 
 const LoginContainer = () => {
   const [error, setError] = useState(false);
@@ -14,19 +13,19 @@ const LoginContainer = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const dispatch = useDispatch()
   const onSubmit = async (e) => {
-    // e.preventDefault()
     const adminData = { username: values.username, password: values.password };
     console.log(adminData);
     try {
+      Cookies.remove('accessToken')
       const res = await login(adminData);
+      console.log(res)
+      Cookies.set('accessToken', res?.access, { expires: 7 });
       dispatch(setUser(true))
       navigate("/menu");
       setError(false);
-      setAuthTokenToCookie(res.access);
-      console.log(res);
     } catch (err) {
       setError(true);
-      console.error("Ошибка входа:", err);
+      console.log("Ошибка входа:", err);
     }
   };
   const {

@@ -1,176 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .dropdown {
-    width: 100%;
-    max-width: 253px;
-    height: 66px;
-    cursor: pointer;
+	width: 100%;
+	max-width: 253px;
+	height: 66px;
+	cursor: pointer;
 
-    .dropdown_btn {
-        width: 100%;
-        max-width: 253px;
-        height: 66px;
-        padding: 24px 16px 24px 16px;
-        background: rgb(235, 239, 242);
-        color: rgb(23, 23, 23);
-        font-family: Nunito;
-        font-size: 18px;
-        font-weight: 600;
-        display: flex;
-        justify-content: space-between;
-        border-radius: 10px;
-    }
+	.dropdown_btn {
+		width: 100%;
+		max-width: 253px;
+		height: 66px;
+		padding: 24px 16px 24px 16px;
+		background: rgb(235, 239, 242);
+		color: rgb(23, 23, 23);
+		font-family: 'Nunito', sans-serif;
+		font-size: 18px;
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		border-radius: 10px;
+	}
 
-    .activeSelect {
-        width: 100%;
-        max-width: 252px;
-        height: 66px;
-        color: rgb(23, 23, 23);
-        font-family: Nunito;
-        font-size: 18px;
-        font-weight: 600;
-        display: flex;
-        justify-content: space-between;
-        padding: 24px 16px 24px 16px;
-        border: 1px solid rgb(205, 211, 221);
-        background: rgb(235, 239, 242);
-        cursor: pointer;
-        border-radius: 10px 10px 0px 0px;
-    }
+	.activeSelect {
+		width: 100%;
+		max-width: 252px;
+		height: 66px;
+		color: rgb(23, 23, 23);
+		font-family: 'Nunito', sans-serif;
+		font-size: 18px;
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		padding: 24px 16px 24px 16px;
+		border: 1px solid rgb(205, 211, 221);
+		background: rgb(235, 239, 242);
+		cursor: pointer;
+		border-radius: 10px 10px 0px 0px;
+	}
 
-    .activeBtn {
-        transform: rotate(180deg);
-        cursor: pointer;
-    }
+	.activeBtn {
+		transform: rotate(180deg);
+		cursor: pointer;
+	}
 
-    .dropdown_content {
-        position: absolute;
-        width: 100%;
-        max-width: 252px;
-        height: 66px;
-        border: none;
-    }
+	.dropdown_content {
+		width: 100%;
+		max-width: 252px;
+		height: 100%;
+		max-height: 66px;
+		border: none;
+		position: absolute;
+	}
 
-    .dropdown_item {
-        width: 100%;
-        max-width: 252px;
-        height: 66px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 24px 16px 24px 16px;
-        box-sizing: border-box;
-        border: 1px solid rgb(205, 211, 221);
-        background: rgb(235, 239, 242);
-    }
-    .dropdown_item:last-child {
-        width: 100%;
-        max-width: 252px;
-        height: 66px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 24px 16px 24px 16px;
-        box-sizing: border-box;
-        border: 1px solid rgb(205, 211, 221);
-        border-radius: 0px 0px 8px 8px;
-        background: rgb(235, 239, 242);
-    }
+	.dropdown_item {
+		width: 100%;
+		max-width: 252px;
+		height: 100%;
+		max-height: 66px;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 24px 16px 24px 16px;
+		box-sizing: border-box;
+		border: 1px solid rgb(205, 211, 221);
+		background: rgb(235, 239, 242);
+	}
+	.dropdown_item:last-child {
+		width: 100%;
+		max-width: 252px;
+		height: 66px;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 24px 16px 24px 16px;
+		border: 1px solid rgb(205, 211, 221);
+		border-radius: 0px 0px 8px 8px;
+		background: rgb(235, 239, 242);
+	}
 }
 
 // Count dropdown
 .dropdown_count {
-    width: 100%;
-    max-width: 73px;
-    height: 66px;
-    cursor: pointer;
-    border-radius: 10px;
+	width: 100%;
+	height: 100%;
+	max-width: 73px;
+	height: 66px;
+	cursor: pointer;
+	border-radius: 10px;
 
-    .dropdown_btn {
-        width: 100%;
-        max-width: 73px;
-        height: 66px;
-        border-radius: 10px;
-        background: rgb(235, 239, 242);
-        color: rgb(42, 52, 64);
-        font-family: Poppins;
-        font-size: 16px;
-        font-weight: 400;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        cursor: pointer;
-    }
+	.dropdown_btn {
+		width: 100%;
+		max-width: 73px;
+		height: 66px;
+		border-radius: 10px;
+		background: rgb(235, 239, 242);
+		color: rgb(42, 52, 64);
+		font-family: 'Poppins', sans-serif;
+		font-size: 16px;
+		font-weight: 400;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		cursor: pointer;
+	}
 
-    .activeSelect {
-        width: 100%;
-        max-width: 73px;
-        height: 66px;
-        border-radius: 10px;
-        background: rgb(235, 239, 242);
-        color: rgb(42, 52, 64);
-        font-family: Poppins;
-        font-size: 16px;
-        font-weight: 400;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        cursor: pointer;
-        border: 1px solid rgb(0, 75, 204);
-        border-radius: 10px 10px 0px 0px;
-    }
+	.activeSelect {
+		width: 100%;
+		height: 100%;
+		max-width: 73px;
+		height: 66px;
+		border-radius: 10px;
+		background: rgb(235, 239, 242);
+		color: rgb(42, 52, 64);
+		font-family: 'Poppins', sans-serif;
+		font-size: 16px;
+		font-weight: 400;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		cursor: pointer;
+		border: 1px solid rgb(0, 75, 204);
+		border-radius: 10px 10px 0px 0px;
+	}
 
-    .activeBtn {
-        transform: rotate(180deg);
-        cursor: pointer;
-    }
+	.activeBtn {
+		transform: rotate(180deg);
+		cursor: pointer;
+	}
 
-    .dropdown_content {
-        position: absolute;
-        width: 100%;
-        max-width: 73px;
-        height: 50px;
-        border: none;
-    }
+	.dropdown_content {
+		position: absolute;
+		width: 100%;
+		max-width: 73px;
+		height: 50px;
+		border: none;
+	}
 
-    .dropdown_content:hover {
-        background-color: rgb(131, 133, 135);
-    }
+	.dropdown_item {
+		width: 100%;
+		max-width: 73px;
+		height: 50px;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 24px 16px 24px 16px;
+		box-sizing: border-box;
+		border: 1px solid rgb(205, 211, 221);
+		background: rgb(235, 239, 242);
+		color: rgb(42, 52, 64);
+		font-family: 'Poppins', sans-serif;
+		font-size: 16px;
+		font-weight: 400;
+	}
 
-    .dropdown_item {
-        width: 100%;
-        max-width: 73px;
-        height: 50px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 24px 16px 24px 16px;
-        box-sizing: border-box;
-        border: 1px solid rgb(205, 211, 221);
-        background: rgb(235, 239, 242);
-        color: rgb(42, 52, 64);
-        font-family: Poppins;
-        font-size: 16px;
-        font-weight: 400;
-    }
-
-    .dropdown_item:hover {
-        background-color: rgb(0, 128, 255);
-    }
-
-    .dropdown_item:last-child {
-        width: 100%;
-        max-width: 73px;
-        height: 50px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 24px 16px 24px 16px;
-        box-sizing: border-box;
-        border: 1px solid rgb(205, 211, 221);
-        border-radius: 0px 0px 8px 8px;
-        background: rgb(235, 239, 242);
-    }
+	.dropdown_item:last-child {
+		width: 100%;
+		max-width: 73px;
+		height: 50px;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 24px 16px 24px 16px;
+		box-sizing: border-box;
+		border: 1px solid rgb(205, 211, 221);
+		border-radius: 0px 0px 8px 8px;
+		background: rgb(235, 239, 242);
+	}
 }

@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 .affiliate__btn_white {
-    position: absolute;
     width: 236px;
     height: 56px;
     border-radius: 10px;
@@ -11,10 +10,10 @@
     font-size: 16px;
     color: rgba(53, 83, 107, 1);
     background-color: transparent;
+    cursor: pointer;
 }
 
 .affiliate__btn_blue {
-    position: absolute;
     width: 236px;
     height: 56px;
     border-radius: 10px;
@@ -24,21 +23,10 @@
     font-size: 16px;
     color: rgba(255, 255, 255, 1);
     background-color: rgba(53, 83, 107, 1);
-
-    span {
-        background-color: rgba(53, 83, 107, 1) !important;
-        color: rgba(255, 255, 255, 1) !important;
-    }
+    cursor: pointer;
 }
 
-.affiliate__btn_blue:hover {
-    position: relative;
-}
 
-.affiliate__btn_blue:hover {
-    background-color: rgba(53, 83, 107, 1) !important;
-    color: rgba(255, 255, 255, 1) !important;
-}
 
 .storehouse__btn_white {
     width: 260px;
@@ -50,6 +38,7 @@
     font-size: 16px;
     color: rgba(53, 83, 107, 1);
     background-color: transparent;
+    cursor: pointer;
 }
 
 .storehouse__btn_blue {
@@ -61,18 +50,6 @@
     font-weight: 600;
     font-size: 16px;
     background-color: rgba(53, 83, 107, 1);
-
-    span {
-        color: rgba(255, 255, 255, 1)
-    }
-
-    span {
-        background-color: rgba(53, 83, 107, 1) !important;
-        color: rgba(255, 255, 255, 1) !important;
-    }
-}
-
-.storehouse__btn_blue:hover {
-    background-color: rgba(53, 83, 107, 1) !important;
-    color: rgba(255, 255, 255, 1) !important;
+    color: rgba(255, 255, 255, 1);
+    cursor: pointer;
 }

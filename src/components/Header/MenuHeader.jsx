@@ -10,7 +10,6 @@ import styles from "./header.module.scss";
 
 const MenuHeader = () => {
   const dispatch = useDispatch();
-  // const [searchTerm, setSearchTerm] = useState('');
   const searchTerm = useSelector((state) => state.items.searchTerm);
   const items = useSelector(state => state.items.items)
   const handleEditModalOpen = () => {
@@ -24,10 +23,10 @@ const MenuHeader = () => {
   const handleSearch = (e) => {
     const term = e.target.value;
     dispatch(setSearchTerm(term));
-    // console.log(searchTerm)
     const results = items.filter(item => item.name.toLowerCase().includes(term.toLowerCase()))
     dispatch(setFindedItem(results))
   };
+  
   return (
     <Layout.Header className={styles.header}>
       <h2>Меню</h2>

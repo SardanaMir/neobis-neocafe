@@ -1,81 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../../redux/slices/modalSlice";
 import { useFormik } from "formik";
-import { createNewStaff, getBranches } from "../../../api";
+import { changeStaffInfo, getAllStaff } from "../../../api";
 import images from "../../../assets/images";
 import styles from "./style.module.scss";
+import { setStaffInfo } from "../../../redux/slices/staffSlice";
 
-const AddNewEmployee = () => {
+const EditEmployeeInfo = (props) => {
+  const staffData = useSelector((state) => state.staff.staff);
+  const staff = staffData.find((staff) => staff.id === props.id);
+  const [selectedRole, setSelectedRole] = useState(staff.position);
   const ROLE = [
     { value: "Официант", label: "Официант" },
     { value: "Бармен", label: "Бармен" },
   ];
   const weekday = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
   ];
-  const [workSchedule, setWorkSchedule] = useState({});
+  const [workSchedule, setWorkSchedule] = useState(staff.schedule);
   const dispatch = useDispatch();
-  const [selectedRole, setSelectedRole] = useState("");
-  const branches = useSelector(state => state.branches.data_branches.data)
-  const BRANCH = branches.map(item => ({
+  const branches = useSelector((state) => state.branches.data_branches.data);
+  const BRANCH = branches.map((item) => ({
     value: item.name,
-    label: item.name
+    label: item.name,
   }));
-  function transformData(data) {
-    let schedule = {title:'neocafe',};
-    const daysOfWeek = [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ];
-    daysOfWeek.forEach((day) => {
-      schedule[day] = false;
-      schedule[`${day}_start_time`] = null;
-      schedule[`${day}_end_time`] = null;
-    });
-
-    data.forEach((dayInfo, index) => {
-      const day = Object.keys(dayInfo)[0];
-      schedule[day.toLowerCase()] = true;
-      schedule[`${day.toLowerCase()}_start_time`] = dayInfo[day][0].start;
-      schedule[`${day.toLowerCase()}_end_time`] = dayInfo[day][1].end;
-    });
-
-    return schedule;
-  }
-
+  const currentBranch = branches.filter((branch) => branch.id === staff.branch);
   const onSubmit = async (e) => {
-    const response = await getBranches();
-    const finalWorkSchedule = weekday.reduce((acc, day) => {
-      if (workSchedule[day]) {
-        acc.push({
-          [day]: [
-            { start: workSchedule[day].start || "09:00" },
-            { end: workSchedule[day].end || "18:00" },
-          ],
-        });
-      }
-      return acc;
-    }, []);
-
-    const changeDataStructure = transformData(finalWorkSchedule);
-    values.schedule = changeDataStructure;
-    const branchID = branches.filter(branch => branch.name === values.branch)
-    values.branch = branchID[0].id
+    values.schedule = workSchedule;
+    if (typeof values.branch === 'string'){
+      const branchID = branches.filter((branch) => branch.name === values.branch);
+      values.branch = branchID[0].id;
+    }
     try {
-      const res = await createNewStaff(values);
+      await changeStaffInfo(props.id, values);
+      const staffData = await getAllStaff();
+      dispatch(setStaffInfo(staffData.data))
       dispatch(closeModal());
     } catch (err) {
       console.log(err);
@@ -92,48 +59,45 @@ const AddNewEmployee = () => {
     handleChange,
   } = useFormik({
     initialValues: {
-      username: "",
-      password: "",
-      email: "",
-      first_name: "",
-      position: "",
-      birth_date: "",
-      branch: null,
-      schedule: {title:'neocafe',},
+      username: staff.username,
+      password: staff.password,
+      email: staff.email,
+      first_name: staff.first_name,
+      position: staff.position,
+      birth_date: staff.birth_date,
+      branch: staff.branch,
+      schedule: staff.schedule,
     },
     // validationSchema: basicSchema,
     onSubmit: onSubmit,
   });
 
   const handleSelectRole = (selectedRole) => {
-    console.log(selectedRole);
     values.position = selectedRole.value;
     setSelectedRole(selectedRole.value);
   };
   const handleSelectBranch = (selectedBranch) => {
-    console.log(selectedBranch);
     values.branch = selectedBranch.value;
   };
   const handleClose = () => {
     dispatch(closeModal());
   };
-  const handleCheckboxChange = (index, e) => {
+  const handleCheckboxChange = (day) => {
     setWorkSchedule((prevState) => ({
       ...prevState,
-      [index]: !prevState[index],
+      [day]: !prevState[day],
+      [`${day}_start_time`]: prevState[day] ? "" : "",
+      [`${day}_end_time`]: prevState[day] ? "" : "",
     }));
   };
 
   const handleTimeChange = (day, field, value) => {
     setWorkSchedule((prevState) => ({
       ...prevState,
-      [day]: {
-        ...prevState[day],
-        [field]: value,
-      },
+      [day]: true,
+      [`${day}_${field}`]: value,
     }));
   };
-
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
@@ -148,10 +112,10 @@ const AddNewEmployee = () => {
           <form onSubmit={handleSubmit}>
             <p>Должность</p>
             <Select
-              defaultValue={""}
+              defaultValue={selectedRole}
               onChange={(selectedOption) => handleSelectRole(selectedOption)}
               options={ROLE}
-              placeholder={"Выберите должность"}
+              placeholder={selectedRole}
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,
@@ -248,7 +212,7 @@ const AddNewEmployee = () => {
               defaultValue={""}
               onChange={(selectedOption) => handleSelectBranch(selectedOption)}
               options={BRANCH}
-              placeholder={"Выберите филиал"}
+              placeholder={currentBranch[0].name}
               styles={{
                 control: (baseStyles, state) => ({
                   ...baseStyles,
@@ -301,8 +265,8 @@ const AddNewEmployee = () => {
                   <input
                     className={styles.checkbox}
                     type="checkbox"
-                    checked={workSchedule[index]}
-                    onChange={() => handleCheckboxChange(index)}
+                    checked={workSchedule[day]}
+                    onChange={() => handleCheckboxChange(day)}
                   />
                   <div className={styles.timeWrapper}>
                     <input
@@ -311,10 +275,9 @@ const AddNewEmployee = () => {
                       step="900"
                       min="09:00"
                       max="22:00"
-                      defaultValue="11:00"
-                      value={workSchedule[day]?.start || ""}
+                      value={workSchedule[`${day}_start_time`] || ""}
                       onChange={(e) =>
-                        handleTimeChange(day, "start", e.target.value)
+                        handleTimeChange(day, "start_time", e.target.value)
                       }
                     ></input>
                     <span>-</span>
@@ -324,10 +287,9 @@ const AddNewEmployee = () => {
                       step="900"
                       min="09:00"
                       max="22:00"
-                      defaultValue="20:00"
-                      value={workSchedule[day]?.end || ""}
+                      value={workSchedule[`${day}_end_time`] || ""}
                       onChange={(e) =>
-                        handleTimeChange(day, "end", e.target.value)
+                        handleTimeChange(day, "end_time", e.target.value)
                       }
                     ></input>
                   </div>
@@ -357,4 +319,4 @@ const AddNewEmployee = () => {
   );
 };
 
-export default AddNewEmployee;
+export default EditEmployeeInfo;

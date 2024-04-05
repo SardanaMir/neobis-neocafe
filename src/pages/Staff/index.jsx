@@ -23,10 +23,11 @@ const Staff = () => {
   const branches = useSelector((state) => state.branches.data_branches.data);
   const staffData = data.map((obj) => {
     const branch = branches.find((branch) => branch.id === obj.branch);
-    return  { ...obj, branchName: branch ? branch.name : "Филиал не найден" };
+    return { ...obj, branchName: branch ? branch.name : "Филиал не найден" };
   });
 
   const tableHead = [
+    "№",
     "Имя",
     "Должность",
     "Логин",
@@ -98,7 +99,10 @@ const Staff = () => {
                 className={
                   name === "Выберите филиал" || name === "Филиал"
                     ? styles.flex
+                    : name === "№"
+                    ? styles.numbering
                     : null
+                    
                 }
                 onClick={
                   name === "Выберите филиал" ? handleCategoryClick : null
@@ -119,6 +123,7 @@ const Staff = () => {
           <div className={styles.menuWrapper}>
             {staffData.map((staff, index) => (
               <div className={styles.itemWrapper} key={staff.id}>
+                <p className={styles.numbering}>№{index + 1}</p>
                 <p>{staff.first_name}</p>
                 <p>{staff.position}</p>
                 <p>{staff.username}</p>

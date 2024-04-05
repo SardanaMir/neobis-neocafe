@@ -55,13 +55,13 @@ const AddAffiliateModal = () => {
   const startsWithTwo = schedule.friday_start_time[0] === '2'
 
 
-//   const mask = [
-//     /[0-2]/,
-//     startsWithTwo ? /[0-3]/ : /[0-9]/,
-//     ':',
-//     /[0-5]/,
-//     /[0-9]/
-//   ]
+  const mask = [
+    /[0-2]/,
+    startsWithTwo ? /[0-3]/ : /[0-9]/,
+    ':',
+    /[0-5]/,
+    /[0-9]/
+  ]
 
 
   const handleCloseModal = () => {

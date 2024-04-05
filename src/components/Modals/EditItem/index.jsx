@@ -92,9 +92,6 @@ const EditItem = (props) => {
   });
   const [selectedCategory, setSelectedCategory] = useState(item.category);
   const [selectedMealType, setSelectedMealType] = useState(item.mealType);
-  const [selectedIngredients, setSelectedIngredients] = useState(
-    item.ingredients
-  );
   const currentCategory = categories.find(category => category.id === item.category)
 
   const handleClose = () => {
@@ -120,37 +117,12 @@ const EditItem = (props) => {
     }
     return formData;
   };
-  // const handleImageChange = (e) => {
-  //   const files = e.target.files[0];
-  //   handleChange({ target: { id: "image", value: files } });
-  //   setImage(files);
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     if (reader.readyState === 2) {
-  //       setPreview(reader.result);
-  //     }
-  //   };
-  //   if (files) {
-  //     reader.readAsDataURL(files);
-  //   }
-  // };
-  // const handleDragOver = (e) => {
-  //   e.preventDefault();
-  // };
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   const file = e.dataTransfer.items[0].getAsFile();
-  //   if (file) {
-  //     handleImageChange({ target: { files: [file] } });
-  //     const imageUrl = URL.createObjectURL(file);
-  //     setPreview(imageUrl);
-  //   }
-  // };
+
   const handleImageChange = (e) => {
-    const file = e.target.files[0]; // Получаем выбранный файл
-    const imageUrl = URL.createObjectURL(file); // Создаем URL для предпросмотра
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
     setPreview(imageUrl); // Обновляем предпросмотр
-    handleChange({ target: { id: "image", value: file } }); // Обновляем значение изображения в форме
+    handleChange({ target: { id: "image", value: file } });
   };
 
   const handleDragOver = (e) => {
@@ -162,8 +134,8 @@ const EditItem = (props) => {
     const file = e.dataTransfer.items[0].getAsFile();
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setPreview(imageUrl); // Установка нового предпросмотра
-      handleChange({ target: { id: "image", value: file } }); // Обновление значения изображения в форме
+      setPreview(imageUrl);
+      handleChange({ target: { id: "image", value: file } });
     }
   };
 
@@ -216,8 +188,6 @@ const EditItem = (props) => {
     }
   };
   const handleSelectCategory = (selectedOption) => {
-    // console.log("category", selectedOption);
-    // values.category = selectedOption.value;
     setSelectedCategory(selectedOption.value);
     values.category = selectedOption.value;
   };
@@ -229,7 +199,6 @@ const EditItem = (props) => {
     setFieldValue("price", data.price);
     setFieldValue("ingredients", data.ingredients);
     setFieldValue("mealType", data.mealType);
-    // Добавьте заполнение других полей, если необходимо
   };
 
   useEffect(() => {

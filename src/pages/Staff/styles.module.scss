@@ -1,8 +1,11 @@
 .root{
     width: 100%;
     max-width: 1171px;
-    background: rgb(235, 239, 242);
     height: 100%;
+    .menuWrapper{
+        height: 50vh;
+        overflow-y: auto;
+    }
     p{
         color: rgb(42, 52, 64);
         font-size: 15px;
@@ -10,12 +13,18 @@
         line-height: 120%;
         text-align: center;
     }
+    .numbering{
+        color: rgb(91, 126, 154);
+        font-size: 16px;
+        font-weight: 600;
+        margin-left: 32px;
+    }
 }
 .theader{
-    width: 1171px;
-    height: 88px;
+    width: 100%;
+    height: 70px;
     display: grid;
-    grid-template-columns: repeat(7, 1fr) 50px;
+    grid-template-columns: 55px repeat(6, 1fr) 50px;
     align-items: center;
     justify-items: center;
     box-sizing: border-box;
@@ -36,7 +45,8 @@
     border-bottom: 1px solid rgb(235, 239, 242);
     background: white;
     display: grid;
-    grid-template-columns: repeat(7, 1fr) 50px;
+    grid-template-columns: 55px repeat(6, 1fr) 50px;
+    grid-template-rows: 1fr;
     align-items: center;
     justify-items: center;
 }

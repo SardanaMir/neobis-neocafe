@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Pagination, Space, Table, Tag } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux'
-import { getBranches } from '../../redux/slices/branchesSlice';
-import { getProducts } from '../../redux/slices/storageSlice';
-import { openModal } from '../../redux/slices/modalSlice';
-import CategoriesPopUp from '../PopUp/CategoriesPopUp';
-import EditDeletePopUp from '../PopUp/EditDeletePopUp';
-import vertical from '../../assets/img/vertical.svg'
-import styles from './storehouse.module.scss'
-
-
+import React, { useEffect, useState } from "react";
+import { Pagination, Space, Table, Tag } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getBranches } from "../../redux/slices/branchesSlice";
+import { getProducts } from "../../redux/slices/storageSlice";
+import { openModal } from "../../redux/slices/modalSlice";
+import CategoriesPopUp from "../PopUp/CategoriesPopUp";
+import EditDeletePopUp from "../PopUp/EditDeletePopUp";
+import vertical from "../../assets/img/vertical.svg";
+import styles from "./storehouse.module.scss";
 
 const RawMaterials = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
-  const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);  
+  const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [id, setId] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -40,17 +38,16 @@ const RawMaterials = () => {
     setActionsPopUpOpen(false);
   };
 
-  
   const handleActionClick = (e, id) => {
-    setId(id)
+    setId(id);
     setPopupPosition({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 
   useEffect(() => {
-    dispatch(getBranches())
+    dispatch(getBranches());
   }, []);
-  
+
   const handleDeleteModalOpen = () => {
     dispatch(
       openModal({
@@ -64,17 +61,17 @@ const RawMaterials = () => {
       })
     );
   };
-    
+
   const handleEditModalOpen = () => {
     dispatch(
       openModal({
         modalType: "editStorhouseProduct",
         modalProps: {
-          id: id
+          id: id,
         },
       })
-      );
-      setActionsPopUpOpen(false);
+    );
+    setActionsPopUpOpen(false);
   };
 
   const handleOpenModal = () => {
@@ -87,7 +84,7 @@ const RawMaterials = () => {
   };
 
   useEffect(() => {
-    dispatch(getProducts())
+    dispatch(getProducts());
   }, []);
 
   const handlePageChange = (page) => {
@@ -104,7 +101,9 @@ const RawMaterials = () => {
       <table className={styles.table}>
         <thead>
           <tr className={styles.first_tr}>
-            <th><span>№</span>Наименование</th>
+            <th>
+              <span>№</span>Наименование
+            </th>
             <th>Количество</th>
             <th>Лимит</th>
             <th>Дата прихода</th>
@@ -158,7 +157,7 @@ const RawMaterials = () => {
         />
       )}
     </div>
-  )
+  );
 };
 
 export default RawMaterials;

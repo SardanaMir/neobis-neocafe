@@ -5,14 +5,17 @@ import {
   deleteCategory,
   deleteItem,
   getAllCategories,
+  getAllStaff,
   getMenu,
+  deleteStaffInfo,
 } from "../../../api";
 import { components } from "../../Buttons";
-import styles from "./style.module.scss";
 import { removeCategory } from "../../../redux/slices/categoriesSlice";
 import { setItems } from "../../../redux/slices/itemsSlice";
 import { deleteProduct, getProducts } from "../../../redux/slices/storageSlice";
 import { deleteBranch, getBranches } from "../../../redux/slices/branchesSlice";
+import { setStaffInfo } from "../../../redux/slices/staffSlice";
+import styles from "./style.module.scss";
 
 const DeleteCategory = (props) => {
   const dispatch = useDispatch();
@@ -65,11 +68,24 @@ const DeleteCategory = (props) => {
     dispatch(deleteBranch({ id, handleCloseModal, getLastUpdateBranches }))
   }
 
+  const handleDeleteStaffInfo = async () =>{
+    const id = props.id
+    try {
+      await deleteStaffInfo(id)
+      const staffData = await getAllStaff()
+      dispatch(setStaffInfo(staffData.data))
+      dispatch(closeModal());
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   const actions = {
     deleteCategory: handleDeleteCategory,
     deleteItem: removeItem,
     deleteProductInStorhouse: deleteProductInStorhouse,
-    handleDeleteBranch: handleDeleteBranch,
+    deleteBranch: handleDeleteBranch,
+    deleteStaff: handleDeleteStaffInfo
   };
 
   const handleClick = actions[props.action];

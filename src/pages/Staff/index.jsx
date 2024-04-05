@@ -25,7 +25,8 @@ const Staff = () => {
     const branch = branches.find((branch) => branch.id === obj.branch);
     return { ...obj, branchName: branch ? branch.name : "Филиал не найден" };
   });
-
+  const searchTerm = useSelector((state) => state.staff.searchTerm);
+  const findedStaff = useSelector((state) => state.staff.findedStaff);
   const tableHead = [
     "№",
     "Имя",
@@ -102,7 +103,6 @@ const Staff = () => {
                     : name === "№"
                     ? styles.numbering
                     : null
-                    
                 }
                 onClick={
                   name === "Выберите филиал" ? handleCategoryClick : null
@@ -120,25 +120,45 @@ const Staff = () => {
             ))}
           </header>
           {/* тело таблицы */}
-          <div className={styles.menuWrapper}>
-            {staffData.map((staff, index) => (
-              <div className={styles.itemWrapper} key={staff.id}>
-                <p className={styles.numbering}>№{index + 1}</p>
-                <p>{staff.first_name}</p>
-                <p>{staff.position}</p>
-                <p>{staff.username}</p>
-                <p>{staff.password}</p>
-                <p>{staff.branchName}</p>
-                <p>Пн, Вт, Ср, Чт</p>
-                <img
-                  className={styles.actionImg}
-                  onClick={(e) => handleClick(staff.id, e)}
-                  src={images.action}
-                  alt="действия"
-                />
-              </div>
-            ))}
-          </div>
+
+          <>
+            {searchTerm
+              ? findedStaff.map((staff, index) => (
+                  <div className={styles.itemWrapper} key={staff.id}>
+                    <p className={styles.numbering}>№{index + 1}</p>
+                    <p>{staff.first_name}</p>
+                    <p>{staff.position}</p>
+                    <p>{staff.username}</p>
+                    <p>{staff.password}</p>
+                    <p>{staff.branchName}</p>
+                    <p>Пн, Вт, Ср, Чт</p>
+                    <img
+                      className={styles.actionImg}
+                      onClick={(e) => handleClick(staff.id, e)}
+                      src={images.action}
+                      alt="действия"
+                    />
+                  </div>
+                ))
+              : staffData.map((staff, index) => (
+                  <div className={styles.itemWrapper} key={staff.id}>
+                    <p className={styles.numbering}>№{index + 1}</p>
+                    <p>{staff.first_name}</p>
+                    <p>{staff.position}</p>
+                    <p>{staff.username}</p>
+                    <p>{staff.password}</p>
+                    <p>{staff.branchName}</p>
+                    <p>Пн, Вт, Ср, Чт</p>
+                    <img
+                      className={styles.actionImg}
+                      onClick={(e) => handleClick(staff.id, e)}
+                      src={images.action}
+                      alt="действия"
+                    />
+                  </div>
+                ))}
+          </>
+
           {/* пагинация */}
           <div className={styles.pagination}>
             <Pagination

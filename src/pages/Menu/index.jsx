@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import images from "../../assets/images.js";
 import { Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,6 @@ import {
   setStock,
 } from "../../redux/slices/categoriesSlice.js";
 import { setItems } from "../../redux/slices/itemsSlice.js";
-
 
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
@@ -43,7 +42,7 @@ const Menu = () => {
   // Заменяем id категории на название категории
   const updatedItems = items.map((item) => ({
     ...item,
-    category: categoryMap[item.category], // Замена id на название категории
+    category: categoryMap[item.category],
     currency: "сом",
   }));
 
@@ -88,7 +87,6 @@ const Menu = () => {
   };
   const handleActionClick = (e) => {
     setPopupPosition({ x: e.clientX, y: e.clientY });
-    // console.log({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
 

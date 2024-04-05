@@ -10,7 +10,6 @@ import styles from "./header.module.scss";
 
 const MenuHeader = () => {
   const dispatch = useDispatch();
-  // const [searchTerm, setSearchTerm] = useState('');
   const searchTerm = useSelector((state) => state.items.searchTerm);
   const items = useSelector(state => state.items.items)
   const handleEditModalOpen = () => {

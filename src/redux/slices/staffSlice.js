@@ -1,18 +1,27 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    staff: [],
-}
+  staff: [],
+  findedStaff: [],
+  searchTerm: "",
+};
 
 const staffSlice = createSlice({
-    name: 'staff',
-    initialState,
-    reducers: {
-        setStaffInfo(state, action){
-            state.staff = action.payload
-        },
+  name: "staff",
+  initialState,
+  reducers: {
+    setStaffInfo(state, action) {
+      state.staff = action.payload;
     },
+    setFindedStaff(state, action) {
+      state.findedStaff = action.payload;
+    },
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+    },
+  },
 });
 
-export const {setStaffInfo} = staffSlice.actions;
+export const { setStaffInfo, setFindedStaff, setSearchTerm } =
+  staffSlice.actions;
 export default staffSlice.reducer;

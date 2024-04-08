@@ -117,8 +117,8 @@ const EditStorhouseProduct = ({ id }) => {
             <div className={styles.add__product_date}>
               <span className={styles.data_span}>Дата прихода</span>
               <InputMask
-                mask='9999-99-99'
-                placeholder='YYYY-MM-DD'
+                mask='99.99.9999'
+                placeholder='MM.DD.YYYY'
                 value={arrival_date}
                 onChange={(e) => setArrivalDate(e.target.value)}
               >

@@ -10,6 +10,7 @@ import DropDown from '../DropDown';
 import DropdownStoreHouse from '../Dropdown/Dropdown';
 import { getBranches } from '../../redux/slices/branchesSlice'; 
 import styles from './affiliate.module.scss'
+import NotificationComponent from '../Notification/NotificationComponent'
 
 
 const Affiliate = () => {
@@ -139,6 +140,7 @@ const Affiliate = () => {
             handleDeleteModalOpen={handleDeleteModalOpen}
           />
         )}
+        <NotificationComponent />
       </div>
     )
 };

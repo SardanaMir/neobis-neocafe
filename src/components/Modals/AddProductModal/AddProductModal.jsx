@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { CloseOutlined } from '@ant-design/icons'
+import { useEffect, useState } from 'react'
 import InputMask from 'react-input-mask'
+import { useDispatch, useSelector } from 'react-redux'
 import Select from 'react-select'
+import { getBranches } from '../../../redux/slices/branchesSlice'
 import { closeModal } from '../../../redux/slices/modalSlice'
+import { getProducts, setProudct } from '../../../redux/slices/storageSlice'
+import styles from '../../../styles/add_product.modal.module.scss'
 import {
 	StorehouseModalPrimaryButton,
 	StorehouseModalWhiteButton,
 } from '../../Buttons/Buttons'
-import DropdownStoreHouse from '../../Dropdown/Dropdown'
 import DropDownCount from '../../DropDown/DropDownCount'
-import { getProducts, setProudct } from '../../../redux/slices/storageSlice'
 import DropDownLimit from '../../DropDown/DropDownLimit'
-import { getBranches } from '../../../redux/slices/branchesSlice'
-import styles from '../../../styles/add_product.modal.module.scss'
+import DropdownStoreHouse from '../../Dropdown/Dropdown'
 
 const AddProductModal = () => {
 	const { data } = useSelector(state => state.branches.data_branches)
@@ -126,8 +126,8 @@ const AddProductModal = () => {
 					<div className={styles.add__product_date}>
 						<span className={styles.data_span}>Дата прихода</span>
 						<InputMask
-							mask='99-99-9999'
-							placeholder='MM-DD-YYYY'
+							mask='99.99.9999'
+							placeholder='MM.DD.YYYY'
 							value={arrival_date}
 							onChange={e => setArrivalDate(e.target.value)}
 						></InputMask>

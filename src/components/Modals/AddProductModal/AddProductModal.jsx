@@ -6,14 +6,14 @@ import Select from 'react-select'
 import { getBranches } from '../../../redux/slices/branchesSlice'
 import { closeModal } from '../../../redux/slices/modalSlice'
 import { getProducts, setProudct } from '../../../redux/slices/storageSlice'
-import styles from '../../../styles/add_product.modal.module.scss'
+import styles from '../../../styles/add_product_modal.module.scss'
 import {
 	StorehouseModalPrimaryButton,
 	StorehouseModalWhiteButton,
 } from '../../Buttons/Buttons'
 import DropDownCount from '../../DropDown/DropDownCount'
 import DropDownLimit from '../../DropDown/DropDownLimit'
-import DropdownStoreHouse from '../../Dropdown/Dropdown'
+import DropdownStoreHouse from '../../DropDown/Dropdown'
 
 const AddProductModal = () => {
 	const { data } = useSelector(state => state.branches.data_branches)

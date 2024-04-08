@@ -10,6 +10,7 @@ import AddAffiliateModal from "./AddAffiliateModal/AddAffiliateModal";
 import AddProductModal from "./AddProductModal/AddProductModal";
 import EditAffiliateModal from "./EditAffiliateModal/EditAffiliateModal";
 import EditStorhouseProduct from "./EditStorhouseProduct/EditStorhouseProduct";
+import EditEmployeeInfo from "./EditEmbloyeeInfo";
 
 const Modals = () => {
   const { isOpen, modalType, modalProps } = useSelector((state) => state.modal);
@@ -26,6 +27,7 @@ const Modals = () => {
     addProductModal: AddProductModal,
     editAffiliateModal: EditAffiliateModal,
     editStorhouseProduct: EditStorhouseProduct,
+    editEmployeeInfo : EditEmployeeInfo,
   };
   const CurrentModal = modalType ? ModalsMap[modalType] : null;
 

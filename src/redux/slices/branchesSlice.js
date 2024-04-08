@@ -15,7 +15,7 @@ export const getBranches = createAsyncThunk('branches/getBranches', async () => 
         const response = await axios.get(`${API}/branches/`)
         return response
     } catch (error) {
-        console.log(error);
+        toast.error(error.message)
     }
 })
 
@@ -24,7 +24,7 @@ export const getBranchById = createAsyncThunk('branches/getBranchById', async (i
         const response = await axios.get(`${API}/branches/${id}/`)
         return response
     } catch (error) {
-        console.log(error);
+        toast.error(error.message)
     }
 })
 

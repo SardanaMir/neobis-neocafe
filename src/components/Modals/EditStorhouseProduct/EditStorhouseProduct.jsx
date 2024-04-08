@@ -5,13 +5,13 @@ import InputMask from 'react-input-mask';
 import Select from 'react-select'
 import { closeModal } from '../../../redux/slices/modalSlice';
 import { StorehouseModalPrimaryButton, StorehouseModalWhiteButton } from "../../Buttons/Buttons";
-import DropdownStoreHouse from '../../Dropdown/Dropdown';
+import DropdownStoreHouse from '../../DropDown/Dropdown';
 import DropDownCount from '../../DropDown/DropDownCount';
 import { getProducts, setProudct, editProudct } from '../../../redux/slices/storageSlice';
 import DropDownLimit from '../../DropDown/DropDownLimit';
 import { getOneProductById } from '../../../redux/slices/storageSlice'
 import { getBranches, setBranchesProduct } from '../../../redux/slices/branchesSlice';
-import styles from '../../../styles/add_product.modal.module.scss'
+import styles from '../../../styles/add_product_modal.module.scss'
 
 
 const EditStorhouseProduct = ({ id }) => {  

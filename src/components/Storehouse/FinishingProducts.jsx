@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Pagination, Space, Table, Tag } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux'
-import { getBranches } from '../../redux/slices/branchesSlice';
-import { getProducts } from '../../redux/slices/storageSlice';
-import { openModal } from '../../redux/slices/modalSlice';
-import CategoriesPopUp from '../PopUp/CategoriesPopUp';
-import EditDeletePopUp from '../PopUp/EditDeletePopUp';
-import vertical from '../../assets/img/vertical.svg'
-import styles from './storehouse.module.scss'
-
-
+import React, { useEffect, useState } from "react";
+import { Pagination, Space, Table, Tag } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getBranches } from "../../redux/slices/branchesSlice";
+import { getProducts } from "../../redux/slices/storageSlice";
+import { openModal } from "../../redux/slices/modalSlice";
+import CategoriesPopUp from "../PopUp/CategoriesPopUp";
+import EditDeletePopUp from "../PopUp/EditDeletePopUp";
+import vertical from "../../assets/img/vertical.svg";
+import styles from "./storehouse.module.scss";
 
 const FinishingProducts = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
@@ -38,17 +36,16 @@ const FinishingProducts = () => {
     setActionsPopUpOpen(false);
   };
 
-
   const handleActionClick = (e, id) => {
-    setId(id)
+    setId(id);
     setPopupPosition({ x: e.clientX, y: e.clientY });
     setActionsPopUpOpen(!isActionsPopUpOpen);
   };
-  
+
   useEffect(() => {
-    dispatch(getBranches())
+    dispatch(getBranches());
   }, []);
-  
+
   const handleDeleteModalOpen = () => {
     dispatch(
       openModal({
@@ -60,16 +57,15 @@ const FinishingProducts = () => {
           id: id,
         },
       })
-      );
-    };
-    
-    
+    );
+  };
+
   const handleEditModalOpen = () => {
     dispatch(
       openModal({
         modalType: "editStorhouseProduct",
         modalProps: {
-          id: id
+          id: id,
         },
       })
       );
@@ -104,7 +100,9 @@ const FinishingProducts = () => {
       <table className={styles.table}>
         <thead>
           <tr className={styles.first_tr}>
-            <th><span>№</span>Наименование</th>
+            <th>
+              <span>№</span>Наименование
+            </th>
             <th>Количество</th>
             <th>Лимит</th>
             <th>Дата прихода</th>
@@ -158,7 +156,7 @@ const FinishingProducts = () => {
         />
       )}
     </div>
-  )
+  );
 };
 
 export default FinishingProducts;

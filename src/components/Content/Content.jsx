@@ -1,12 +1,10 @@
 import { Route, Routes, Navigate  } from 'react-router-dom'
 import { Layout } from 'antd'
-import StoreHouse from '../../components/Storehouse/Storehouse'
 import styles from './content.module.scss'
 import Menu from '../../pages/Menu'
 import Staff from '../../pages/Staff'
 import Storehouse from '../../components/Storehouse/Storehouse'
 import Affiliate from '../../components/Affiliate/Affiliate'
-import DropdownStoreHouse from '../Dropdown/Dropdown'
 
 
 const Content = () => {

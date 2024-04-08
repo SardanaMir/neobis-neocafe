@@ -11,94 +11,71 @@ import { deleteAuthTokenFromCookie } from "../../utils";
 import styles from "./sider.module.scss";
 
 const Sider = () => {
-  const location = useLocation()
-  const dispatch = useDispatch()
-  const handleLogout = () =>{
-    deleteAuthTokenFromCookie()
-    dispatch(setUser(false))
-  }
-  return <Layout.Sider width={221} className={styles.sider}>
-    <img src={necafe} alt="neocafe" className={styles.necafe} />
-    <div className={styles.list_menu}>
-        <NavLink 
-          to="/menu" 
-          className={({ isActive, isPending, isTransitioning }) =>
-          [
-            styles.links,
-            isActive ? styles.active : styles.links,
-          ].join(" ")
-        }
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    deleteAuthTokenFromCookie();
+    dispatch(setUser(false));
+  };
+  return (
+    <Layout.Sider width={221} className={styles.sider}>
+      <img src={necafe} alt="neocafe" className={styles.necafe} />
+      <div className={styles.flex}>
+        <div className={styles.list_menu}>
+          <NavLink
+            to="/menu"
+            className={({ isActive, isPending, isTransitioning }) =>
+              [styles.links, isActive ? styles.active : styles.links].join(" ")
+            }
+          >
+            <img src={menu} alt="Error :(" className={styles.sider_icon} />
+            Меню
+          </NavLink>
+          <NavLink
+            to="/storehouse"
+            className={({ isActive, isPending, isTransitioning }) =>
+              [styles.links, isActive ? styles.active : styles.links].join(" ")
+            }
+          >
+            <img src={archive} alt="Error :(" className={styles.sider_icon} />
+            Склад
+          </NavLink>
+          <NavLink
+            to="/affiliates"
+            className={({ isActive, isPending, isTransitioning }) =>
+              [styles.links, isActive ? styles.active : styles.links].join(" ")
+            }
+          >
+            <img src={branch} alt="Error :(" className={styles.sider_icon} />
+            Филиалы
+          </NavLink>
+          <NavLink
+            to="/staff"
+            className={({ isActive, isPending, isTransitioning }) =>
+              [styles.links, isActive ? styles.active : styles.links].join(" ")
+            }
+          >
+            <img src={group} alt="Error :(" className={styles.sider_icon} />
+            Сотрудники
+          </NavLink>
+        </div>
+        <NavLink
+          to="/login"
+          className={styles.links_exit}
+          // className={({ isActive, isPending, isTransitioning }) =>
+          //   [
+          //     styles.links_exit,
+          //     isActive ? styles.active : styles.links_exit,
+          //   ].join(" ")
+          // }
+          onClick={handleLogout}
         >
-          <img 
-            src={menu} alt="Error :(" 
-            className={styles.sider_icon}  
-          />
-          Меню
+          <img src={exit} alt="Error :(" />
+          Выйти
         </NavLink>
-        <NavLink 
-          to="/storehouse" 
-          className={({ isActive, isPending, isTransitioning }) =>
-          [
-            styles.links,
-            isActive ? styles.active : styles.links,
-          ].join(" ")
-        }
-        >
-          <img src={archive} 
-            alt="Error :(" 
-            className={styles.sider_icon} 
-          />
-          Склад
-        </NavLink>
-        <NavLink 
-          to="/affiliates" 
-          className={({ isActive, isPending, isTransitioning }) =>
-          [
-            styles.links,
-            isActive ? styles.active : styles.links,
-          ].join(" ")
-        }
-        >
-          <img src={branch} 
-            alt="Error :(" 
-            className={styles.sider_icon} 
-          />
-          Филиалы
-        </NavLink>
-        <NavLink 
-          to="/staff" 
-          className={({ isActive, isPending, isTransitioning }) =>
-          [
-            styles.links,
-            isActive ? styles.active : styles.links,
-          ].join(" ")
-        }
-        >
-          <img src={group} 
-            alt="Error :(" 
-            className={styles.sider_icon} 
-          />
-          Сотрудники
-        </NavLink>
-    </div>
-    <NavLink 
-      to="/login" 
-      className={styles.links_exit}
-      // className={({ isActive, isPending, isTransitioning }) =>
-      //   [
-      //     styles.links_exit,
-      //     isActive ? styles.active : styles.links_exit,
-      //   ].join(" ")
-      // } 
-      onClick={handleLogout}
-    >
-      <img 
-        src={exit} 
-        alt="Error :(" 
-      />
-      Выйти
-    </NavLink>
-  </Layout.Sider>
-}
+      </div>
+    </Layout.Sider>
+  );
+};
 
 export default Sider;

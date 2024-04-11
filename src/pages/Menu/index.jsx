@@ -13,6 +13,7 @@ import {
   setStock,
 } from "../../redux/slices/categoriesSlice.js";
 import { setItems } from "../../redux/slices/itemsSlice.js";
+import { getIdUser } from '../../redux/slices/userSlice.js'
 
 const onShowSizeChange = (current, pageSize) => {
   console.log(current, pageSize);
@@ -64,6 +65,7 @@ const Menu = () => {
     };
     fetchData();
   }, []);
+  
 
   const handleOpenModal = async () => {
     dispatch(
@@ -120,6 +122,10 @@ const Menu = () => {
     );
     setActionsPopUpOpen(false);
   };
+
+  useEffect(() => {
+    dispatch(getIdUser())
+  }, []);
   return (
     <>
       <div className={styles.root}>

@@ -6,8 +6,8 @@ import { openModal } from "../../redux/slices/modalSlice";
 import vertical from "../../assets/img/vertical.svg";
 import CategoriesPopUp from "../PopUp/CategoriesPopUp";
 import EditDeletePopUp from "../PopUp/EditDeletePopUp";
-// import DropDown from "../DropDown";
-// import DropdownStoreHouse from "../Dropdown/Dropdown";
+import DropDown from "../DropDown";
+import DropdownStoreHouse from "../Dropdown/Dropdown";
 import { getBranches } from "../../redux/slices/branchesSlice";
 import styles from "./affiliate.module.scss";
 

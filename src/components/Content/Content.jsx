@@ -6,7 +6,7 @@ import Menu from '../../pages/Menu'
 import Staff from '../../pages/Staff'
 import Storehouse from '../../components/Storehouse/Storehouse'
 import Affiliate from '../../components/Affiliate/Affiliate'
-// import DropdownStoreHouse from '../DropDown/DropDownCount'
+import DropdownStoreHouse from '../DropDown/DropDownCount'
 
 
 const Content = () => {

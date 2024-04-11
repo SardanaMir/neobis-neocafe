@@ -283,9 +283,9 @@ const AddNewItem = () => {
                 background: "rgb(235, 239, 242)",
                 width: 530,
                 // height: 60,
-                boxShadow: state.isFocused
-                  ? "0px solid #ccc"
-                  : "0px solid #ccc",
+                // boxShadow: state.isFocused
+                //   ? "0px solid #ccc"
+                //   : "0px solid #ccc",
                 boxShadow: "none !import",
                 borderStyle: "none",
                 fontSize: 14,
@@ -357,9 +357,9 @@ const AddNewItem = () => {
                       background: "rgb(235, 239, 242)",
                       width: 250,
                       // height: 55,
-                      boxShadow: state.isFocused
-                        ? "0px solid #ccc"
-                        : "0px solid #ccc",
+                      // boxShadow: state.isFocused
+                      //   ? "0px solid #ccc"
+                      //   : "0px solid #ccc",
                       boxShadow: "none !import",
                       borderStyle: "none",
                       fontSize: 14,
@@ -446,9 +446,9 @@ const AddNewItem = () => {
                             background: "rgb(235, 239, 242)",
                             width: 235,
                             // height: 55,
-                            boxShadow: state.isFocused
-                              ? "0px solid #ccc"
-                              : "0px solid #ccc",
+                            // boxShadow: state.isFocused
+                            //   ? "0px solid #ccc"
+                            //   : "0px solid #ccc",
                             boxShadow: "none !import",
                             borderStyle: "none",
                             fontSize: 14,
@@ -517,9 +517,9 @@ const AddNewItem = () => {
                                 background: "rgb(235, 239, 242)",
                                 // width: 252,
                                 // height: 55,
-                                boxShadow: state.isFocused
-                                  ? "0px solid #ccc"
-                                  : "0px solid #ccc",
+                                // boxShadow: state.isFocused
+                                //   ? "0px solid #ccc"
+                                //   : "0px solid #ccc",
                                 boxShadow: "none !import",
                                 borderStyle: "none",
                                 fontSize: 14,

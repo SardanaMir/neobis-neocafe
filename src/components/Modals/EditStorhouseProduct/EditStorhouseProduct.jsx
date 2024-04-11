@@ -8,7 +8,7 @@ import {
   StorehouseModalPrimaryButton,
   StorehouseModalWhiteButton,
 } from "../../Buttons/Buttons";
-import DropdownStoreHouse from "../../Dropdown/Dropdown";
+// import DropdownStoreHouse from "../../Dropdown/Dropdown";
 import DropDownCount from "../../DropDown/DropDownCount";
 import {
   getProducts,
@@ -132,7 +132,7 @@ const EditStorhouseProduct = ({ id }) => {
           </div>
           <div className={styles.add__product_category}>
             <span className={styles.category__span}>Категория</span>
-            <DropdownStoreHouse category={category} setCategory={setCategory} />
+            {/* <DropdownStoreHouse category={category} setCategory={setCategory} /> */}
           </div>
           <div className={styles.add__product_count}>
             <span className={styles.limit_span}>Минимальный лимит</span>
@@ -171,9 +171,9 @@ const EditStorhouseProduct = ({ id }) => {
                   background: "rgb(235, 239, 242)",
                   width: 252,
                   height: 66,
-                  boxShadow: state.isFocused
-                    ? "0px solid #ccc"
-                    : "0px solid #ccc",
+                  // boxShadow: state.isFocused
+                  //   ? "0px solid #ccc"
+                  //   : "0px solid #ccc",
                   boxShadow: "none !import",
                   borderStyle: "none",
                   fontSize: 16,

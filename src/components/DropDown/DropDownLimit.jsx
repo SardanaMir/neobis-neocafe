@@ -5,7 +5,7 @@ import styles from "./dropdown.module.scss";
 
 const DropDownLimit = ({ limit_unit, setLimitUnit }) => {
     const [isActive, setIsActive] = useState(false)
-    const options  = ['мл', 'г', 'кг', 'шт', 'л']
+    const options  = ['мл', 'гр', 'кг', 'шт', 'л']
 
   return (
     <div className={styles.dropdown_count}>

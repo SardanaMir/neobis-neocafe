@@ -6,6 +6,7 @@ import storageReducer from "../slices/storageSlice";
 import branchesReducer from "../slices/branchesSlice";
 import itemsReducer from "../slices/itemsSlice";
 import staffReducer from "../slices/staffSlice";
+import notificationReducer from "../slices/notificationSlice";
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     branches: branchesReducer,
     items: itemsReducer,
     staff: staffReducer,
+    notification: notificationReducer
   },
 });

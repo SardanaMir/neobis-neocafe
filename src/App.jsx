@@ -14,6 +14,7 @@ import CodeVerification from './pages/CodeVerification';
 import LoginContainer from './pages/Login/LoginContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
+import NotificationComponent from './components/Notification/NotificationComponent'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/login' element={<LoginContainer />} />
         </Routes>
         <ToastContainer />
+        {/* <NotificationComponent /> */}
       </div>
   )
 }

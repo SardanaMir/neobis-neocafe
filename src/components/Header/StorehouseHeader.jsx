@@ -7,7 +7,7 @@ import bell from '../../assets/img/Bell.svg'
 import styles from './header.module.scss'
 import { searchByName } from '../../redux/slices/itemsSlice';
 
-const StorehouseHeader = () => {
+const StorehouseHeader = ({ handleOpenNotificationComponent }) => {
   const storhouse = useSelector((state) => state.items.storhouse);
   const dispatch = useDispatch()
 
@@ -37,7 +37,7 @@ const StorehouseHeader = () => {
               onChange={handleSearchByName}
             />
             <button onClick={handleOpenModal}>Создать <PlusOutlined className={styles.btn_plus} /></button>
-            <img src={bell} alt="Error" width={52} className={styles.header__icon} />
+            <img src={bell} alt="Error" width={52} className={styles.header__icon} onClick={handleOpenNotificationComponent}/>
         </div>
     </Layout.Header>
   )

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"; 
 import axios from "axios";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 
 const initialState = {
@@ -12,10 +13,15 @@ const API = 'https://helsinki-backender.org.kg'
 
 export const getBranches = createAsyncThunk('branches/getBranches', async () => {
     try {
-        const response = await axios.get(`${API}/branches/`)
+        const token = Cookies.get("accessToken");
+        const response = await axios.get(`${API}/branches/`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response
     } catch (error) {
-        console.log(error);
+        toast.error(error.message)
     }
 })
 
@@ -24,7 +30,7 @@ export const getBranchById = createAsyncThunk('branches/getBranchById', async (i
         const response = await axios.get(`${API}/branches/${id}/`)
         return response
     } catch (error) {
-        console.log(error);
+        toast.error(error.message)
     }
 })
 

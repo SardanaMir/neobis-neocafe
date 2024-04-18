@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Pagination, Space, Table, Tag } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../redux/slices/modalSlice";
-import vertical from "../../assets/img/vertical.svg";
-import CategoriesPopUp from "../PopUp/CategoriesPopUp";
-import EditDeletePopUp from "../PopUp/EditDeletePopUp";
-import DropDown from "../DropDown";
-import DropdownStoreHouse from "../Dropdown/Dropdown";
-import { getBranches } from "../../redux/slices/branchesSlice";
-import styles from "./affiliate.module.scss";
+import { Pagination } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import vertical from '../../assets/img/vertical.svg'
+import { getBranches } from '../../redux/slices/branchesSlice'
+import { openModal } from '../../redux/slices/modalSlice'
+import NotificationComponent from '../Notification/NotificationComponent'
+import CategoriesPopUp from '../PopUp/CategoriesPopUp'
+import EditDeletePopUp from '../PopUp/EditDeletePopUp'
+import styles from './affiliate.module.scss'
+import { getIdUser } from '../../redux/slices/userSlice'
+
 
 const Affiliate = () => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
@@ -88,7 +88,8 @@ const Affiliate = () => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
   
-    const currentPageData = results?.slice(startIndex, endIndex);  
+    const currentPageData = results?.slice(startIndex, endIndex);
+
   
     return (
       <div className={styles.container}>
@@ -138,6 +139,22 @@ const Affiliate = () => {
           onChange={handlePageChange}
           className={styles.affiliate_pagination}
         />
+        {isPopUpOpen && (
+          <CategoriesPopUp
+            setPopUpOpen={setPopUpOpen}
+            handleOpenModal={handleOpenModal}
+          />
+        )}
+        {isActionsPopUpOpen && (
+          <EditDeletePopUp
+            x={popupPosition.x}
+            y={popupPosition.y}
+            closePopUp={handlePopUpClose}
+            handleEditModalOpen={handleEditModalOpen}
+            handleDeleteModalOpen={handleDeleteModalOpen}
+          />
+        )}
+        <NotificationComponent />
       </div>
       {isPopUpOpen && (
         <CategoriesPopUp

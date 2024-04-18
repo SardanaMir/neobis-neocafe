@@ -1,8 +1,27 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { getCookie } from '../../utils/Cookie'
+import axios from 'axios'
 
 const initialState = {
     isAuth: false,
+    userId: null,
 }
+
+const accessToken = {
+    headers: {
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+  }
+
+  
+  export const getIdUser = createAsyncThunk('storage/getIdUser', async () => {
+    try {
+      const response = await axios.get(`https://helsinki-backender.org.kg/customers/my-id/`, accessToken);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 const userSlice = createSlice({
     name: 'user',
@@ -12,6 +31,12 @@ const userSlice = createSlice({
             state.isAuth = action.payload
         },
     },
+    extraReducers: (builder) => {
+        builder
+        .addCase(getIdUser.fulfilled, (state, action) => {
+            state.userId = action.payload
+        }) 
+    }
 });
 
 export const {setUser} = userSlice.actions;

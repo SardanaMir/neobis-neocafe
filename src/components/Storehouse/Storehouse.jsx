@@ -5,6 +5,7 @@ import FinishedProducts from "./FinishedProducts";
 import RawMaterials from "./RawMaterials";
 import FinishingProducts from "./FinishingProducts";
 import styles from "./storehouse.module.scss";
+import NotificationComponent from '../Notification/NotificationComponent'
 
 const Storehouse = () => {
   const [activeTab, setActiveTab] = useState(0);

@@ -8,7 +8,7 @@ import { setFindedItem, setSearchTerm } from "../../redux/slices/itemsSlice.js";
 import bell from "../../assets/img/Bell.svg";
 import styles from "./header.module.scss";
 
-const MenuHeader = () => {
+const MenuHeader = ({ handleOpenNotificationComponent }) => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.items.searchTerm);
   const items = useSelector(state => state.items.items)
@@ -46,6 +46,7 @@ const MenuHeader = () => {
           alt="Error"
           width={52}
           className={styles.header__icon}
+          onClick={handleOpenNotificationComponent}
         />
       </div>
     </Layout.Header>

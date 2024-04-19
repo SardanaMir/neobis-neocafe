@@ -142,6 +142,7 @@ const AddProductModal = () => {
 							styles={{
 								control: (baseStyles, state) => ({
 									...baseStyles,
+									position: 'absolute',
 									background: 'rgb(235, 239, 242)',
 									width: 252,
 									height: 66,
@@ -154,13 +155,13 @@ const AddProductModal = () => {
 									overflow: scroll,
 								}),
 								menu: provided => ({
-									width: 252,
-									height: 100,
-									maxHeight: 66,
-									borderStyle: 'none',
-									background: 'rgb(235, 239, 242)',
-									fontSize: 16,
-									overflow: scroll,
+									// width: 252,
+									// height: 100,
+									// maxHeight: 66,
+									// borderStyle: 'none',
+									// background: 'rgb(235, 239, 242)',
+									// fontSize: 16,
+									// overflow: scroll,
 								}),
 								option: provided => ({
 									position: 'absolute',
@@ -174,7 +175,6 @@ const AddProductModal = () => {
 									display: 'flex',
 									alignItems: 'center',
 									fontSize: 16,
-									overflow: scroll,
 								}),
 							}}
 							theme={theme => ({

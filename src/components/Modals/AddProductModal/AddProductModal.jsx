@@ -127,7 +127,7 @@ const AddProductModal = () => {
 						<span className={styles.data_span}>Дата прихода</span>
 						<InputMask
 							mask='99.99.9999'
-							placeholder='MM.DD.YYYY'
+							placeholder='DD.MM.YYYY'
 							value={arrival_date}
 							onChange={e => setArrivalDate(e.target.value)}
 						></InputMask>

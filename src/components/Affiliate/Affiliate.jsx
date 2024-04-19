@@ -154,7 +154,7 @@ const Affiliate = () => {
             handleDeleteModalOpen={handleDeleteModalOpen}
           />
         )}
-        <NotificationComponent />
+        {/* <NotificationComponent /> */}
       </div>
       {isPopUpOpen && (
         <CategoriesPopUp

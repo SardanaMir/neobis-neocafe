@@ -7,7 +7,7 @@ import bell from "../../assets/img/Bell.svg";
 import { openModal } from "../../redux/slices/modalSlice.js";
 import styles from "./header.module.scss";
 
-const StaffHeader = () => {
+const StaffHeader = ({ handleOpenNotificationComponent }) => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.staff.searchTerm);
   const staff = useSelector((state) => state.staff.staff);
@@ -45,6 +45,7 @@ const StaffHeader = () => {
           alt="Error"
           width={52}
           className={styles.header__icon}
+          onClick={handleOpenNotificationComponent}
         />
       </div>
     </Layout.Header>

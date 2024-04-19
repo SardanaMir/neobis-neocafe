@@ -1,178 +1,150 @@
-import { Pagination } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import vertical from '../../assets/img/vertical.svg'
 import { getBranches } from '../../redux/slices/branchesSlice'
 import { openModal } from '../../redux/slices/modalSlice'
-import NotificationComponent from '../Notification/NotificationComponent'
 import CategoriesPopUp from '../PopUp/CategoriesPopUp'
 import EditDeletePopUp from '../PopUp/EditDeletePopUp'
 import styles from './affiliate.module.scss'
-import { getIdUser } from '../../redux/slices/userSlice'
-
 
 const Affiliate = () => {
-  const [isPopUpOpen, setPopUpOpen] = useState(false);
-  const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const [id, setId] = useState(null)
-  const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 5
+	const [isPopUpOpen, setPopUpOpen] = useState(false)
+	const [isActionsPopUpOpen, setActionsPopUpOpen] = useState(false)
+	const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
+	const [id, setId] = useState(null)
+	const [currentPage, setCurrentPage] = useState(1)
+	const pageSize = 5
 
-  const { data } = useSelector(state => state.branches.data_branches)
-  const affiliate = useSelector(state => state.items.search)
-  const dispatch = useDispatch()
+	const { data } = useSelector(state => state.branches.data_branches)
+	const affiliate = useSelector(state => state.items.search)
+	const dispatch = useDispatch()
 
-  const results = data?.filter(branch => branch.name.toLowerCase().includes(affiliate.toLowerCase()))    
+	const results = data?.filter(branch =>
+		branch.name.toLowerCase().includes(affiliate.toLowerCase())
+	)
 
-  const handleCategoryClick = () => {
-    setPopUpOpen(!isPopUpOpen);
-  };
-  const handleActionClick = (e, id) => {
-    setId(id);
-    setPopupPosition({ x: e.clientX, y: e.clientY });
-    setActionsPopUpOpen(!isActionsPopUpOpen);
-  };
+	const handleCategoryClick = () => {
+		setPopUpOpen(!isPopUpOpen)
+	}
+	const handleActionClick = (e, id) => {
+		setId(id)
+		setPopupPosition({ x: e.clientX, y: e.clientY })
+		setActionsPopUpOpen(!isActionsPopUpOpen)
+	}
 
-  const handlePopUpClose = () => {
-    setActionsPopUpOpen(false);
-  };
+	const handlePopUpClose = () => {
+		setActionsPopUpOpen(false)
+	}
 
-  const handleOpenModal = () => {
-    dispatch(
-      openModal({
-        modalType: "addAffiliateModal",
-        modalProps: {},
-      })
-    );
-  };
+	const handleOpenModal = () => {
+		dispatch(
+			openModal({
+				modalType: 'addAffiliateModal',
+				modalProps: {},
+			})
+		)
+	}
 
-  const handleEditModalOpen = () => {
-    dispatch(
-      openModal({
-        modalType: "editAffiliateModal",
-        modalProps: {
-          id: id,
-        },
-      })
-    );
-    setActionsPopUpOpen(false);
-  };
+	const handleEditModalOpen = () => {
+		dispatch(
+			openModal({
+				modalType: 'editAffiliateModal',
+				modalProps: {
+					id: id,
+				},
+			})
+		)
+		setActionsPopUpOpen(false)
+	}
 
-  const handleDeleteModalOpen = () => {
-    dispatch(
-      openModal({
-        modalType: "deleteCategory",
-        modalProps: {
-          title: "Удаление продукта",
-          subtitle: `Вы действительно хотите удалить этот продукт?`,
-          action: "deleteBranch",
-          id: id,
-        },
-      })
-    );
-  };
+	const handleDeleteModalOpen = () => {
+		dispatch(
+			openModal({
+				modalType: 'deleteCategory',
+				modalProps: {
+					title: 'Удаление продукта',
+					subtitle: `Вы действительно хотите удалить этот продукт?`,
+					action: 'deleteBranch',
+					id: id,
+				},
+			})
+		)
+	}
 
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
-  };
+	const onShowSizeChange = (current, pageSize) => {
+		console.log(current, pageSize)
+	}
 
-    useEffect(() => {
-      dispatch(getBranches())
-    }, []);
+	useEffect(() => {
+		dispatch(getBranches())
+	}, [])
 
-    const handlePageChange = (page) => {
-      setCurrentPage(page);
-    };
-  
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-  
-    const currentPageData = results?.slice(startIndex, endIndex);
+	const handlePageChange = page => {
+		setCurrentPage(page)
+	}
 
-  
-    return (
-      <div className={styles.container}>
-      <table className={styles.table}>
-          <thead>
-            <tr className={styles.affiliate_tr}>
-            <span>№</span>
-            <th className={styles.name_cafe} onClick={handleOpenModal}>
-              Название кофейни
-            </th>
-            <th className={styles.address_th}>Адрес</th>
-            <th className={styles.time_work_th}>Время работы</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentPageData?.map((branch, index) => (
-            <tr
-              className={styles.tr}
-              key={branch.id}
-              style={{
-                gridTemplateColumns: "50px repeat(3, 1fr) 40px",
-                maxWidth: "1171px",
-              }}
-            >
-              <span>№{index + 1}</span>
-              <td className={styles.name_cafe}>{branch.name}</td>
-              <td className={styles.address}>{branch.address}</td>
-              <td className={styles.time_work}>
-                Каждый день с 11:00 до 22:00{" "}
-              </td>
-              <img
-                src={vertical}
-                alt="Error :("
-                className={styles.listIcon}
-                onClick={(e) => handleActionClick(e, branch.id)}
-              />
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className={styles.paginationWrapper}>
-        <Pagination
-          showSizeChanger
-          current={currentPage}
-          pageSize={pageSize}
-          total={results?.length}
-          onChange={handlePageChange}
-          className={styles.affiliate_pagination}
-        />
-        {isPopUpOpen && (
-          <CategoriesPopUp
-            setPopUpOpen={setPopUpOpen}
-            handleOpenModal={handleOpenModal}
-          />
-        )}
-        {isActionsPopUpOpen && (
-          <EditDeletePopUp
-            x={popupPosition.x}
-            y={popupPosition.y}
-            closePopUp={handlePopUpClose}
-            handleEditModalOpen={handleEditModalOpen}
-            handleDeleteModalOpen={handleDeleteModalOpen}
-          />
-        )}
-        {/* <NotificationComponent /> */}
-      </div>
-      {isPopUpOpen && (
-        <CategoriesPopUp
-          setPopUpOpen={setPopUpOpen}
-          handleOpenModal={handleOpenModal}
-        />
-      )}
-      {isActionsPopUpOpen && (
-        <EditDeletePopUp
-          x={popupPosition.x}
-          y={popupPosition.y}
-          closePopUp={handlePopUpClose}
-          handleEditModalOpen={handleEditModalOpen}
-          handleDeleteModalOpen={handleDeleteModalOpen}
-        />
-      )}
-    </div>
-  );
-};
+	const startIndex = (currentPage - 1) * pageSize
+	const endIndex = startIndex + pageSize
 
-export default Affiliate;
+	const currentPageData = results?.slice(startIndex, endIndex)
+
+
+	return (
+		<div className={styles.container}>
+			<table className={styles.table}>
+				<thead>
+					<tr className={styles.affiliate_tr}>
+						<span>№</span>
+						<th className={styles.name_cafe} onClick={handleOpenModal}>
+							Название кофейни
+						</th>
+						<th className={styles.address_th}>Адрес</th>
+						<th className={styles.time_work_th}>Время работы</th>
+					</tr>
+				</thead>
+				<tbody>
+					{currentPageData?.map((branch, index) => (
+						<tr
+							className={styles.tr}
+							key={branch.id}
+							style={{
+								gridTemplateColumns: '50px repeat(3, 1fr) 40px',
+								maxWidth: '1171px',
+							}}
+						>
+							<span>№{index + 1}</span>
+							<td className={styles.name_cafe}>{branch.name}</td>
+							<td className={styles.address}>{branch.address}</td>
+							<td className={styles.time_work}>
+								Каждый день с 11:00 до 22:00{' '}
+							</td>
+							<img
+								src={vertical}
+								alt='Error :('
+								className={styles.listIcon}
+								onClick={e => handleActionClick(e, branch.id)}
+							/>
+						</tr>
+					))}
+				</tbody>
+			</table>
+			{isPopUpOpen && (
+				<CategoriesPopUp
+					setPopUpOpen={setPopUpOpen}
+					handleOpenModal={handleOpenModal}
+				/>
+			)}
+			{isActionsPopUpOpen && (
+				<EditDeletePopUp
+					x={popupPosition.x}
+					y={popupPosition.y}
+					closePopUp={handlePopUpClose}
+					handleEditModalOpen={handleEditModalOpen}
+					handleDeleteModalOpen={handleDeleteModalOpen}
+				/>
+			)}
+		</div>
+	)
+}
+
+export default Affiliate

@@ -13,6 +13,7 @@ import styles from "./style.module.scss";
 import { addItem, setItems } from "../../../redux/slices/itemsSlice";
 
 const EditItem = (props) => {
+  console.log('props', props)
   const MEASURE = [
     { value: "мл", label: "мл" },
     { value: "гр", label: "гр" },
@@ -42,7 +43,7 @@ const EditItem = (props) => {
   const getItemArr = items.filter((item) => item.id === props.id);
   const [item, setItem] = useState(getItemArr[0]);
   const selectedItem = items.find((item) => item.id === props.id);
-
+  console.log('selectedItem', selectedItem)
   const onSubmit = async (e) => {
     console.log("values", values);
     const updatedData = {
@@ -354,9 +355,9 @@ const EditItem = (props) => {
                       background: "rgb(235, 239, 242)",
                       width: 250,
                       // height: 55,
-                      boxShadow: state.isFocused
-                        ? "0px solid #ccc"
-                        : "0px solid #ccc",
+                      // boxShadow: state.isFocused
+                      //   ? "0px solid #ccc"
+                      //   : "0px solid #ccc",
                       boxShadow: "none !import",
                       borderStyle: "none",
                       fontSize: 14,
@@ -443,9 +444,9 @@ const EditItem = (props) => {
                             background: "rgb(235, 239, 242)",
                             width: 235,
                             // height: 55,
-                            boxShadow: state.isFocused
-                              ? "0px solid #ccc"
-                              : "0px solid #ccc",
+                            // boxShadow: state.isFocused
+                            //   ? "0px solid #ccc"
+                            //   : "0px solid #ccc",
                             boxShadow: "none !import",
                             borderStyle: "none",
                             fontSize: 14,
@@ -514,9 +515,9 @@ const EditItem = (props) => {
                                 background: "rgb(235, 239, 242)",
                                 // width: 252,
                                 // height: 55,
-                                boxShadow: state.isFocused
-                                  ? "0px solid #ccc"
-                                  : "0px solid #ccc",
+                                // boxShadow: state.isFocused
+                                //   ? "0px solid #ccc"
+                                //   : "0px solid #ccc",
                                 boxShadow: "none !import",
                                 borderStyle: "none",
                                 fontSize: 14,

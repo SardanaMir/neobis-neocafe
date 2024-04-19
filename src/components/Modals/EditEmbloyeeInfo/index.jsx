@@ -120,9 +120,9 @@ const EditEmployeeInfo = (props) => {
                 control: (baseStyles, state) => ({
                   ...baseStyles,
                   background: "rgb(235, 239, 242)",
-                  boxShadow: state.isFocused
-                    ? "0px solid #ccc"
-                    : "0px solid #ccc",
+                  // boxShadow: state.isFocused
+                  //   ? "0px solid #ccc"
+                  //   : "0px solid #ccc",
                   boxShadow: "none !import",
                   borderStyle: "none",
                   fontSize: 14,
@@ -217,9 +217,9 @@ const EditEmployeeInfo = (props) => {
                 control: (baseStyles, state) => ({
                   ...baseStyles,
                   background: "rgb(235, 239, 242)",
-                  boxShadow: state.isFocused
-                    ? "0px solid #ccc"
-                    : "0px solid #ccc",
+                  // boxShadow: state.isFocused
+                  //   ? "0px solid #ccc"
+                  //   : "0px solid #ccc",
                   boxShadow: "none !import",
                   borderStyle: "none",
                   fontSize: 14,

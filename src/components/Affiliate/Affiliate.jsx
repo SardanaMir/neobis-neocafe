@@ -88,6 +88,7 @@ const Affiliate = () => {
 
 	const currentPageData = results?.slice(startIndex, endIndex)
 
+
 	return (
 		<div className={styles.container}>
 			<table className={styles.table}>

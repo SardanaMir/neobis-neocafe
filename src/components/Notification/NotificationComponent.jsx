@@ -1,52 +1,36 @@
 import { CloseOutlined } from '@ant-design/icons'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal } from '../../redux/slices/modalSlice'
-import { getNotifications } from '../../redux/slices/notificationSlice'
+import { deleteAllNotifications, deleteOneNotification, getNotifications } from '../../redux/slices/notificationSlice'
 import styles from './notification.module.scss'
 
 const NotificationComponent = () => {
 	const notification = useSelector(state => state.notification.notifications)
 	const dispatch = useDispatch()
-	const [notifications, setNotifications] = useState(notification.map(notification => ({
-		id: notification.id,
-		description: notification.description,
-		date: notification.timestamp?.split(' ')[0],
-		timestamp: notification.timestamp?.split(' ')[1],
-		title: notification.title
-	})))
-	
-	useEffect(() => {
-		const socket = new WebSocket('wss://helsinki-backender.org.kg/ws/admin/60/')
-		socket.onopen = () => {
-      console.log('Соединение установлено');
-    };
 
-		socket.onmessage = event => {
-			const data = JSON.parse(event.data)
-				if (data.notifications.length) {
-					setNotifications(prevState => [...prevState, data.notifications])
-				}
-		}
-		// Очистка эффекта
-		return () => {
-			socket.close()
-		}
-	}, [])
-	
+	const data = Array.from(notification);
+	const notifications = data.reverse()
+
 	const closeModalNotification = () => {
 		dispatch(closeModal())
 	}
-	
-	useEffect(() => {
+
+	const handleGetNotifications = () => {
 		dispatch(getNotifications())
-	}, []);
-	
-	function flattenArray(arr) {
-		return arr.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenArray(val)) : acc.concat(val), []);
 	}
-	
-	const flattenedArray = flattenArray(notifications);
+
+	const handleDeleteOneNotification = (id) => {
+		dispatch(deleteOneNotification({id, handleGetNotifications}))
+	}
+
+	const handleDeleteAllNotifications = () => {
+		dispatch(deleteAllNotifications(handleGetNotifications))
+	}
+
+	useEffect(() => {
+		handleGetNotifications()
+	}, [])
 
 	return (
 		<div className={styles.root}>
@@ -60,18 +44,18 @@ const NotificationComponent = () => {
 						/>
 					</p>
 					<div className={styles.notification_line}></div>
-					<button className={styles.notification__btn_clear}>Очистить</button>
+					<button className={styles.notification__btn_clear} onClick={handleDeleteAllNotifications}>Очистить</button>
 				</div>
 				<div className={styles.card_list}>
-					{flattenedArray?.map(notification => (
+					{notifications?.map(notification => (
 						<div key={notification.id} className={styles.notification__card}>
 							<div className={styles.notification__time}>
 								<p>
-									<span>{notification.date}</span>
+									<span>{notification?.timestamp.split(' ')[0]}</span>
 									<span className={styles.time__query}></span>
-									<span>{notification.timestamp}</span>
+									<span>{notification?.timestamp?.split(' ')[1]}</span>
 								</p>
-								<CloseOutlined width={24} style={{ cursor: 'pointer' }} />
+								<CloseOutlined width={24} style={{ cursor: 'pointer' }} onClick={() => handleDeleteOneNotification(notification.id)} />
 							</div>
 							<p className={styles.product_name}>
 								{notification.title} <span>{notification.description}</span>

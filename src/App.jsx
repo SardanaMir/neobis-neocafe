@@ -1,34 +1,25 @@
-import { useState } from 'react'
-import { Route, Router, Routes, useNavigate } from 'react-router-dom'
-import { useSelector } from "react-redux";
-import { Layout } from 'antd'
+import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Sider from './components/Sider/Sider';
-import Header from './components/Header/Header';
-import Content from './components/Content/Content';
-import LoginPage from './pages/Login/LoginPage';
-import PrivateRouter from './router/PrivateRouter';
-import Menu from './pages/Menu';
-import MainPage from './pages/Main/MainPage';
-import CodeVerification from './pages/CodeVerification';
-import LoginContainer from './pages/Login/LoginContainer';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
-import NotificationComponent from './components/Notification/NotificationComponent'
+import LoginContainer from './pages/Login/LoginContainer'
+import MainPage from './pages/Main/MainPage'
+import PrivateRouter from './router/PrivateRouter'
+import Notification from './components/Notification/Notification'
 
 function App() {
-  return (
-      <div className='app'>
-        <Routes>
-          <Route element={<PrivateRouter />} >
-            <Route path='/*' element={<MainPage />} />
-          </Route>
-          <Route path='/login' element={<LoginContainer />} />
-        </Routes>
-        <ToastContainer />
-        {/* <NotificationComponent /> */}
-      </div>
-  )
+	return (
+		<div className='app'>
+			<Routes>
+				<Route element={<PrivateRouter />}>
+					<Route path='/*' element={<MainPage />} />
+				</Route>
+				<Route path='/login' element={<LoginContainer />} />
+			</Routes>
+			<ToastContainer />
+			<Notification />
+		</div>
+	)
 }
 
-export default App;
+export default App

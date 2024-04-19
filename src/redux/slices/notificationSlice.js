@@ -27,6 +27,32 @@ export const getNotifications = createAsyncThunk(
 	}
 )
 
+export const deleteOneNotification = createAsyncThunk(
+	'notification/getNotifications',
+	async ({id, handleGetNotifications}) => {
+		try {
+			const response = await axios.delete(`${API}/notifications/delete/${id}/`, config)
+			handleGetNotifications()
+			return response.data
+		} catch (error) {
+			toast.error(error.message)
+		}
+	}
+)
+
+export const deleteAllNotifications = createAsyncThunk(
+	'notification/getNotifications',
+	async (handleGetNotifications) => {
+		try {
+			const response = await axios.delete(`${API}/notifications/delete/all/`, config)
+			handleGetNotifications()
+			return response.data
+		} catch (error) {
+			toast.error(error.message)
+		}
+	}
+)
+
 const notificationSlice = createSlice({
 	name: 'notification',
 	initialState,

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const initialState = {
     isAuth: false,
-    userId: null,
+    userId: 60,
 }
 
 const accessToken = {

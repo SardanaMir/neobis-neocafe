@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getCookie } from '../../utils/Cookie'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 
 const config = {

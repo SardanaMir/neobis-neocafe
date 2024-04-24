@@ -61,7 +61,7 @@ const NotificationComponent = () => {
 								{notification.title} <span>{notification.description}</span>
 							</p>
 							<p className={styles.product_name}>
-								Филиал: <span>NeoCafe Dzerzhinka</span>
+								Филиал: <span>NeoCafe Bishkek</span>
 							</p>
 						</div>
 					))}

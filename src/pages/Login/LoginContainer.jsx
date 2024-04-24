@@ -14,11 +14,15 @@ const LoginContainer = () => {
   const dispatch = useDispatch()
   const onSubmit = async (e) => {
     const adminData = { username: values.username, password: values.password };
-    console.log(adminData);
+    // console.log(adminData);
+    const formData = new FormData()
+    formData.append('username', values.username)
+    formData.append('password', values.password)
+
     try {
       Cookies.remove('accessToken')
-      const res = await login(adminData);
-      console.log(res)
+      const res = await login(formData);
+      console.log('successs', res)
       Cookies.set('accessToken', res?.access, { expires: 7 });
       dispatch(setUser(true))
       navigate("/menu");
